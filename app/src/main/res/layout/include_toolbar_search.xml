@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    app:contentInsetStart="0dp"
+    android:padding="@dimen/dp_5">
+    
+    <ImageView
+        android:id="@+id/ivLeft"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@mipmap/ic_arrow_back_white_24dp"
+        android:theme="@style/RippleWhite" />
+    
+    <EditText
+        android:id="@+id/etSearch"
+        style="@style/searchEditTextTheme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:hint="@string/hint_search_articles"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_5"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray"
+        android:textSize="@dimen/sp_14"
+        tools:drawableRight="@drawable/ic_clear"
+        android:drawablePadding="5dp"/>
+    
+    <ImageView
+        android:id="@+id/ivRight"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="end|center_vertical"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerCrop"
+        android:theme="@style/RippleWhite"
+        
+        android:src="@drawable/ic_search" />
+
+</android.support.v7.widget.Toolbar>
+

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="KeyboardLayout">
+        <attr name="above_keyboard_view" format="reference" />
+        <attr name="show_keyboard_background" format="reference|color" />
+        <attr name="hide_keyboard_background" format="reference|color" />
+    </declare-styleable>
+</resources>

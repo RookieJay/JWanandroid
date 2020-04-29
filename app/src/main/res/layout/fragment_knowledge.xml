@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnablePreviewInEditMode="true"
+        app:srlPrimaryColor="@color/colorPrimary"
+        app:srlAccentColor="@color/white">
+    
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:itemCount="5"
+            tools:layoutManager="android.support.v7.widget.GridLayoutManager"
+            tools:spanCount="4"
+            tools:listitem="@layout/item_knowledge_child"
+            style="@style/RecyclerViewStyle"/>
+        
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    
+    <include layout="@layout/include_progressbar"/>
+    
+</FrameLayout>

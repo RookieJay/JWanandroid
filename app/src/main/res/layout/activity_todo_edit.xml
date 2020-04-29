@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="false"
+    android:overScrollMode="ifContentScrolls">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/include_toolbar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_todo_title"
+                android:textSize="@dimen/sp_12"
+                android:padding="@dimen/dp_10"/>
+
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_16"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:cursorVisible="true"
+                android:textColor="@color/black"
+                android:hint="@string/hint_todo_title"
+                android:minHeight="5dp"
+                android:maxLines="2"
+                android:maxLength="30"
+                android:padding="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:background="@drawable/bg_edit_text_common"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_todo_content"
+                android:textSize="@dimen/sp_12"
+                android:padding="@dimen/dp_10"/>
+
+            <EditText
+                android:id="@+id/etContent"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_150"
+                android:textSize="@dimen/sp_16"
+                android:textColor="@color/black"
+                android:hint="@string/hint_todo_content"
+                android:maxLines="10"
+                android:gravity="top|start"
+                android:maxLength="30"
+                android:padding="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:background="@drawable/bg_edit_text_common"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_todo_deadline"
+                android:textSize="@dimen/sp_12"
+                android:padding="@dimen/dp_10"/>
+
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_16"
+                android:textColor="@color/black"
+                android:hint="@string/hint_todo_deadline"
+                android:minHeight="5dp"
+                android:maxLines="2"
+                android:maxLength="30"
+                android:padding="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:background="@drawable/bg_edit_text_common"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hint_todo_priority"
+                android:textSize="@dimen/sp_12"
+                android:padding="@dimen/dp_10"/>
+
+            <RelativeLayout
+                android:id="@+id/rlPriority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:background="@drawable/bg_edit_text_common">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_16"
+                    android:textColor="@color/black"
+                    android:text="@string/hint_is_important"
+                    android:padding="@dimen/dp_10"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginEnd="@dimen/dp_10"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switchPriority"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:clickable="false"
+                    tools:checked="true"
+                    style="@style/AppTheme"
+                    android:shadowColor="@color/gray1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+    
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btCommit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bt_commit"
+                android:layout_margin="@dimen/dp_20"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                style="@style/RippleWhite"/>
+
+        </LinearLayout>
+    
+</android.support.v4.widget.NestedScrollView>

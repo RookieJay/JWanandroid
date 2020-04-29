@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_nav_home"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/nav_structure"
+        android:icon="@drawable/ic_nav_project"
+        android:title="@string/title_structure" />
+
+    <item
+        android:id="@+id/nav_public"
+        android:icon="@drawable/ic_nav_wechat"
+        android:title="@string/title_public" />
+    
+    <item
+        android:id="@+id/nav_navigation"
+        android:icon="@drawable/ic_nav_navigation"
+        android:title="@string/title_nav" />
+    
+    <item
+        android:id="@+id/navigation_project"
+        android:icon="@drawable/ic_nav_knowledge"
+        android:title="@string/title_project" />
+
+</menu>

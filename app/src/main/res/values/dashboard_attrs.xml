@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  自定义仪表盘风格控件  -->
+    <declare-styleable name="DashboardView">
+        <!-- 进度 -->
+        <attr name="dv_progress" format="float"/>
+        <!-- 半径 -->
+        <attr name="dv_circleRadius" format="integer"/>
+        <!-- 最大值 -->
+        <attr name="dv_max" format="integer"/>
+        <!-- 画笔颜色 -->
+        <attr name="dv_arcColor" format="color"/>
+        <!-- 画笔宽度 -->
+        <attr name="dv_arcWidth" format="dimension"/>
+        <!-- 字体颜色 -->
+        <attr name="dv_centerTextColor" format="color"/>
+        <!-- 字体大小 -->
+        <attr name="dv_centerTextSize" format="dimension"/>
+        <!-- 背景弧线颜色 -->
+        <attr name="dv_bgColor" format="color"/>
+        <!-- 起始角度 -->
+        <attr name="dv_startAngle" format="float"/>
+        <!-- 最大扫过角度 -->
+        <attr name="dv_maxAngle" format="float"/>
+        <!-- 圆弧与控件的间隔 -->
+        <attr name="dv_arcPadding" format="dimension"/>
+    </declare-styleable>
+</resources>

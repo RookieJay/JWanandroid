@@ -1,0 +1,113 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:windowBackground">@color/colorPrimary</item>-->
+<!--        <item name="android:windowAnimationStyle">@style/Animation_Activity</item>-->
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="Animation_Activity" parent="@android:style/Animation.Translucent">
+        <item name="android:activityOpenEnterAnimation">@anim/translate_right_to_center</item>
+        <item name="android:activityOpenExitAnimation">@anim/translate_center_to_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/translate_left_to_center</item>
+        <item name="android:activityCloseExitAnimation">@anim/translate_center_to_right</item>
+        
+        <item name="android:fragmentOpenEnterAnimation">@anim/translate_right_to_center</item>
+        <item name="android:fragmentOpenExitAnimation">@anim/translate_center_to_left</item>
+        <item name="android:fragmentCloseEnterAnimation">@anim/translate_left_to_center</item>
+        <item name="android:fragmentCloseExitAnimation">@anim/translate_center_to_right</item>
+    </style>
+    
+    <!--  启动页主题  -->
+    <style name="LaunchTheme" parent="AppTheme">       
+        <item name="android:windowNoTitle">true</item>//无标题
+<!--        <item name="android:windowActionBar">false</item>//无ActionBar-->
+        <item name="android:windowFullscreen">true</item>//全屏即无通知栏
+        <item name="android:windowContentOverlay">@null</item>//是否有遮盖
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:animation">@anim/anim_launcher</item>
+    </style>
+    
+    <!-- TextInputLayout -->
+    <style name="EditTextTheme" parent="Theme.AppCompat.Light">
+        <!-- 默认状态提示颜色和字体大小-->
+        <!--<item name="android:textColorHint">@color/colorPrimaryDark</item>-->
+        <!--<item name="android:textSize">14sp</item>-->
+        <!-- 下面可以根据需要设置，如果没有将默认使用默认theme的颜色 -->
+        <!-- Label标签的颜色 -->
+        <!--<item name="colorAccent">@color/colorPrimaryDark</item>-->
+        <!-- 默认状态状态设置底线颜色（未获取焦点） -->
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <!-- 选中时的底线颜色（获取焦点） -->
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <!--高亮时-->
+        <item name="colorControlHighlight">@color/blue_deep</item>
+    
+    </style>
+    
+    <!--  按钮圆形波纹效果，通过theme属性引入,且其中重要属性android:background要设置为无边界的波纹  -->
+    <style name="RippleWhite">
+        <!--点击后波纹的颜色-->
+        <item name="android:colorControlHighlight">#FAFAFA</item>
+        <!--效果半径-->
+        <item name="android:radius">20dp</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+    
+    <!--  recyclerView  -->
+    <style name="RecyclerViewStyle">
+        <item name="android:scrollbarThumbVertical">@color/colorPrimary</item>
+<!--        <item name="android:scrollbarTrackVertical">@color/colorPrimary</item>-->
+<!--        <item name="android:paddingLeft">@dimen/dp_10</item>-->
+<!--        <item name="android:paddingRight">@dimen/dp_10</item>-->
+        <item name="android:scrollbarSize">@dimen/dp_3</item>
+        <item name="android:overScrollMode">ifContentScrolls</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+        <item name="android:background">@color/trans</item>
+    </style>
+
+    <!-- 圆形progressBar样式   -->
+    <style name="CircleProgressBar">
+        <item name="android:color">@color/colorPrimary</item>
+    </style>
+    
+    <!-- searchEditTextTheme -->
+    <style name="searchEditTextTheme" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/bg_edit_text_search</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:colorAccent">@color/white</item>
+        <item name="android:colorPrimary">@color/white</item>
+    </style>
+    
+    <style name="dialog_date">
+        <!--设置header部分显示的颜色-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <!--这个说明提示框是否有边框-->
+        <item name="android:windowFrame">@drawable/bg_article_qa</item>
+        <!--这个说明提示框是否是浮动的 这个很重要-->
+        <item name="android:windowIsFloating">true</item>
+        <!--设置dialog不全屏 貌似没有效果-->
+        <item name="android:windowFullscreen">false</item>
+        <!--这个说明提示框是是透明的-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--除去title，如果在代码里面有其他设置会没效果的不过完全没效果-->
+        <item name="android:windowContentOverlay">@null</item>
+        <!--   背景变暗     -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+        
+        <!--<!–背景色  如果除去背景色 @null –>-->
+<!--        <item name="android:windowBackground">@null</item>-->
+        <!--按钮字体的颜色-->
+        <!--<item name="android:textColor">@color/dark_2B</item>-->
+    </style>
+    
+</resources>

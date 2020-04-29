@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_scrollFlags="scroll|enterAlways"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <include layout="@layout/include_base_recycler_view"/>
+    
+    <include layout="@layout/include_progressbar"/>
+    
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_arrow_upward"
+        app:borderWidth="0dp"
+        app:elevation="@dimen/dp_4"
+        app:layout_behavior="pers.jay.wanandroid.widgets.behavior.FloatingActionBarBehavior"
+        app:pressedTranslationZ="@dimen/dp_10"
+        app:rippleColor="@color/colorPrimaryDark" />
+
+</FrameLayout>

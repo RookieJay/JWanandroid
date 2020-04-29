@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            
+            <include layout="@layout/include_toolbar"/>
+            
+            <!--    enterAlwaysCollapsed。这里涉及到Child View的高度和最小高度，向下滚动时，Child View先向下滚动最小高度值，然后Scrolling View开始滚动，到达边界时，Child View再向下滚动，直至显示完全。     -->
+            <RelativeLayout
+                android:id="@+id/rlHead"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_120"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+                android:minHeight="@dimen/dp_120"
+                android:visibility="gone"
+                tools:visibility="visible">
+                
+                <pers.jay.wanandroid.widgets.DashboardView
+                    android:id="@+id/dvCoin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:dv_arcWidth="3dp"
+                    app:dv_circleRadius="180"
+                    app:dv_centerTextSize="20sp"
+                    app:dv_centerTextColor="@color/white"
+                    app:dv_arcColor="@color/white"
+                    app:dv_startAngle="135"
+                    app:dv_maxAngle="270"
+                    app:dv_arcPadding="0dp"
+                    android:layout_centerInParent="true" />
+                
+            </RelativeLayout>
+            
+        </android.support.design.widget.AppBarLayout>
+    
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/mRecyclerView"
+            tools:itemCount="6"
+            tools:listitem="@layout/item_rank"
+            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+            style="@style/RecyclerViewStyle"/>
+        
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/ic_arrow_upward"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/dp_4"
+            app:layout_behavior="pers.jay.wanandroid.widgets.behavior.FloatingActionBarBehavior"
+            app:pressedTranslationZ="@dimen/dp_10"
+            app:rippleColor="@color/colorPrimaryDark" />
+    
+    </android.support.design.widget.CoordinatorLayout>
+    
+    <include layout="@layout/include_progressbar"/>
+
+</FrameLayout>

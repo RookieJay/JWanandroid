@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:material="http://schemas.android.com/apk/res-auto">
+    
+    <!--标题栏布局-->
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    
+        <!--折叠标题栏-->
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            material:contentScrim="?attr/colorPrimary"
+            material:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:fitsSystemWindows="true">
+            
+            <include layout="@layout/layout_drawer_header"/>
+            
+        </android.support.design.widget.CollapsingToolbarLayout>
+        
+    </android.support.design.widget.AppBarLayout>
+
+</android.support.design.widget.CoordinatorLayout>

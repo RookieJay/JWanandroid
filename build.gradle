@@ -1,0 +1,31 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: "config.gradle"
+buildscript {
+    repositories {
+        google()
+//        jcenter(){ url 'http://jcenter.bintray.com/'}
+        //阿里云镜像库
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.0'
+        //Gradle Android Maven plugin
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        //Gradle Bintray Plugin
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+//        jcenter(){ url 'http://jcenter.bintray.com/'}
+        maven { url "https://jitpack.io" }
+        //阿里云镜像库
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

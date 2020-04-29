@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/dp_10"
+    app:cardElevation="@dimen/dp_5"
+    app:cardMaxElevation="@dimen/dp_10"
+    app:cardBackgroundColor="@color/white"
+    android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginStart="@dimen/dp_10"
+    android:layout_marginEnd="@dimen/dp_10">
+    
+    <pers.jay.wanandroid.widgets.LabelView
+        android:id="@+id/viewImportant"
+        android:layout_gravity="end|top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:lv_gravity="TOP_RIGHT"
+        app:lv_text="@string/mark_important"
+        app:lv_fill_triangle="true"
+        app:lv_background_color="@color/red"
+        app:lv_text_color="@color/white"
+        app:lv_padding="@dimen/dp_5"/>
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dp_10">
+        
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_18"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                tools:text="@string/hint_todo_title"
+                android:gravity="start|top"/>
+            
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_05"
+                android:background="@color/gray1"
+                android:layout_below="@+id/tvTitle"
+                android:layout_marginTop="@dimen/dp_5"/>
+        
+            <TextView
+                android:id="@+id/dvCoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_14"
+                android:maxLines="5"
+                android:ellipsize="end"
+                android:layout_marginTop="10dp"
+                tools:text="@string/long_text"
+                android:layout_below="@+id/tvTitle"/>
+        
+            <TextView
+                android:id="@+id/tvDate"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/gray"
+                tools:text="@string/hint_date"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/dvCoin"/>
+            
+        </RelativeLayout>
+    
+    
+</android.support.v7.widget.CardView>

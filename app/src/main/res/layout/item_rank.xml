@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="58dp"
+    android:gravity="center_vertical"
+    android:padding="@dimen/dp_10">
+    
+    <FrameLayout
+        android:id="@+id/flRank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        
+        <TextView
+            android:id="@+id/tvRank"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:maxWidth="40dp"
+            android:textSize="@dimen/sp_14"
+            tools:text="49"
+            android:gravity="center"/>
+    
+        <ImageView
+            android:id="@+id/ivRank"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:maxWidth="40dp"
+            android:textSize="@dimen/sp_14"
+            tools:text="49"
+            android:tint="@color/yellow1"
+            tools:src="@drawable/ic_first"
+            android:scaleType="centerCrop"
+            android:gravity="center"/>
+        
+    </FrameLayout>
+    
+    <TextView
+        android:id="@+id/tvUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14"
+        android:layout_toEndOf="@id/flRank"
+        android:layout_marginStart="@dimen/dp_20"
+        tools:text="RookieJay"/>
+    
+    <TextView
+        android:id="@+id/tvScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sp_14"
+        android:layout_alignParentEnd="true"
+        tools:text="5010"/>
+    
+</RelativeLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/treeTitle"
+        android:textSize="@dimen/sp_16"
+        android:gravity="start|center_vertical"
+        tools:text="@string/app_name"
+        android:layout_marginTop="@dimen/dp_20"
+        android:paddingLeft="@dimen/dp_5"
+        android:paddingRight="@dimen/dp_5"
+        android:textColor="@color/black"
+        android:drawablePadding="@dimen/dp_3" />
+        
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/fbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flexWrap="wrap"
+        android:paddingLeft="@dimen/dp_5"
+        android:paddingRight="@dimen/dp_5" />
+    
+</LinearLayout>

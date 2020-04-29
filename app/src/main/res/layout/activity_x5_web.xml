@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:overScrollMode="never"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:elevation="0dp"
+            android:orientation="vertical">
+        
+            <include layout="@layout/include_toolbar" />
+    
+        </android.support.design.widget.AppBarLayout>
+    
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="20dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/ic_arrow_upward"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/dp_4"
+            app:layout_behavior="pers.jay.wanandroid.widgets.behavior.FloatingActionBarBehavior"
+            app:pressedTranslationZ="@dimen/dp_10"
+            app:rippleColor="@color/colorPrimaryDark" />
+    
+        <FrameLayout
+            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+            android:id="@+id/flWeb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                
+                <com.ycbjie.webviewlib.X5WebView
+                    app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+                    android:id="@+id/webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbarSize="3dp"/>
+                
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom"
+                android:gravity="center_vertical"
+                android:background="@color/blue"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:visibility="gone"
+                android:alpha="10">
+                <ImageView
+                    android:id="@+id/ivBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_chevron_left"/>
+                <ImageView
+                    android:id="@+id/ivRefresh"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_refresh"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:id="@+id/ivForward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_chevron_right"/>
+            </LinearLayout>
+        
+        </FrameLayout>
+    
+    
+</android.support.design.widget.CoordinatorLayout>

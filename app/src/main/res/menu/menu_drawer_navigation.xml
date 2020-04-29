@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_integral"
+        android:icon="@drawable/ic_coin"
+        android:title="@string/drawer_ranking"
+        app:actionViewClass="android.widget.TextView" />
+
+    <item
+        android:id="@+id/nav_collection"
+        android:icon="@drawable/ic_collection"
+        android:title="@string/drawer_collection" />
+
+    <item
+        android:id="@+id/nav_todo"
+        android:icon="@drawable/ic_nav_wechat"
+        android:title="@string/drawer_todo" />
+    
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_setting"
+        android:title="@string/drawer_settings" />
+    
+    <item
+        android:id="@+id/nav_about_us"
+        android:icon="@drawable/ic_about_us"
+        android:title="@string/drawer_about_us" />
+    
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_exit"
+        android:title="@string/drawer_logout" />
+
+</menu>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="10dp">
+    
+    <TextView
+        android:id="@+id/tvReason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/black"
+        tools:text="签到"
+        android:gravity="start|top"/>
+    
+    <TextView
+        android:id="@+id/tvDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_14"
+        tools:text="2019-12-16 09:43:11 签到 , 积分：13 + 19"
+        android:layout_below="@+id/tvReason"/>
+    
+    <TextView
+        android:id="@+id/tvCoinCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="40dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sp_18"
+        android:layout_centerVertical="true"
+        tools:text="+32"
+        android:layout_alignParentEnd="true"/>
+    
+    <View
+        android:id="@+id/viewDivider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_05"
+        android:background="@drawable/line_divider"
+        android:layout_below="@+id/tvDesc"
+        android:layout_marginTop="@dimen/dp_10"/>
+    
+</RelativeLayout>

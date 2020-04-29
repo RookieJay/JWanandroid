@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        
+        <TextView
+            android:id="@+id/tvSearchHot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="@string/search_hot"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sp_18" />
+    
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvHot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:overScrollMode="never"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            tools:itemCount="9"
+            tools:layoutManager="android.support.v7.widget.GridLayoutManager"
+            tools:listitem="@layout/item_knowledge_child"
+            tools:spanCount="3" />
+        
+        <!--flex_start（默认值）：左对齐
+            flex-end：右对齐
+            center： 居中
+            space-between：两端对齐，项目之间的间隔都相等
+            space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。 -->
+        
+        <!--    <com.google.android.flexbox.FlexboxLayout-->
+        <!--        android:id="@+id/fblSearchHot"-->
+        <!--        app:flexWrap="wrap"-->
+        <!--        app:justifyContent="space_between"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content"/>-->
+        
+        <FrameLayout
+            android:id="@+id/flHis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_20">
+    
+            <TextView
+                android:id="@+id/tvSearchHis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_his"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_18" />
+            
+            <ImageView
+                android:id="@+id/ivClear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_del_all"
+                android:layout_gravity="end" />
+    
+        </FrameLayout>
+    
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvHis"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_10"
+            android:overScrollMode="never"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            tools:itemCount="9"
+            tools:layoutManager="android.support.v7.widget.GridLayoutManager"
+            tools:listitem="@layout/item_search_history"
+            tools:spanCount="3" />
+        
+    </LinearLayout>
+    
+    <include layout="@layout/include_progressbar" />
+
+</FrameLayout>

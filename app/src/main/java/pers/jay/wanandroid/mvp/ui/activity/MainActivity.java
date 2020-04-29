@@ -172,7 +172,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void onUiModeChanged(Event event) {
         if (event.getEventCode() == Const.EventCode.CHANGE_UI_MODE) {
             Timber.e("MainActivity准备重建");
-            JApplication.avoidSplashRecreate(MainActivity.this, MainActivity.class);
+//            JApplication.avoidSplashRecreate(MainActivity.this, MainActivity.class);
+            startActivity(new Intent(MainActivity.this, MainActivity.class));
+            overridePendingTransition(R.anim.anim_fade_out, R.anim.anim_fade_in);
+            finish();
         }
     }
 }

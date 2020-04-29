@@ -2,12 +2,15 @@ package pers.jay.wanandroid.mvp.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +84,7 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        initViewPager();
     }
 
     @Override
@@ -127,29 +130,24 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
 
     @Override
     public void scrollToTop() {
-        if (mFragments.isEmpty()) {
+        // 获取缓存的fragment引用
+        Fragment fragment = adapter.getFragment(viewPager.getCurrentItem());
+        if (fragment == null) {
             return;
         }
-        for (Fragment fragment : mFragments) {
-            if (fragment.isAdded() && fragment.getUserVisibleHint() && fragment instanceof ScrollTopListener) {
-                ((ScrollTopListener)fragment).scrollToTop();
-            }
+        if (fragment.isAdded() && fragment.getUserVisibleHint() && fragment instanceof ScrollTopListener) {
+            ((ScrollTopListener)fragment).scrollToTop();
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void showData(List<Tab> data) {
+        adapter.setData(data);
         this.mTabs = data;
         for (Tab tab : data) {
-            TabFragment fragment = new TabFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Const.Key.KEY_TAB_FROM_TYPE, Const.Type.TYPE_TAB_PROJECT);
-            bundle.putParcelable(Const.Key.KEY_TAB_DATA, tab);
-            fragment.setArguments(bundle);
-            mFragments.add(fragment);
-            mTitles.add(NetWorkManager.htmlReplace(tab.getName()));
+            mTitles.add(Html.fromHtml(tab.getName()).toString());
         }
-        initViewPager();
         initTabLayout();
     }
 
@@ -162,26 +160,24 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
         // 出错代码：viewPager.setOffscreenPageLimit((int)Math.ceil(mFragments.size() / 2));
         //        adapter = new TabFragmentStatePagerAdapter(getChildFragmentManager(), mFragments);
         //        viewPager.setAdapter(adapter);
-        adapter = new TabFragmentStatePagerAdapter(getChildFragmentManager(), mFragments);
-        viewPager.setOffscreenPageLimit((int)Math.ceil(mFragments.size() / 2));
-        viewPager.setAdapter(adapter);
+        adapter = new TabFragmentStatePagerAdapter(getChildFragmentManager(),
+                new TabFragmentStatePagerAdapter.FragmentCreator() {
+                    @Override
+                    public Fragment createFragment(Tab data, int position) {
+                        return TabFragment.create(data, position, Const.Type.TYPE_TAB_PROJECT);
+                    }
+
+                    @Override
+                    public String createTitle(Tab data) {
+                        return NetWorkManager.htmlReplace(data.getName());
+                    }
+                });
+                //        viewPager.setOffscreenPageLimit((int)Math.ceil(mFragments.size() / 2));
+                viewPager.setAdapter(adapter);
     }
 
     private void initTabLayout() {
-        tabLayout.setViewPager(viewPager, mTitles.toArray(new String[0]));
-        tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelect(int position) {
-                if (mTabs.size() == 0) {
-                    return;
-                }
-            }
-
-            @Override
-            public void onTabReselect(int position) {
-
-            }
-        });
+        tabLayout.setViewPager(viewPager);
     }
 
 }

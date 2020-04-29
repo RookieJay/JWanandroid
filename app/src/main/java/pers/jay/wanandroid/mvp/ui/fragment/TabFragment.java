@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,7 +43,6 @@ import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class TabFragment extends BaseLazyLoadFragment<TabPresenter> implements TabContract.View, ScrollTopListener {
 
     @BindView(R.id.mRecyclerView)
@@ -61,6 +61,15 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter> implements T
 
     public static TabFragment newInstance() {
         return new TabFragment();
+    }
+
+    public static Fragment create(Tab data, int position, int fromType) {
+        TabFragment fragment = new TabFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Const.Key.KEY_TAB_FROM_TYPE, fromType);
+        bundle.putParcelable(Const.Key.KEY_TAB_DATA, data);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override

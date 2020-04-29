@@ -1,15 +1,12 @@
 package pers.jay.wanandroid.mvp.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +25,6 @@ import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.common.ScrollTopListener;
 import pers.jay.wanandroid.di.component.DaggerWeixinComponent;
-import pers.jay.wanandroid.http.NetWorkManager;
 import pers.jay.wanandroid.model.Tab;
 import pers.jay.wanandroid.mvp.contract.WeixinContract;
 import pers.jay.wanandroid.mvp.presenter.WeixinPresenter;
@@ -48,19 +44,11 @@ public class WeixinFragment extends BaseLazyLoadFragment<WeixinPresenter>
     ProgressBar progressBar;
 
     private TabFragmentStatePagerAdapter adapter;
-    private ArrayList<Fragment> mFragments = new ArrayList<>();
     private List<String> mTitles = new ArrayList<>();
-    private FragmentActivity fragmentActivity;
 
     public static WeixinFragment newInstance() {
         WeixinFragment fragment = new WeixinFragment();
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        fragmentActivity = (FragmentActivity)context;
     }
 
     @Override
@@ -77,11 +65,23 @@ public class WeixinFragment extends BaseLazyLoadFragment<WeixinPresenter>
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        initViewPager();
     }
 
     private void initViewPager() {
-        viewPager.setOffscreenPageLimit(mFragments.size());
-        adapter = new TabFragmentStatePagerAdapter(getChildFragmentManager(), mFragments);
+//        viewPager.setOffscreenPageLimit(mFragments.size());
+        adapter = new TabFragmentStatePagerAdapter(getChildFragmentManager(),
+                new TabFragmentStatePagerAdapter.FragmentCreator() {
+                    @Override
+                    public Fragment createFragment(Tab data, int position) {
+                        return TabFragment.create(data, position, Const.Type.TYPE_TAB_WEIXIN);
+                    }
+
+                    @Override
+                    public String createTitle(Tab data) {
+                        return Html.fromHtml(data.getName()).toString();
+                    }
+                });
         viewPager.setAdapter(adapter);
     }
 
@@ -132,29 +132,22 @@ public class WeixinFragment extends BaseLazyLoadFragment<WeixinPresenter>
 
     @Override
     public void scrollToTop() {
-        if (mFragments.isEmpty()) {
+        // 获取缓存的fragment引用
+        Fragment fragment = adapter.getFragment(viewPager.getCurrentItem());
+        if (fragment == null) {
             return;
         }
-        for (Fragment fragment : mFragments) {
-            if (fragment.isAdded() && fragment.getUserVisibleHint() && fragment instanceof ScrollTopListener) {
-                ((ScrollTopListener)fragment).scrollToTop();
-            }
+        if (fragment.isAdded() && fragment.getUserVisibleHint() && fragment instanceof ScrollTopListener) {
+            ((ScrollTopListener)fragment).scrollToTop();
         }
      }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void showData(List<Tab> data) {
+        adapter.setData(data);
         for (Tab wxTab : data) {
-            TabFragment fragment = TabFragment.newInstance();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Const.Key.KEY_TAB_FROM_TYPE, Const.Type.TYPE_TAB_WEIXIN);
-            bundle.putParcelable(Const.Key.KEY_TAB_DATA, wxTab);
-            fragment.setArguments(bundle);
-            mFragments.add(fragment);
-            mTitles.add(NetWorkManager.htmlReplace(wxTab.getName()));
+            mTitles.add(Html.fromHtml(wxTab.getName()).toString());
         }
-        initViewPager();
         initTabLayout();
     }
 

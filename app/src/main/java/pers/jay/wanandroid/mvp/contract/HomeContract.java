@@ -34,8 +34,7 @@ public interface HomeContract {
 
         void refresh(List<Article> articleList);
 
-        void updateCollectStatus(boolean isCollect, Article article, android.view.View view,
-                                 int position);
+        void updateCollectStatus(boolean isCollect, Article article, int position);
 
         void showLoadMoreFail();
     }

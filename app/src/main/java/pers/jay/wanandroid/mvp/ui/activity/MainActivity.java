@@ -2,9 +2,11 @@ package pers.jay.wanandroid.mvp.ui.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -53,6 +55,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return R.layout.activity_main; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
 //        switchFragment(SplashFragment.instantiate(this, SplashFragment.class.getName()));
@@ -102,6 +105,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void switchFragment(Fragment targetFragment, Bundle args) {
         if (mFragmentManager != null) {
         FragmentTransaction trans = mFragmentManager.beginTransaction();
+            // 转场自定义动画
+            trans.setCustomAnimations(R.anim.translate_right_to_center, R.anim.translate_center_to_left, R.anim.translate_left_to_center, R.anim.translate_center_to_right);
             if (!targetFragment.isAdded()) {
                 // 首次执行curFragment为空，需要判断
                 if (curFragment != null) {
@@ -109,7 +114,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 }
                 trans.add(R.id.flContainer, targetFragment, targetFragment.getClass().getSimpleName());
                 trans.addToBackStack(targetFragment.getClass().getSimpleName());
-                trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);    //设置动画效果
+//                trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);    //设置动画效果
+
             } else {
 //                targetFragment = mFragmentManager.findFragmentByTag(targetFragment.getClass().getSimpleName());
                 trans.hide(curFragment).show(targetFragment);
@@ -159,6 +165,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+
+        JApplication.avoidSplashRecreate(this, MainActivity.class);
     }
 
     @Override
@@ -171,11 +179,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Subscriber
     public void onUiModeChanged(Event event) {
         if (event.getEventCode() == Const.EventCode.CHANGE_UI_MODE) {
-            Timber.e("MainActivity准备重建");
-//            JApplication.avoidSplashRecreate(MainActivity.this, MainActivity.class);
-            startActivity(new Intent(MainActivity.this, MainActivity.class));
-            overridePendingTransition(R.anim.anim_fade_out, R.anim.anim_fade_in);
-            finish();
+            Timber.e("onUiModeChanged-MainActivity准备重建");
+            JApplication.avoidSplashRecreate(this, MainActivity.class);
         }
     }
+
+
 }

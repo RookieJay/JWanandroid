@@ -53,7 +53,14 @@ public class BasePagerAdapter<T, F extends Fragment> extends FragmentPagerAdapte
      */
     @Override
     public Fragment getItem(int i) {
-        return mCreator.createFragment();
+        return mCreator.createFragment(mData.get(i), i);
+    }
+
+    /**
+     * 自定义获取缓存中的fragment
+     */
+    public Fragment getFragment(int position) {
+        return registeredFragments.get(position);
     }
 
     @Override
@@ -86,12 +93,12 @@ public class BasePagerAdapter<T, F extends Fragment> extends FragmentPagerAdapte
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return super.getPageTitle(position);
+        return mCreator.createTitle(mData.get(position));
     }
 
     public interface PagerFragCreator<T, F> {
 
-        F createFragment();
+        F createFragment(T data, int position);
 
         String createTitle(T data);
     }

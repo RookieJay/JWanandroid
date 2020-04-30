@@ -93,13 +93,8 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Timber.e("%s-onCreate", TAG);
-        if (savedInstanceState != null && savedInstanceState.getBoolean("SAVE_INSTANCE_STATE")) {
-            Timber.e("%s-SAVE_INSTANCE_STATE: %s", TAG,
-                    savedInstanceState.getBoolean("SAVE_INSTANCE_STATE"));
-        }
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 禁用横屏
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 禁用横屏
         try {
             int layoutResID = initView(savedInstanceState);
             //如果initView返回0,框架则不会调用setContentView(),当然也不会 Bind ButterKnife

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 
@@ -26,6 +27,8 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.tencent.bugly.Bugly;
 import com.vondear.rxtool.RxTool;
 import com.ycbjie.webviewlib.X5WebUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import pers.jay.wanandroid.BuildConfig;
@@ -136,14 +139,43 @@ public class JApplication extends Application implements App {
 
     /**
      * 重建Activity防止闪屏
-     * @param activity
      */
-    public static void avoidSplashRecreate(Activity activity, Class clazz) {
-        if (activity == null) {
+    public static void avoidSplashRecreate(Context context, Class clazz) {
+        if (context == null) {
             return;
         }
-        activity.startActivity(new Intent(activity, clazz));
-        activity.overridePendingTransition(R.anim.anim_fade_out, R.anim.anim_fade_in);
-        activity.finish();
+        if (context instanceof Activity) {
+            context.startActivity(new Intent(context, clazz));
+            ((Activity)context).overridePendingTransition(R.anim.anim_fade_out, R.anim.anim_fade_in);
+            ((Activity)context).finish();
+        }
+
+    }
+
+    /**
+     * 配置改变时回调
+     * @param newConfig
+     */
+    @Override
+    public void onConfigurationChanged(@NotNull Configuration newConfig) {
+        Timber.e("onConfigurationChanged：%s", "配置改变触发了");
+        super.onConfigurationChanged(newConfig);
+        int currentNightMode = newConfig.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            // 夜间模式未启用，我们正在使用浅色主题
+            case Configuration.UI_MODE_NIGHT_NO:
+                Timber.e("onConfigurationChanged：%s", "夜间模式未启用");
+                break;
+            // 夜间模式启用，我们使用的是深色主题
+            case Configuration.UI_MODE_NIGHT_YES:
+                Timber.e("onConfigurationChanged：%s", "夜间模式已启用");
+                break;
+        }
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Timber.e("onConfigurationChanged：%s", "当前竖屏");
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE){
+            Timber.e("onConfigurationChanged：%s", "当前横屏");
+        }
     }
 }

@@ -292,7 +292,6 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
     @Override
     public void killMyself() {
         finish();
-        overridePendingTransition(0, 0);
     }
 
     @Override

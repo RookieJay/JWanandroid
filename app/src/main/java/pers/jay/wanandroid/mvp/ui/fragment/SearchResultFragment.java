@@ -192,7 +192,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter>
                 article.setCollect(collect);
             }
         }
-        adapter.loadAnim((ImageView)view, collect);
+//        adapter.loadAnim((ImageView)view, collect);
         adapter.notifyItemChanged(position);
     }
 

@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.jess.arms.base.BaseFragment;
+import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
@@ -43,11 +44,12 @@ import pers.jay.wanandroid.utils.UIUtils;
 import pers.zjc.commonlibs.util.FragmentUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
 import razerdp.basepopup.BasePopupWindow;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class TodoTabFragment extends  BaseFragment {
+public class TodoTabFragment extends BaseLazyLoadFragment {
 
     @BindView(R.id.ivLeft)
     ImageView ivLeft;
@@ -233,6 +235,11 @@ public class TodoTabFragment extends  BaseFragment {
         FragmentUtils.pop(mActivity.getSupportFragmentManager(), true);
     }
 
+    @Override
+    protected void lazyLoadData() {
+
+    }
+
     static class InnerPagerAdapter extends FragmentPagerAdapter {
         private ArrayList<Fragment> fragments = new ArrayList<>();
         private String[] titles;
@@ -275,4 +282,6 @@ public class TodoTabFragment extends  BaseFragment {
         killMyself();
         return true;
     }
+
+
 }

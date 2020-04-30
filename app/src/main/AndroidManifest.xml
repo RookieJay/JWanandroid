@@ -14,35 +14,40 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:label"
         tools:targetApi="p">
-        <activity android:name="pers.zjc.commonlibs.util.PermissionUtils$PermissionActivity"/>
+        <activity android:name="pers.zjc.commonlibs.util.PermissionUtils$PermissionActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"/>
         <activity android:name=".mvp.ui.activity.SettingsActivity"
-            />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"/>
         <activity
             android:name=".mvp.ui.activity.X5WebActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:launchMode="singleTop" />
         <activity
             android:name=".mvp.ui.activity.SearchActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".mvp.ui.activity.TabActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:launchMode="singleTop" />
         <activity
             android:name=".mvp.ui.activity.WebActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:launchMode="singleTop"
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".mvp.ui.activity.TodoEditActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:launchMode="singleTop"
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
         <activity
             android:name=".mvp.ui.activity.MainActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="fullSensor"
             android:theme="@style/LaunchTheme"
-            android:configChanges="uiMode"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

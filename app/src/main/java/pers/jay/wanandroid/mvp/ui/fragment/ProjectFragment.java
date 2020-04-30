@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.flyco.tablayout.SlidingTabLayout;
-import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -50,7 +49,6 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
     ProgressBar progressBar;
 
     private TabFragmentStatePagerAdapter adapter;
-    private ArrayList<Fragment> mFragments = new ArrayList<>();
     private List<String> mTitles = new ArrayList<>();
     private FragmentActivity fragmentActivity;
     private List<Tab> mTabs = new ArrayList<>();
@@ -130,6 +128,9 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
 
     @Override
     public void scrollToTop() {
+        if (adapter == null || viewPager == null) {
+            return;
+        }
         // 获取缓存的fragment引用
         Fragment fragment = adapter.getFragment(viewPager.getCurrentItem());
         if (fragment == null) {
@@ -143,6 +144,7 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void showData(List<Tab> data) {
+        viewPager.setOffscreenPageLimit(data.size() - 1);
         adapter.setData(data);
         this.mTabs = data;
         for (Tab tab : data) {
@@ -152,14 +154,6 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
     }
 
     private void initViewPager() {
-        //notifyDataSetChanged()是在getCount()发生改变的时候去调用，哪里影响了getCount()，就应该再哪里调用！
-        //在adt22之后，PagerAdapter对于notifyDataSetChanged()和getCount()的执行顺序是非常严格的，系统跟踪count的值，
-        // 如果这个值和getCount返回的值不一致，就会抛出这个异常。所以为了保证getCount总是返回一个正确的值，
-        // 那么在初始化ViewPager时，应先给Adapter初始化内容后再将该adapter传给ViewPager，如果不这样处理，
-        // 在更新adapter的内容后，应该调用一下adapter的notifyDataSetChanged方法。
-        // 出错代码：viewPager.setOffscreenPageLimit((int)Math.ceil(mFragments.size() / 2));
-        //        adapter = new TabFragmentStatePagerAdapter(getChildFragmentManager(), mFragments);
-        //        viewPager.setAdapter(adapter);
         adapter = new TabFragmentStatePagerAdapter(getChildFragmentManager(),
                 new TabFragmentStatePagerAdapter.FragmentCreator() {
                     @Override
@@ -172,8 +166,7 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
                         return NetWorkManager.htmlReplace(data.getName());
                     }
                 });
-                //        viewPager.setOffscreenPageLimit((int)Math.ceil(mFragments.size() / 2));
-                viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);
     }
 
     private void initTabLayout() {

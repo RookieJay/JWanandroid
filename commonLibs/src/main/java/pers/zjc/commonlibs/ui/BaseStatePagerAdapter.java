@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +47,13 @@ public class BaseStatePagerAdapter<T, F extends Fragment> extends FragmentStateP
         notifyDataSetChanged();
     }
 
+    public List<T> getData() {
+        if (mData == null) {
+            return new ArrayList<>();
+        }
+        return mData;
+    }
+
     /**
      * 这里要用于创建新的Fragment，而不是获取
      * @param i
@@ -53,7 +61,14 @@ public class BaseStatePagerAdapter<T, F extends Fragment> extends FragmentStateP
      */
     @Override
     public Fragment getItem(int i) {
-        return mCreator.createFragment();
+        return mCreator.createFragment(mData.get(i), i);
+    }
+
+    /**
+     * 自定义获取缓存中的fragment
+     */
+    public Fragment getFragment(int position) {
+        return registeredFragments.get(position);
     }
 
     @Override
@@ -86,12 +101,12 @@ public class BaseStatePagerAdapter<T, F extends Fragment> extends FragmentStateP
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return super.getPageTitle(position);
+        return mCreator.createTitle(mData.get(position));
     }
 
     public interface PagerFragCreator<T, F> {
 
-        F createFragment();
+        F createFragment(T data, int position);
 
         String createTitle(T data);
     }

@@ -130,8 +130,8 @@ public final class KeyboardUtils {
         if (decorView == null) return 0;
         final Rect outRect = new Rect();
         decorView.getWindowVisibleDisplayFrame(outRect);
-        Log.d("KeyboardUtils", "getDecorViewInvisibleHeight: "
-                + (decorView.getBottom() - outRect.bottom));
+//        Log.d("KeyboardUtils", "getDecorViewInvisibleHeight: "
+//                + (decorView.getBottom() - outRect.bottom));
         int delta = Math.abs(decorView.getBottom() - outRect.bottom);
         if (delta <= getNavBarHeight()) {
             sDecorViewDelta = delta;

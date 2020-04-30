@@ -40,6 +40,7 @@ import pers.jay.wanandroid.mvp.ui.adapter.TodoAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.zjc.commonlibs.util.FragmentUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -97,8 +98,8 @@ public class DoneFragment extends TodoFragment
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        initArgs();
         setView();
+        initArgs();
     }
 
     private void initArgs() {
@@ -330,11 +331,10 @@ public class DoneFragment extends TodoFragment
         if (event == null) {
             return;
         }
-//        if (event.getEventCode() == Const.EventCode.TODO_DONE) {
-//            Todo todo = (Todo)event.getData();
-//            adapter.addData(new TodoSection(todo));
-//        }
-        refresh();
+        if (event.getEventCode() == Const.EventCode.TODO_DONE) {
+            refresh();
+        }
+
     }
 
 }

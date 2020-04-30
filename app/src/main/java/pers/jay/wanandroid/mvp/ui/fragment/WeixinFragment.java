@@ -69,7 +69,6 @@ public class WeixinFragment extends BaseLazyLoadFragment<WeixinPresenter>
     }
 
     private void initViewPager() {
-//        viewPager.setOffscreenPageLimit(mFragments.size());
         adapter = new TabFragmentStatePagerAdapter(getChildFragmentManager(),
                 new TabFragmentStatePagerAdapter.FragmentCreator() {
                     @Override
@@ -132,6 +131,9 @@ public class WeixinFragment extends BaseLazyLoadFragment<WeixinPresenter>
 
     @Override
     public void scrollToTop() {
+        if (adapter == null || viewPager == null) {
+            return;
+        }
         // 获取缓存的fragment引用
         Fragment fragment = adapter.getFragment(viewPager.getCurrentItem());
         if (fragment == null) {
@@ -144,6 +146,7 @@ public class WeixinFragment extends BaseLazyLoadFragment<WeixinPresenter>
 
     @Override
     public void showData(List<Tab> data) {
+        viewPager.setOffscreenPageLimit(data.size() - 1);
         adapter.setData(data);
         for (Tab wxTab : data) {
             mTitles.add(Html.fromHtml(wxTab.getName()).toString());

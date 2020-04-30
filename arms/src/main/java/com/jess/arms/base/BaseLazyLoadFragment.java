@@ -7,6 +7,8 @@ import com.jess.arms.mvp.IPresenter;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * 子类覆写{@link BaseLazyLoadFragment}lazyLoadData可快速实现Fragment懒加载
  */
@@ -69,5 +71,11 @@ public abstract class BaseLazyLoadFragment<P extends IPresenter> extends BaseFra
             //通知子Fragment请求数据
             dispatchParentVisibleState();
         }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Timber.e("onHiddenChanged hidden？" + hidden);
     }
 }

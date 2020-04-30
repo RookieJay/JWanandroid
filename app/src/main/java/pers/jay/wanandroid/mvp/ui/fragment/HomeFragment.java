@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.jess.arms.base.BaseLazyLoadFragment;
@@ -101,7 +100,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
     public void initData(@Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(Const.Key.SAVE_INSTANCE_STATE)) {
-                lazyLoadData();
+//                lazyLoadData();
             }
         }
         initRefreshLayout();
@@ -124,10 +123,18 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL_LIST, 1, R.color.colorPrimary));
         mRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter, view, position) -> switchToWebPage(position));
-        adapter.setOnItemChildClickListener((adapter, view, position) -> {
-            Article article = mArticleList.get(position);
-            mPresenter.collectArticle(article, view, position);
+        adapter.setLikeListener(new ArticleAdapter.LikeListener() {
+            @Override
+            public void liked(Article item, int adapterPosition) {
+                mPresenter.collectArticle(item, adapterPosition);
+            }
+
+            @Override
+            public void unLiked(Article item, int adapterPosition) {
+                mPresenter.collectArticle(item, adapterPosition);
+            }
         });
+
         adapter.setOnLoadMoreListener(() -> {
             if (pageCount != 0 && pageCount == page + 1) {
                 adapter.loadMoreEnd();
@@ -275,14 +282,12 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
     }
 
     @Override
-    public void updateCollectStatus(boolean collect, Article item, View view, int position) {
+    public void updateCollectStatus(boolean collect, Article item, int position) {
         for (Article article : adapter.getData()) {
             if (article.equals(item)) {
                 article.setCollect(collect);
             }
         }
-//        view.startAnimation(likeAnimation);
-        adapter.loadAnim((ImageView)view, collect);
         adapter.notifyItemChanged(position + 1); // 存在headerView,position + 1
     }
 

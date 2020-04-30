@@ -16,6 +16,7 @@ import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 
 import com.jess.arms.base.BaseFragment;
+import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
@@ -42,6 +43,7 @@ import pers.jay.wanandroid.mvp.ui.adapter.TodoAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.zjc.commonlibs.util.FragmentUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -100,8 +102,8 @@ public class TodoFragment extends BaseFragment<TodoPresenter>
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        initArgs();
         setView();
+        initArgs();
     }
 
     private void initArgs() {
@@ -327,6 +329,5 @@ public class TodoFragment extends BaseFragment<TodoPresenter>
     public void updateSuccess(Todo todo, int position) {
         deleteSuccess(todo, position);
     }
-
 
 }

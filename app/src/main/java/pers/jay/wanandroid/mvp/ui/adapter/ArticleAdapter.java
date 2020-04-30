@@ -1,6 +1,7 @@
 package pers.jay.wanandroid.mvp.ui.adapter;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -10,6 +11,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.List;
 
@@ -18,6 +21,7 @@ import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.utils.JUtils;
 import pers.zjc.commonlibs.util.StringUtils;
+import pers.zjc.commonlibs.util.ToastUtils;
 
 public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
 
@@ -30,7 +34,7 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
                                                          .placeholder(JApplication.getInstance().getDrawable(R.color.gray))
                                                          .error(JApplication.getInstance().getDrawable(R.color.red))
                                                          .transform(new RoundedCorners(20));
-
+    private LikeListener likeListener;
 
     public ArticleAdapter(List<Article> articles, int type) {
         super(R.layout.item_article, articles);
@@ -38,8 +42,26 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
         likeAnimation = AnimationUtils.loadAnimation(JApplication.getInstance(), R.anim.anim_fade_out);
     }
 
+    public void setLikeListener(LikeListener likeListener) {
+        this.likeListener = likeListener;
+    }
+
     @Override
     protected void convert(@NonNull BaseViewHolder helper, Article item) {
+        LikeButton ivLike = helper.itemView.findViewById(R.id.ivLike);
+        ivLike.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                ToastUtils.showShort("点赞");
+                //                likeListener.liked(item, helper.getAdapterPosition());
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                ToastUtils.showShort("取消点赞");
+                //                likeListener.unLiked(item, helper.getAdapterPosition());
+            }
+        });
         helper.setText(R.id.tvAuthor, StringUtils.isEmpty(item.getAuthor()) ? item.getShareUser() : StringUtils.isEmpty(item.getAuthor()) ? "匿名" : item.getAuthor())
               .setText(R.id.tvDate, item.getNiceDate())
               .setText(R.id.tvTitle, JUtils.html2String(item.getTitle()))
@@ -52,20 +74,25 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
               .setGone(R.id.ivProject, !StringUtils.isEmpty(item.getEnvelopePic()));
         switch (mType) {
             case TYPE_COLLECTION:
-                helper.setImageResource(R.id.ivLike, R.drawable.ic_like_fill);
+//                ivLike.setLiked(true);
                 helper.setText(R.id.tvType,item.getChapterName());
                 break;
             case TYPE_COMMON:
             default:
-                helper.setImageResource(R.id.ivLike, item.isCollect() ? R.drawable.ic_like_fill : R.drawable.ic_like);
+//                ivLike.setLiked(item.isCollect());
                 helper.setText(R.id.tvType, String.format("%s/%s", item.getSuperChapterName(), item.getChapterName()));
                 break;
         }
         ImageView ivProject = helper.itemView.findViewById(R.id.ivProject);
-        if (StringUtils.isEmpty(item.getEnvelopePic())) {
-            return;
+        if (!StringUtils.isEmpty(item.getEnvelopePic())) {
+            Glide.with(mContext).load(item.getEnvelopePic()).apply(options).into(ivProject);
         }
-        Glide.with(mContext).load(item.getEnvelopePic()).apply(options).into(ivProject);
+
+    }
+
+    public interface LikeListener {
+        void liked(Article item, int adapterPosition);
+        void unLiked(Article item, int adapterPosition);
     }
 
     /* 效果是列表所有item都生效 */
@@ -94,7 +121,7 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
 
             }
         });
-        view.startAnimation(likeAnimation);
+//        view.startAnimation(likeAnimation);
     }
 
 }

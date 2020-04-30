@@ -44,6 +44,7 @@ import pers.jay.wanandroid.utils.DarkModeUtils;
 import pers.jay.wanandroid.utils.RvAnimUtils;
 import pers.jay.wanandroid.utils.UIUtils;
 import pers.zjc.commonlibs.util.AppUtils;
+import pers.zjc.commonlibs.util.StringUtils;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -226,16 +227,18 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
                                 SimpleListAdapter adapter = new SimpleListAdapter(list);
                                 rv.setAdapter(adapter);
                                 adapter.setOnItemClickListener((adapter1, view, position) -> {
+                                    layer.dismiss();
                                     tvDarkMode.setText(DarkModeUtils.getName(position));
+                                    String mode = tvDarkMode.getText().toString();
+                                    String currentMode = DarkModeUtils.getName(AppConfig.getInstance().getDarkModePosition());
+                                    if (StringUtils.equals(currentMode, mode)) {
+                                        return;
+                                    }
                                     AppConfig.getInstance().setDarkModePosition(position);
                                     JApplication.loadDarkMode();
                                     Timber.e("SettingsActivity准备重建");
-                                    startActivity(new Intent(SettingsActivity.this, SettingsActivity.class));
-                                    overridePendingTransition(R.anim.anim_fade_out, R.anim.anim_fade_in);
-                                    finish();
-//                                    JApplication.avoidSplashRecreate(SettingsActivity.this, SettingsActivity.class);
+                                    JApplication.avoidSplashRecreate(this, SettingsActivity.class);
                                     EventBus.getDefault().post(new Event<>(Const.EventCode.CHANGE_UI_MODE, null));
-                                    layer.dismiss();
                                 });
                             });
         darkModeLayer.show();
@@ -256,21 +259,6 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
         }
     }
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        int currentNightMode = newConfig.uiMode & newConfig.UI_MODE_NIGHT_MASK;
-//        switch (currentNightMode) {
-//            // 夜间模式未启用，我们正在使用浅色主题
-//            case Configuration.UI_MODE_NIGHT_NO:
-//                Timber.e("onConfigurationChanged：%s", "夜间模式未启用");
-//                break;
-//            // 夜间模式启用，我们使用的是深色主题
-//            case Configuration.UI_MODE_NIGHT_YES:
-//                Timber.e("onConfigurationChanged：%s", "夜间模式启用");
-//                break;
-//        }
-//        Timber.e("onConfigurationChanged：%s", "触发了");
-//    }
+
 
 }

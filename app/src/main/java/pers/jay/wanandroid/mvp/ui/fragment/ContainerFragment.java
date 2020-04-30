@@ -38,6 +38,8 @@ import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.PermissionUtil;
 import com.jinrishici.sdk.android.view.JinrishiciTextViewConfig;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.vondear.rxtool.RxPhotoTool;
 
@@ -47,6 +49,7 @@ import org.simple.eventbus.Subscriber;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -77,6 +80,7 @@ import pers.jay.wanandroid.utils.UIUtils;
 import pers.jay.wanandroid.utils.rx.RxScheduler;
 import pers.jay.wanandroid.widgets.PoemTextView;
 import pers.zjc.commonlibs.constant.PermissionConstants;
+import pers.zjc.commonlibs.ui.BasePagerAdapter;
 import pers.zjc.commonlibs.util.ActivityUtils;
 import pers.zjc.commonlibs.util.ImageUtils;
 import pers.zjc.commonlibs.util.PermissionUtils;
@@ -122,6 +126,8 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
     DrawerLayout drawerLayout;
     @BindView(R.id.tvPoem)
     PoemTextView tvPoem;
+    @BindView(R.id.ivLike)
+    LikeButton ivLike;
 
     @Inject
     AppConfig appConfig;
@@ -135,9 +141,8 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
     private TextView tvRank;
     private CircleImageView ivAvatar;
     private int mStartType = 0;
-    private List<Fragment> fragmentList = new ArrayList<>();
     private String[] mTitles = { "首页", "知识体系", "公众号", "导航", "项目" };
-    private FragmentPagerAdapter fragmentPagerAdapter;
+    private BasePagerAdapter<String, Fragment> fragmentPagerAdapter;
 
     private long firstClick = 0L;
     private MainActivity mActivity;
@@ -184,18 +189,11 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        Timber.e("%s initData", this.getClass().getSimpleName());
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(Const.Key.SAVE_INSTANCE_STATE)) {
-                Timber.e("%s savedInstanceState", this.getClass().getSimpleName());
 
             }
         }
-        fragmentList.add(HomeFragment.newInstance());
-        fragmentList.add(KnowledgeFragment.newInstance());
-        fragmentList.add(WeixinFragment.newInstance());
-        fragmentList.add(NavFragment.newInstance());
-        fragmentList.add(ProjectFragment.newInstance());
         initView();
         loadMyCoin();
         // 诗词
@@ -221,6 +219,17 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         initFloatingButton();
         initBottomBav();
         initViewPager();
+        ivLike.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+//                showMessage("like");
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+//                showMessage("unlike");
+            }
+        });
     }
 
     private void initNavigationView() {
@@ -561,7 +570,7 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
 
     private void slideToTop() {
         int pos = viewPager.getCurrentItem();
-        Fragment fragment = fragmentPagerAdapter.getItem(pos);
+        Fragment fragment = fragmentPagerAdapter.getFragment(pos);
         if (fragment instanceof ScrollTopListener) {
             ((ScrollTopListener)fragment).scrollToTop();
         }
@@ -570,17 +579,18 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
     private void initViewPager() {
         // 按需设置viewPager预加载fragment数量，此处有5个界面，设置预加载4个，结合Fragment的懒加载，只预加载视图，不加载数据
         viewPager.setOffscreenPageLimit(4);
-        fragmentPagerAdapter = new FragmentPagerAdapter(getFragmentManager()) {
-            @Override
-            public Fragment getItem(int i) {
-                return fragmentList.get(i);
-            }
+        fragmentPagerAdapter = new BasePagerAdapter<>(getFragmentManager(),
+                new BasePagerAdapter.PagerFragCreator<String, Fragment>() {
+                    @Override
+                    public Fragment createFragment(String data, int position) {
+                        return createMainFragments(position);
+                    }
 
-            @Override
-            public int getCount() {
-                return fragmentList.size();
-            }
-        };
+                    @Override
+                    public String createTitle(String data) {
+                        return data;
+                    }
+                });
         viewPager.setAdapter(fragmentPagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -600,6 +610,24 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
 
             }
         });
+        // 绑定数据
+        fragmentPagerAdapter.setData(Arrays.asList(mTitles));
+    }
+
+    private Fragment createMainFragments(int position) {
+        switch (position) {
+            case 0:
+            default:
+                return HomeFragment.newInstance();
+            case 1:
+                return KnowledgeFragment.newInstance();
+            case 2:
+                return WeixinFragment.newInstance();
+            case 3:
+                return NavFragment.newInstance();
+            case 4:
+                return ProjectFragment.newInstance();
+        }
     }
 
     public void setToolbar(String title) {

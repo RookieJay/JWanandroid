@@ -58,15 +58,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-//        switchFragment(SplashFragment.instantiate(this, SplashFragment.class.getName()));
-//        FragmentUtils.add(getSupportFragmentManager(), SplashFragment.newInstance(), R.id.flContainer, false, false);
-        FragmentUtils.add(getSupportFragmentManager(), ContainerFragment.newInstance(), R.id.flContainer, false, true);
+        //        switchFragment(SplashFragment.instantiate(this, SplashFragment.class.getName()));
+        //        FragmentUtils.add(getSupportFragmentManager(), SplashFragment.newInstance(), R.id.flContainer, false, false);
+        FragmentUtils.add(getSupportFragmentManager(), ContainerFragment.newInstance(),
+                R.id.flContainer, false, true);
         // 灰度化方案二(清明节灰化app)，来源：鸿洋公众号：https://mp.weixin.qq.com/s/EioJ8ogsCxQEFm44mKFiOQ
-//        Paint paint = new Paint();
-//        ColorMatrix cm = new ColorMatrix();
-//        cm.setSaturation(0);
-//        paint.setColorFilter(new ColorMatrixColorFilter(cm));
-//        getWindow().getDecorView().setLayerType(View.LAYER_TYPE_HARDWARE, paint);
+        //        Paint paint = new Paint();
+        //        ColorMatrix cm = new ColorMatrix();
+        //        cm.setSaturation(0);
+        //        paint.setColorFilter(new ColorMatrixColorFilter(cm));
+        //        getWindow().getDecorView().setLayerType(View.LAYER_TYPE_HARDWARE, paint);
     }
 
     private void setFullScreen(boolean isFullScreen) {
@@ -100,24 +101,33 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     /**
      * 统一切换fragment的方法,不实例化多个Fragment，避免卡顿,Fragment中执行状态切换后的回调onHiddenChanged(boolean hidden)
+     *
      * @param targetFragment 跳转目标fragment
      */
     public void switchFragment(Fragment targetFragment, Bundle args) {
+        if (targetFragment == null) {
+            Timber.d("参数为空");
+            return;
+        }
         if (mFragmentManager != null) {
-        FragmentTransaction trans = mFragmentManager.beginTransaction();
+            FragmentTransaction trans = mFragmentManager.beginTransaction();
             // 转场自定义动画
-            trans.setCustomAnimations(R.anim.translate_right_to_center, R.anim.translate_center_to_left, R.anim.translate_left_to_center, R.anim.translate_center_to_right);
+            trans.setCustomAnimations(R.anim.translate_right_to_center,
+                    R.anim.translate_center_to_left, R.anim.translate_left_to_center,
+                    R.anim.translate_center_to_right);
             if (!targetFragment.isAdded()) {
                 // 首次执行curFragment为空，需要判断
                 if (curFragment != null) {
                     trans.hide(curFragment);
                 }
-                trans.add(R.id.flContainer, targetFragment, targetFragment.getClass().getSimpleName());
+                trans.add(R.id.flContainer, targetFragment,
+                        targetFragment.getClass().getSimpleName());
                 trans.addToBackStack(targetFragment.getClass().getSimpleName());
-//                trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);    //设置动画效果
+                //                trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);    //设置动画效果
 
-            } else {
-//                targetFragment = mFragmentManager.findFragmentByTag(targetFragment.getClass().getSimpleName());
+            }
+            else {
+                //                targetFragment = mFragmentManager.findFragmentByTag(targetFragment.getClass().getSimpleName());
                 trans.hide(curFragment).show(targetFragment);
             }
             trans.commitAllowingStateLoss();
@@ -138,7 +148,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     /**
      *
-     * @param fragment
      */
     public void replaceFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
@@ -183,6 +192,5 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             JApplication.avoidSplashRecreate(this, MainActivity.class);
         }
     }
-
 
 }

@@ -48,38 +48,35 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, Article item) {
-        LikeButton ivLike = helper.itemView.findViewById(R.id.ivLike);
-        ivLike.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-                ToastUtils.showShort("点赞");
-                //                likeListener.liked(item, helper.getAdapterPosition());
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                ToastUtils.showShort("取消点赞");
-                //                likeListener.unLiked(item, helper.getAdapterPosition());
-            }
-        });
         helper.setText(R.id.tvAuthor, StringUtils.isEmpty(item.getAuthor()) ? item.getShareUser() : StringUtils.isEmpty(item.getAuthor()) ? "匿名" : item.getAuthor())
               .setText(R.id.tvDate, item.getNiceDate())
               .setText(R.id.tvTitle, JUtils.html2String(item.getTitle()))
               .setText(R.id.tvDesc, JUtils.html2String(item.getDesc()))
-              .addOnClickListener(R.id.ivLike)
               .setGone(R.id.tvTagTop, item.isTop())
               .setGone(R.id.tvTagNew, item.isFresh())
               .setGone(R.id.tvTagQa, StringUtils.equals(item.getSuperChapterName(), "问答"))
               .setGone(R.id.tvDesc, !StringUtils.isEmpty(item.getDesc()))
               .setGone(R.id.ivProject, !StringUtils.isEmpty(item.getEnvelopePic()));
+        LikeButton ivLike = helper.itemView.findViewById(R.id.ivLike);
+        ivLike.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                likeListener.liked(item, helper.getAdapterPosition());
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                likeListener.unLiked(item, helper.getAdapterPosition());
+            }
+        });
         switch (mType) {
             case TYPE_COLLECTION:
-//                ivLike.setLiked(true);
+                ivLike.setLiked(true);
                 helper.setText(R.id.tvType,item.getChapterName());
                 break;
             case TYPE_COMMON:
             default:
-//                ivLike.setLiked(item.isCollect());
+                ivLike.setLiked(item.isCollect());
                 helper.setText(R.id.tvType, String.format("%s/%s", item.getSuperChapterName(), item.getChapterName()));
                 break;
         }
@@ -87,7 +84,6 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
         if (!StringUtils.isEmpty(item.getEnvelopePic())) {
             Glide.with(mContext).load(item.getEnvelopePic()).apply(options).into(ivProject);
         }
-
     }
 
     public interface LikeListener {

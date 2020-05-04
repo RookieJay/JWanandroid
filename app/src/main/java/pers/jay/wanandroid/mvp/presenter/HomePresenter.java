@@ -174,17 +174,17 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                           mRootView.updateCollectStatus(!isCollect, article, position);
                       }
 
-                      //                    @Override
-                      //                    public void onError(Throwable e) {
-                      //                        super.onError(e);
-                      //                        mRootView.showMessage(!isCollect ? "收藏失败" : "取消收藏失败");
-                      //                    }
-                      //
-                      //                    @Override
-                      //                    protected void onException(ExceptionReason reason) {
-                      //                        super.onException(reason);
-                      //                        mRootView.showMessage(!isCollect ? "收藏失败" : "取消收藏失败");
-                      //                    }
+                      @Override
+                      public void onError(Throwable e) {
+                          super.onError(e);
+                          mRootView.restoreLikeButton(position);
+                      }
+
+                      @Override
+                      protected void onException(ExceptionReason reason) {
+                          super.onException(reason);
+                          mRootView.restoreLikeButton(position);
+                      }
                   });
     }
 

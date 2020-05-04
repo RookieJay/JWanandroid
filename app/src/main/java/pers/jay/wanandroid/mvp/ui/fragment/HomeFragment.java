@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.like.LikeButton;
 import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
@@ -295,6 +296,17 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
     @Override
     public void showLoadMoreFail() {
         adapter.loadMoreFail();
+    }
+
+    @Override
+    public void restoreLikeButton(int position) {
+        LikeButton likeButton = (LikeButton)adapter.getViewByPosition(position, R.id.ivLike);
+        if (likeButton == null) {
+            Timber.e("没找到按钮");
+            return;
+        }
+        likeButton.setLiked(!likeButton.isLiked());
+        adapter.notifyDataSetChanged();
     }
 
     @Override

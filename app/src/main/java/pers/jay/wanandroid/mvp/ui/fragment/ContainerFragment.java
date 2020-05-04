@@ -219,17 +219,17 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         initFloatingButton();
         initBottomBav();
         initViewPager();
-        ivLike.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-//                showMessage("like");
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-//                showMessage("unlike");
-            }
-        });
+//        ivLike.setOnLikeListener(new OnLikeListener() {
+//            @Override
+//            public void liked(LikeButton likeButton) {
+////                showMessage("like");
+//            }
+//
+//            @Override
+//            public void unLiked(LikeButton likeButton) {
+////                showMessage("unlike");
+//            }
+//        });
     }
 
     private void initNavigationView() {

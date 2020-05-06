@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.jess.arms.base.BaseLazyLoadFragment;
@@ -161,8 +160,17 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
             mPresenter.requestArticles(cid, page, fromType);
         }, mRecyclerView);
         adapter.setOnItemClickListener((adapter, view, position) -> switchToWebPage(position));
-        adapter.setOnItemChildClickListener((adapter, view, position) -> mPresenter.collectArticle(
-                (Article)adapter.getData().get(position), view, position));
+        adapter.setLikeListener(new ArticleAdapter.LikeListener() {
+            @Override
+            public void liked(Article item, int adapterPosition) {
+                mPresenter.collectArticle(item, adapterPosition);
+            }
+
+            @Override
+            public void unLiked(Article item, int adapterPosition) {
+                mPresenter.collectArticle(item, adapterPosition);
+            }
+        });
     }
 
     private void switchToWebPage(int position) {
@@ -219,13 +227,12 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
     }
 
     @Override
-    public void updateCollectStatus(boolean isCollect, Article item, View view, int position) {
+    public void updateCollectStatus(boolean isCollect, Article item, int position) {
         for (Article article : adapter.getData()) {
             if (article.equals(item)) {
                 article.setCollect(isCollect);
             }
         }
-//        adapter.loadAnim((ImageView)view, isCollect);
         adapter.notifyItemChanged(position);
     }
 

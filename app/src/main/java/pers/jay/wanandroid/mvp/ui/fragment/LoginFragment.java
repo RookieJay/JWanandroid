@@ -39,6 +39,7 @@ import pers.zjc.commonlibs.util.FragmentUtils;
 import pers.zjc.commonlibs.util.KeyboardUtils;
 import pers.zjc.commonlibs.util.ScreenUtils;
 import pers.zjc.commonlibs.util.StringUtils;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -91,12 +92,6 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
          * fragment点击穿透解决办法，从事件分发的角度来解决。
          */
         view.setClickable(true); //把View的click属性设为true，截断点击时间段扩散
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true; // 拦截触摸事件的分发
-            }
-        });
     }
 
     @Override

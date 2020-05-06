@@ -50,13 +50,11 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
 
     private TabFragmentStatePagerAdapter adapter;
     private List<String> mTitles = new ArrayList<>();
-    private FragmentActivity fragmentActivity;
     private List<Tab> mTabs = new ArrayList<>();
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        fragmentActivity = (FragmentActivity)context;
     }
 
     public static ProjectFragment newInstance() {

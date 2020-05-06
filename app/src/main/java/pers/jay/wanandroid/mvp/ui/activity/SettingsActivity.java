@@ -237,6 +237,7 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
                                     AppConfig.getInstance().setDarkModePosition(position);
                                     JApplication.loadDarkMode();
                                     Timber.e("SettingsActivity准备重建");
+                                    recreate();
                                     JApplication.avoidSplashRecreate(this, SettingsActivity.class);
                                     EventBus.getDefault().post(new Event<>(Const.EventCode.CHANGE_UI_MODE, null));
                                 });

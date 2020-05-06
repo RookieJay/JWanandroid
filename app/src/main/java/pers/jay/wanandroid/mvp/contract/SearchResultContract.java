@@ -17,7 +17,7 @@ public interface SearchResultContract {
 
         void showData(ArticleInfo data, boolean refresh);
 
-        void updateCollectStatus(boolean collect, Article article, android.view.View view, int position);
+        void updateCollectStatus(boolean collect, Article article, int position);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存

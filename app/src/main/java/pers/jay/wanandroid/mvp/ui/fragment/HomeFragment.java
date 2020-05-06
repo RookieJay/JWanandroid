@@ -318,8 +318,11 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
         List<String> urls = new ArrayList<>(bannerUrls);
         titles.add(0, "每日一图");
         urls.add(0, url);
+        BannerImg bannerImg = new BannerImg();
+        bannerImg.setImagePath(url);
+        bannerImg.setTitle("每日一图");
+        mBannerImgs.add(0, bannerImg);
         banner.update(urls, titles);
-
     }
 
     @Override

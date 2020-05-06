@@ -116,14 +116,15 @@ public class CollectionFragment extends BaseFragment<CollectionPresenter>
             mPresenter.loadCollection(page);
         }, mRecyclerView);
         adapter.setOnItemClickListener((adapter, view, position) -> switchToWebPage(position));
-        adapter.setOnItemChildClickListener((adapter, view, position) -> {
-            switch (view.getId()) {
-                case R.id.ivLike:
-                    Article article = (Article)adapter.getData().get(position);
-                    mPresenter.uncollectArticle(article, position);
-                    break;
-                default:
-                    break;
+        adapter.setLikeListener(new ArticleAdapter.LikeListener() {
+            @Override
+            public void liked(Article item, int adapterPosition) {
+
+            }
+
+            @Override
+            public void unLiked(Article item, int adapterPosition) {
+                mPresenter.uncollectArticle(item, adapterPosition);
             }
         });
     }

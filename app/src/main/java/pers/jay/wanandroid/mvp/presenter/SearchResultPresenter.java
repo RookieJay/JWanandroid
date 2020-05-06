@@ -79,7 +79,7 @@ public class SearchResultPresenter
     /**
      * 收藏或取消收藏文章
      */
-    public void collectArticle(Article article, View view, int position) {
+    public void collectArticle(Article article, int position) {
         Observable<WanAndroidResponse> observable;
         boolean isCollect = article.isCollect();
         if (!isCollect) {
@@ -95,7 +95,7 @@ public class SearchResultPresenter
                       @Override
                       public void onSuccess(WanAndroidResponse wanAndroidResponse) {
                           //                        mRootView.showMessage(!isCollect ? "收藏成功" : "取消收藏成功");
-                          mRootView.updateCollectStatus(!isCollect, article, view, position);
+                          mRootView.updateCollectStatus(!isCollect, article, position);
                       }
                   });
     }

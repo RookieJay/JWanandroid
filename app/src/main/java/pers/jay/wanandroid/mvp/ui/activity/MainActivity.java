@@ -10,6 +10,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatDelegate;
 import android.widget.FrameLayout;
 
 import com.jess.arms.base.BaseActivity;
@@ -21,6 +22,7 @@ import org.simple.eventbus.Subscriber;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pers.jay.wanandroid.R;
+import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.di.component.DaggerMainComponent;
@@ -30,6 +32,7 @@ import pers.jay.wanandroid.mvp.presenter.MainPresenter;
 import pers.jay.wanandroid.mvp.ui.fragment.ContainerFragment;
 import pers.jay.wanandroid.mvp.ui.fragment.LoginFragment;
 import pers.jay.wanandroid.mvp.ui.fragment.SplashFragment;
+import pers.jay.wanandroid.utils.DarkModeUtils;
 import pers.zjc.commonlibs.util.FragmentUtils;
 import timber.log.Timber;
 
@@ -171,12 +174,33 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return true;
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        JApplication.avoidSplashRecreate(this, MainActivity.class);
-    }
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//        // 检测到暗黑模式启动或关闭，则重建
+//        int currentNightMode = newConfig.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+//        int position = AppConfig.getInstance().getDarkModePosition();
+//        int mode = DarkModeUtils.getMode(position);
+//        switch (currentNightMode) {
+//            // 夜间模式未启用，我们正在使用浅色主题
+//            case Configuration.UI_MODE_NIGHT_NO:
+//                if (mode == AppCompatDelegate.MODE_NIGHT_YES) {
+//                    showMessage("启动白天模式");
+//                    JApplication.avoidSplashRecreate(this, MainActivity.class);
+//                }
+//                break;
+//            // 夜间模式启用，我们使用的是深色主题
+//            case Configuration.UI_MODE_NIGHT_YES:
+//                if (mode == AppCompatDelegate.MODE_NIGHT_NO) {
+//                    showMessage("启动黑暗模式");
+//                    JApplication.avoidSplashRecreate(this, MainActivity.class);
+//                }
+//                break;
+//            default:
+//                break;
+//        }
+//
+//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -192,5 +216,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             JApplication.avoidSplashRecreate(this, MainActivity.class);
         }
     }
+
+
 
 }

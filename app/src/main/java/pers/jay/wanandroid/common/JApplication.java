@@ -38,7 +38,7 @@ import pers.jay.wanandroid.utils.TimberUtils;
 import pers.zjc.commonlibs.util.SPUtils;
 import timber.log.Timber;
 
-public class JApplication extends Application implements App {
+public class JApplication extends BaseApp implements App{
 
     //static 代码段可以防止内存泄露
     //此设置优先级是最低的，如果同时还使用了方法二、三，将会被其它方法取代
@@ -104,13 +104,11 @@ public class JApplication extends Application implements App {
         JinrishiciFactory.init(this);
     }
 
-
-
     public static void loadDarkMode() {
-        int mode = DarkModeUtils.getMode(AppConfig.getInstance().getDarkModePosition());
-        Timber.e("mode:%s", mode);
+        int position = AppConfig.getInstance().getDarkModePosition();
+        int mode = DarkModeUtils.getMode(position);
+        Timber.e("当前模式 %s, mode:%s", DarkModeUtils.getName(position), mode);
         AppCompatDelegate.setDefaultNightMode(mode);
-
     }
 
     /**

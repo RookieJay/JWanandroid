@@ -19,6 +19,7 @@ import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.common.JApplication;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 import timber.log.Timber;
 
 /**
@@ -46,6 +47,7 @@ public class NetWorkManager {
                 .baseUrl(Const.Url.WAN_ANDROID)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) //使用rxjava
                 .addConverterFactory(GsonConverterFactory.create()) //使用Gson
+                .addConverterFactory(ScalarsConverterFactory.create()) //接收非json字符串
                 .client(mOkHttpClient)
                 .build();
     }

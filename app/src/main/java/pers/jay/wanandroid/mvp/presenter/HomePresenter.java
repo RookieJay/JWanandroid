@@ -1,7 +1,6 @@
 package pers.jay.wanandroid.mvp.presenter;
 
 import android.app.Application;
-import android.view.View;
 
 import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.http.imageloader.ImageLoader;
@@ -9,14 +8,23 @@ import com.jess.arms.integration.AppManager;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.RxLifecycleUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import okhttp3.ResponseBody;
 import pers.jay.wanandroid.base.BaseWanObserver;
-import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.http.RetryWithDelay;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
@@ -112,14 +120,6 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
         //使用zip合并首页三个创建网络访问的observable
         Observable.zip(mModel.getBanner(), mModel.getTopArticles(), mModel.getArticle(0),
                 (bannerResponse, topResponse, commonResponse) -> {
-                    Timber.d("zip当前线程%s", Thread.currentThread().getName());
-                    List<BannerImg> bannerImgs = bannerResponse.getData();
-                    // 添加必应每日一图
-                    BannerImg img = new BannerImg();
-                    img.setTitle("每日一图");
-                    img.setUrl(Const.Url.DAILY_BING);
-                    img.setImagePath(Const.Url.DAILY_BING);
-                    bannerImgs.add(0, img);
                     List<Article> topArticles = topResponse.getData();
                     for (Article article : topArticles) {
                         article.setTop(true);
@@ -135,11 +135,9 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                   .compose(RxScheduler.Obs_io_main())
                   .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                   .retryWhen(new RetryWithDelay())
-                  .subscribe(new BaseWanObserver<WanAndroidResponse<ZipEntity>>(mRootView) {
-
+                  .doOnNext(new Consumer<WanAndroidResponse<ZipEntity>>() {
                       @Override
-                      public void onSuccess(WanAndroidResponse<ZipEntity> response) {
-                          Timber.d("onSuccess当前线程%s", Thread.currentThread().getName());
+                      public void accept(WanAndroidResponse<ZipEntity> response) throws Exception {
                           ZipEntity zipEntity = response.getData();
                           List<BannerImg> bannerImgs = zipEntity.getBannerResponse().getData();
                           List<Article> articles = zipEntity.getArticleResponse().getData();
@@ -150,8 +148,57 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                               mRootView.refresh(articles);
                           }
                       }
+                  })
+                  .doOnComplete(new Action() {
+                      @Override
+                      public void run() throws Exception {
+                          mRootView.hideLoading();
+                      }
+                  })
+                  // 回到io线程发起下一个请求
+                  .observeOn(Schedulers.io())
+                  // 使用flatMap进行嵌套请求，完成以上三个网络请求后再请求每日一图
+                  // 特别注意：因为flatMap是对初始被观察者作变换，所以对于旧被观察者，它是新观察者，所以通过observeOn切换线程
+                  // 这里需要注意的是, flatMap并不保证事件的顺序,如果需要保证顺序则需要使用concatMap
+                  .flatMap(
+                          new Function<WanAndroidResponse<ZipEntity>, ObservableSource<ResponseBody>>() {
+                              @Override
+                              public ObservableSource<ResponseBody> apply(
+                                      WanAndroidResponse<ZipEntity> zipEntityWanAndroidResponse) throws Exception {
+                                  return mModel.getBingImg();
+                              }
+                          })
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribe(new Observer<ResponseBody>() {
+                      @Override
+                      public void onSubscribe(Disposable d) {
+
+                      }
+
+                      @Override
+                      public void onNext(ResponseBody responseBody) {
+                          String url = null;
+                          try {
+                              url = responseBody.string();
+                          }
+                          catch (IOException e) {
+                              e.printStackTrace();
+                          }
+                          mRootView.addDailyPic(url);
+                      }
+
+                      @Override
+                      public void onError(Throwable e) {
+
+                      }
+
+                      @Override
+                      public void onComplete() {
+                          mRootView.hideLoading();
+                      }
                   });
     }
+
     /**
      * 收藏或取消收藏文章
      */
@@ -186,6 +233,40 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                           mRootView.restoreLikeButton(position);
                       }
                   });
+    }
+
+    public void loadDailyPic() {
+        mModel.getBingImg()
+              .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+              .compose(RxScheduler.Obs_io_main())
+              .subscribe(new Observer<ResponseBody>() {
+                  @Override
+                  public void onSubscribe(Disposable d) {
+
+                  }
+
+                  @Override
+                  public void onNext(ResponseBody responseBody) {
+                      try {
+                          String url = responseBody.string();
+                          mRootView.addDailyPic(url);
+                      }
+                      catch (IOException e) {
+                          e.printStackTrace();
+                          onError(e);
+                      }
+                  }
+
+                  @Override
+                  public void onError(Throwable e) {
+                      Timber.e(e);
+                  }
+
+                  @Override
+                  public void onComplete() {
+
+                  }
+              });
     }
 
     /**

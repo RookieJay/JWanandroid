@@ -14,11 +14,16 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
+import okhttp3.ResponseBody;
+import pers.jay.wanandroid.api.ApiService;
 import pers.jay.wanandroid.api.WanAndroidService;
+import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.http.NetWorkManager;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.model.BannerImg;
+import pers.jay.wanandroid.model.BingDailyImage;
 import pers.jay.wanandroid.mvp.contract.HomeContract;
 import pers.jay.wanandroid.result.WanAndroidResponse;
 
@@ -29,12 +34,14 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
     Gson mGson;
     @Inject
     Application mApplication;
-    WanAndroidService wanAndroidService;
+    private WanAndroidService wanAndroidService;
+    private ApiService apiService;
 
     @Inject
     public HomeModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
         wanAndroidService = NetWorkManager.getInstance().getWanAndroidService();
+        apiService = NetWorkManager.getInstance().getApiService(ApiService.class);
     }
 
     @Override
@@ -69,5 +76,9 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
         return wanAndroidService.unCollect(id);
     }
 
+    @Override
+    public Observable<ResponseBody> getBingImg() {
+        return apiService.bingImgUrl(Const.Url.DAILY_BING_GUOLIN);
+    }
 
 }

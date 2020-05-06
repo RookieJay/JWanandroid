@@ -11,7 +11,8 @@ public interface Const {
     interface Url {
         String DAILY_BING = "http://cn.bing.com/th?id=OHR.BourgesAerial_ROW9185097510_1920x1080.jpg&rf=LaDigue_1920x1081920x1080.jpg";
         String DAILY_BING_1  = "https://api.xygeng.cn/Bing";
-        String DAILY_BING_GUOLIN  = "http://guolin.tech/api/bing_pic";
+        String DAILY_BING_GUOLIN = "http://guolin.tech/api/bing_pic";
+        String GUOLIN = "http://guolin.tech/";
         String WAN_ANDROID = "https://www.wanandroid.com/";
         String GITHUB = "https://api.github.com/";
         String ABOUT_US = WAN_ANDROID + "about";

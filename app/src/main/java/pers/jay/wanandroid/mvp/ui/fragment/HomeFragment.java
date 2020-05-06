@@ -79,6 +79,8 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
     private LinearLayoutManager layoutManager;
 
     private Animation likeAnimation;
+    private List<String> bannerUrls = new ArrayList<>();
+    private List<String> bannerTitles = new ArrayList<>();
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -249,21 +251,22 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
 
     @Override
     public void showBanner(List<BannerImg> bannerImgs) {
+        Timber.e("请求到banner，当前线程"+ Thread.currentThread().getName());
         mBannerImgs = bannerImgs;
-        List<String> urls = new ArrayList<>();
-        List<String> titles = new ArrayList<>();
+        bannerUrls.clear();
+        bannerTitles.clear();
         for (BannerImg bannerImg : bannerImgs) {
-            urls.add(bannerImg.getImagePath());
-            titles.add(JUtils.html2String(bannerImg.getTitle()));
+            bannerUrls.add(bannerImg.getImagePath());
+            bannerTitles.add(JUtils.html2String(bannerImg.getTitle()));
         }
         //设置图片加载器
         banner.setImageLoader(new GlideImageLoader());
         //设置图片集合
-        banner.setImages(urls);
+        banner.setImages(bannerUrls);
         //设置banner动画效果
         banner.setBannerAnimation(Transformer.Default);
         //设置标题集合（当banner样式有显示title时）
-        banner.setBannerTitles(titles);
+        banner.setBannerTitles(bannerTitles);
         //banner设置方法全部调用完毕时最后调用
         banner.start();
         // 解决IllegalStateException，不能通过addHeaderView重复添加子View
@@ -307,6 +310,16 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
         }
         likeButton.setLiked(!likeButton.isLiked());
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void addDailyPic(String url) {
+        List<String> titles = new ArrayList<>(bannerTitles);
+        List<String> urls = new ArrayList<>(bannerUrls);
+        titles.add(0, "每日一图");
+        urls.add(0, url);
+        banner.update(urls, titles);
+
     }
 
     @Override

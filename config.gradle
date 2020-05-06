@@ -44,6 +44,7 @@ ext {
                 //network
                 "retrofit"                 : "com.squareup.retrofit2:retrofit:${version["retrofitSdkVersion"]}",
                 "retrofit-converter-gson"  : "com.squareup.retrofit2:converter-gson:${version["retrofitSdkVersion"]}",
+                "retrofit-converter-scalars"  : "com.squareup.retrofit2:converter-scalars:${version["retrofitSdkVersion"]}",
                 "retrofit-adapter-rxjava"  : "com.squareup.retrofit2:adapter-rxjava:${version["retrofitSdkVersion"]}",
                 "retrofit-adapter-rxjava2" : "com.squareup.retrofit2:adapter-rxjava2:${version["retrofitSdkVersion"]}",
                 "okhttp3"                  : "com.squareup.okhttp3:okhttp:3.12.1",

@@ -6,9 +6,11 @@ import com.jess.arms.mvp.IModel;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.model.BannerImg;
+import pers.jay.wanandroid.model.BingDailyImage;
 import pers.jay.wanandroid.result.WanAndroidResponse;
 
 /**
@@ -39,6 +41,8 @@ public interface HomeContract {
         void showLoadMoreFail();
 
         void restoreLikeButton(int position);
+
+        void addDailyPic(String url);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -53,5 +57,7 @@ public interface HomeContract {
         Observable<WanAndroidResponse> collect(int id);
 
         Observable<WanAndroidResponse> unCollect(int id);
+
+        Observable<ResponseBody> getBingImg();
     }
 }

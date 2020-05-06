@@ -75,31 +75,7 @@
         android:layout_gravity="start"
         app:insetForeground="@android:color/transparent"
         android:fitsSystemWindows="true">
-        
-        <pers.jay.wanandroid.widgets.PoemTextView
-            android:id="@+id/tvPoem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="晓看红湿处，花重锦官城"
-            android:layout_gravity="top"
-            android:textColor="@color/black"
-            android:maxLines="2"
-            android:textSize="16sp"
-            android:gravity="end"
-            android:padding="10dp"/>
     
-        <com.like.LikeButton
-            android:id="@+id/ivLike"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            app:icon_size="25dp"
-            app:icon_type="heart"
-            app:anim_scale_factor="2.5"
-            app:is_enabled="true"
-            app:like_drawable="@drawable/ic_like_fill"
-            app:unlike_drawable="@drawable/ic_like"
-            android:layout_gravity="bottom|end"/>
-        
     </android.support.design.widget.NavigationView>
         
 </android.support.v4.widget.DrawerLayout>

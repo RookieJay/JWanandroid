@@ -1,7 +1,6 @@
 package pers.jay.wanandroid.mvp.ui.adapter;
 
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -21,7 +20,6 @@ import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.utils.JUtils;
 import pers.zjc.commonlibs.util.StringUtils;
-import pers.zjc.commonlibs.util.ToastUtils;
 
 public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
 

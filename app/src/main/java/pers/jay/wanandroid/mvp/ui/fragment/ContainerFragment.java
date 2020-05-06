@@ -124,10 +124,7 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
     NavigationView navigationView;
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.tvPoem)
-    PoemTextView tvPoem;
-    @BindView(R.id.ivLike)
-    LikeButton ivLike;
+    private PoemTextView tvPoem;
 
     @Inject
     AppConfig appConfig;
@@ -241,6 +238,7 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         tvUserName = headerView.findViewById(R.id.tvUserName);
         tvRank = headerView.findViewById(R.id.tvRank);
         ivAvatar = headerView.findViewById(R.id.ivAvatar);
+        tvPoem = headerView.findViewById(R.id.tvPoem);
         ivAvatar.setBorderColor(ContextCompat.getColor(mContext, R.color.white));
         ivAvatar.setBorderWidth(5);
         ivAvatar.setOnClickListener(v -> openGallery());
@@ -427,7 +425,6 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         Observable<Bitmap> observable = Observable.create(new ObservableOnSubscribe<Bitmap>() {
             @Override
             public void subscribe(ObservableEmitter<Bitmap> emitter) throws Exception {
-                Timber.e("subscribe当前线程：%s", Thread.currentThread().getName());
                 Bitmap source = ImageUtils.getBitmap(file);
                 if (source == null) {
                     emitter.onError(new Throwable("Bitmap转换失败"));

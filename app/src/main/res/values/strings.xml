@@ -61,6 +61,7 @@
     <!-- drawerMenu -->
     <string name="drawer_ranking">我的积分</string>
     <string name="drawer_collection">我的收藏</string>
+    <string name="drawer_share">我的分享</string>
     <string name="drawer_todo">TODO</string>
     <string name="drawer_settings">系统设置</string>
     <string name="drawer_about_us">关于我们</string>
@@ -86,5 +87,19 @@
     <string name="mark_important">重要</string>
     <string name="drawer_open">打开抽屉</string>
     <string name="drawer_close">关闭抽屉</string>
+    
+    <string name="share_tips">1. 只要是任何好文都可以分享哈，并不一定要是原创！投递的文章会进入广场 tab;\n
+2. CSDN，掘金，简书等官方博客站点会直接通过，不需要审核;\n
+3. 其他个人站点会进入审核阶段，不要投递任何无效链接，测试的请尽快删除，否则可能会对你的账号产生一定影响;\n
+4. 目前处于测试阶段，如果你发现500等错误，可以向我提交日志，让我们一起使网站变得更好。\n
+5. 由于本站只有我一个人开发与维护，会尽力保证24小时内审核，当然有可能哪天太累，会延期，请保持佛系...</string>
+    
+    <string name="article_title">文章标题</string>
+    <string name="refresh_title">刷新标题</string>
+    <string name="article_link">文章链接</string>
+    <string name="open_link">打开链接</string>
+    <string name="text_limit_100">100字以内</string>
+    <string name="eg_article_link">如：https://www.jianshu.com/p/a8673ec5acd3</string>
+    
 
 </resources>

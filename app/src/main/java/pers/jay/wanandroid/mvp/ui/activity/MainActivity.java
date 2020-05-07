@@ -1,7 +1,6 @@
 package pers.jay.wanandroid.mvp.ui.activity;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatDelegate;
+import android.support.v4.view.ViewPager;
 import android.widget.FrameLayout;
 
 import com.jess.arms.base.BaseActivity;
@@ -19,10 +18,11 @@ import com.jess.arms.utils.ArmsUtils;
 
 import org.simple.eventbus.Subscriber;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pers.jay.wanandroid.R;
-import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.di.component.DaggerMainComponent;
@@ -32,7 +32,9 @@ import pers.jay.wanandroid.mvp.presenter.MainPresenter;
 import pers.jay.wanandroid.mvp.ui.fragment.ContainerFragment;
 import pers.jay.wanandroid.mvp.ui.fragment.LoginFragment;
 import pers.jay.wanandroid.mvp.ui.fragment.SplashFragment;
-import pers.jay.wanandroid.utils.DarkModeUtils;
+import pers.jay.wanandroid.mvp.ui.fragment.SquareFragment;
+import pers.zjc.commonlibs.ui.BasePagerAdapter;
+import pers.zjc.commonlibs.util.ActivityUtils;
 import pers.zjc.commonlibs.util.FragmentUtils;
 import timber.log.Timber;
 
@@ -42,10 +44,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @BindView(R.id.flContainer)
     FrameLayout flContainer;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
     /* 当前fragment */
     private Fragment curFragment;
 
     private FragmentManager mFragmentManager;
+
+    private BasePagerAdapter<String, Fragment> fragmentPagerAdapter;
+    private boolean loginShowing;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -61,16 +68,38 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        //        switchFragment(SplashFragment.instantiate(this, SplashFragment.class.getName()));
-        //        FragmentUtils.add(getSupportFragmentManager(), SplashFragment.newInstance(), R.id.flContainer, false, false);
-        FragmentUtils.add(getSupportFragmentManager(), ContainerFragment.newInstance(),
-                R.id.flContainer, false, true);
+        initViewPager();
         // 灰度化方案二(清明节灰化app)，来源：鸿洋公众号：https://mp.weixin.qq.com/s/EioJ8ogsCxQEFm44mKFiOQ
         //        Paint paint = new Paint();
         //        ColorMatrix cm = new ColorMatrix();
         //        cm.setSaturation(0);
         //        paint.setColorFilter(new ColorMatrixColorFilter(cm));
         //        getWindow().getDecorView().setLayerType(View.LAYER_TYPE_HARDWARE, paint);
+    }
+
+    private void initViewPager() {
+        String[] titles = { "广场", "" };
+        fragmentPagerAdapter = new BasePagerAdapter<>(getSupportFragmentManager(),
+                new BasePagerAdapter.PagerFragCreator<String, Fragment>() {
+                    @Override
+                    public Fragment createFragment(String data, int position) {
+                        switch (position) {
+                            case 0:
+                                return SquareFragment.newInstance(data);
+                            case 1:
+                            default:
+                                return ContainerFragment.newInstance();
+                        }
+                    }
+
+                    @Override
+                    public String createTitle(String data) {
+                        return data;
+                    }
+                });
+        fragmentPagerAdapter.setData(Arrays.asList(titles));
+        viewPager.setAdapter(fragmentPagerAdapter);
+        viewPager.setCurrentItem(1);
     }
 
     private void setFullScreen(boolean isFullScreen) {
@@ -174,33 +203,33 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return true;
     }
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        // 检测到暗黑模式启动或关闭，则重建
-//        int currentNightMode = newConfig.uiMode & Configuration.UI_MODE_NIGHT_MASK;
-//        int position = AppConfig.getInstance().getDarkModePosition();
-//        int mode = DarkModeUtils.getMode(position);
-//        switch (currentNightMode) {
-//            // 夜间模式未启用，我们正在使用浅色主题
-//            case Configuration.UI_MODE_NIGHT_NO:
-//                if (mode == AppCompatDelegate.MODE_NIGHT_YES) {
-//                    showMessage("启动白天模式");
-//                    JApplication.avoidSplashRecreate(this, MainActivity.class);
-//                }
-//                break;
-//            // 夜间模式启用，我们使用的是深色主题
-//            case Configuration.UI_MODE_NIGHT_YES:
-//                if (mode == AppCompatDelegate.MODE_NIGHT_NO) {
-//                    showMessage("启动黑暗模式");
-//                    JApplication.avoidSplashRecreate(this, MainActivity.class);
-//                }
-//                break;
-//            default:
-//                break;
-//        }
-//
-//    }
+    //    @Override
+    //    public void onConfigurationChanged(Configuration newConfig) {
+    //        super.onConfigurationChanged(newConfig);
+    //        // 检测到暗黑模式启动或关闭，则重建
+    //        int currentNightMode = newConfig.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+    //        int position = AppConfig.getInstance().getDarkModePosition();
+    //        int mode = DarkModeUtils.getMode(position);
+    //        switch (currentNightMode) {
+    //            // 夜间模式未启用，我们正在使用浅色主题
+    //            case Configuration.UI_MODE_NIGHT_NO:
+    //                if (mode == AppCompatDelegate.MODE_NIGHT_YES) {
+    //                    showMessage("启动白天模式");
+    //                    JApplication.avoidSplashRecreate(this, MainActivity.class);
+    //                }
+    //                break;
+    //            // 夜间模式启用，我们使用的是深色主题
+    //            case Configuration.UI_MODE_NIGHT_YES:
+    //                if (mode == AppCompatDelegate.MODE_NIGHT_NO) {
+    //                    showMessage("启动黑暗模式");
+    //                    JApplication.avoidSplashRecreate(this, MainActivity.class);
+    //                }
+    //                break;
+    //            default:
+    //                break;
+    //        }
+    //
+    //    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -217,6 +246,26 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }
     }
 
+    @Subscriber
+    public void onTokenExpiredEvent(Event event) {
+        if (null != event) {
+            if (event.getEventCode() == Const.EventCode.LOGIN_EXPIRED && this.equals(
+                    ActivityUtils.getTopActivity()) && !loginShowing) {
+                showMessage(getString(R.string.error_login_expired));
+                switchFragment(LoginFragment.newInstance());
+                loginShowing = true;
+            }
+        }
+    }
 
+    /**
+     * 登录成功
+     */
+    @Subscriber
+    public void onLoginSuccess(Event event) {
+        if (null != event && (event.getEventCode() == Const.EventCode.LOGIN_SUCCESS || event.getEventCode() == Const.EventCode.LOGIN_RETURN)) {
+            loginShowing = false;
+        }
+    }
 
 }

@@ -255,6 +255,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     private void back() {
         FragmentUtils.pop(getFragmentManager(), true);
+        EventBusManager.getInstance().post(new Event<>(Const.EventCode.LOGIN_RETURN, null));
     }
 
 }

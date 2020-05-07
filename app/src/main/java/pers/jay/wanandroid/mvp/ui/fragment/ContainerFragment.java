@@ -16,7 +16,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -38,8 +37,6 @@ import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.PermissionUtil;
 import com.jinrishici.sdk.android.view.JinrishiciTextViewConfig;
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.vondear.rxtool.RxPhotoTool;
 
@@ -48,7 +45,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import org.simple.eventbus.Subscriber;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -96,7 +92,6 @@ import static com.vondear.rxtool.RxPhotoTool.GET_IMAGE_FROM_PHONE;
 /**
  * @author ZJC
  */
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class ContainerFragment extends BaseFragment<ContainerPresenter>
         implements ContainerContract.View {
 
@@ -216,17 +211,6 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         initFloatingButton();
         initBottomBav();
         initViewPager();
-//        ivLike.setOnLikeListener(new OnLikeListener() {
-//            @Override
-//            public void liked(LikeButton likeButton) {
-////                showMessage("like");
-//            }
-//
-//            @Override
-//            public void unLiked(LikeButton likeButton) {
-////                showMessage("unlike");
-//            }
-//        });
     }
 
     private void initNavigationView() {
@@ -680,18 +664,18 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
     /**
      * Token过期,重新登录
      */
-    @Subscriber
-    public void onTokenExpiredEvent(Event event) {
-        if (null != event) {
-            if (event.getEventCode() == Const.EventCode.LOGIN_EXPIRED && mContext.equals(
-                    ActivityUtils.getTopActivity())) {
-                showMessage(getString(R.string.error_login_expired));
-                if (mContext instanceof MainActivity) {
-                    mActivity.switchFragment(LoginFragment.newInstance());
-                }
-            }
-        }
-    }
+//    @Subscriber
+//    public void onTokenExpiredEvent(Event event) {
+//        if (null != event) {
+//            if (event.getEventCode() == Const.EventCode.LOGIN_EXPIRED && mContext.equals(
+//                    ActivityUtils.getTopActivity())) {
+//                showMessage(getString(R.string.error_login_expired));
+//                if (mContext instanceof MainActivity) {
+//                    mActivity.switchFragment(LoginFragment.newInstance());
+//                }
+//            }
+//        }
+//    }
 
     /**
      * 登录成功

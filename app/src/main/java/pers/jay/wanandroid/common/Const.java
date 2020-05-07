@@ -37,6 +37,8 @@ public interface Const {
         String KEY_SEGMENTFAULT = "segmentfault";
         String KEY_163 = "163.com";
         String KEY_GITHUB = "github.com";
+
+        String BLANK = "about:blank";
     }
 
     interface HttpConst {
@@ -95,6 +97,8 @@ public interface Const {
         int CHANGE_RV_ANIM = 5;
         int COLLECT_ARTICLE = 6;
         int CHANGE_UI_MODE = 7;
+        int SHARE_SUCCESS = 8;
+        int LOGIN_RETURN = 9;
     }
 
     @SuppressLint("SimpleDateFormat")

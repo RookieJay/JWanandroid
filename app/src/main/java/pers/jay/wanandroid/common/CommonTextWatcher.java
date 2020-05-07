@@ -18,11 +18,4 @@ public abstract class CommonTextWatcher implements TextWatcher {
 
     }
 
-    @Override
-    public void afterTextChanged(Editable s) {
-        textChanged(s);
-    }
-
-    public abstract void textChanged(Editable s);
-
 }

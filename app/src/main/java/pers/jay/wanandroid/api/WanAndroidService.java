@@ -255,7 +255,7 @@ public interface WanAndroidService {
      * 可能出现返回列表数据<每页数据，因为有自见的文章被过滤掉了。
      */
     @GET("/user_article/list/{page}/json")
-    Observable<WanAndroidResponse<PageInfo<Article>>> squareArticles(@Path("page") int page);
+    Observable<WanAndroidResponse<ArticleInfo>> squareArticles(@Path("page") int page);
 
     /**
      * 10.2 分享人对应列表数据
@@ -289,7 +289,7 @@ public interface WanAndroidService {
      * 	注意需要登录后查看，如果为CSDN，简书等链接会直接通过审核，在对外的分享文章列表中展示。
      * 否则只能在自己的分享文章列表查看，见10.3。
      */
-    @POST("lg/user_article/add/js")
+    @POST("lg/user_article/add/json")
     @FormUrlEncoded
     Observable<WanAndroidResponse> shareArticle(@Field("title") String title, @Field("link") String link);
 

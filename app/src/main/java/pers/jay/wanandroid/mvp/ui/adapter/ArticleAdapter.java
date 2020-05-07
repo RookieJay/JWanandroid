@@ -90,32 +90,32 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
     }
 
     /* 效果是列表所有item都生效 */
-    public void loadAnim(ImageView view, boolean collect) {
-        if (collect) {
-            likeAnimation = AnimationUtils.loadAnimation(JApplication.getInstance(), R.anim.anim_fade_in);
-        }
-
-        likeAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (collect) {
-                    Glide.with(mContext).load(R.drawable.ic_like_fill).into(view);
-                } else {
-                    Glide.with(mContext).load(R.drawable.ic_like).into(view);
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-//        view.startAnimation(likeAnimation);
-    }
+//    public void loadAnim(ImageView view, boolean collect) {
+//        if (collect) {
+//            likeAnimation = AnimationUtils.loadAnimation(JApplication.getInstance(), R.anim.anim_fade_in);
+//        }
+//
+//        likeAnimation.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                if (collect) {
+//                    Glide.with(mContext).load(R.drawable.ic_like_fill).into(view);
+//                } else {
+//                    Glide.with(mContext).load(R.drawable.ic_like).into(view);
+//                }
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
+////        view.startAnimation(likeAnimation);
+//    }
 
 }

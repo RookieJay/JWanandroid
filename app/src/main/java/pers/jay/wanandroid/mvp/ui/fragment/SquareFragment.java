@@ -164,7 +164,7 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter> implem
 
     @Override
     public void showLoading() {
-        srlSquare.autoRefresh();
+        srlSquare.autoRefreshAnimationOnly();
     }
 
     @Override

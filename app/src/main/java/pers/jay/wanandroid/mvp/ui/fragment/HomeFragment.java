@@ -292,7 +292,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
                 article.setCollect(collect);
             }
         }
-        adapter.notifyItemChanged(position + 1); // 存在headerView,position + 1
+        adapter.notifyItemChanged(position);
     }
 
 

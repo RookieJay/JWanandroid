@@ -9,14 +9,14 @@ public class ShareUserArticles {
      */
 
     private Coin coinInfo;
-    private PageInfo shareArticles;
+    private ArticleInfo shareArticles;
 
     public Coin getCoinInfo() { return coinInfo;}
 
     public void setCoinInfo(Coin coinInfo) { this.coinInfo = coinInfo;}
 
-    public PageInfo getShareArticles() { return shareArticles;}
+    public ArticleInfo getShareArticles() { return shareArticles;}
 
-    public void setShareArticles(PageInfo shareArticles) { this.shareArticles = shareArticles;}
+    public void setShareArticles(ArticleInfo shareArticles) { this.shareArticles = shareArticles;}
 
 }

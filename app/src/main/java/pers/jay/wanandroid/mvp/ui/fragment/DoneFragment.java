@@ -48,7 +48,6 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * 已办界面
  * @author ZJC
  */
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class DoneFragment extends TodoFragment
         implements TodoContract.View, ScrollTopListener {
 

@@ -239,6 +239,9 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
                     fragment.setArguments(bundle);
                     mActivity.switchFragment(fragment);
                     break;
+                case R.id.nav_share:
+                    mActivity.switchFragment(MySharesFragment.newInstance());
+                    break;
                 case R.id.nav_collection:
                     mActivity.switchFragment(CollectionFragment.newInstance());
                     break;

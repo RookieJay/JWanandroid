@@ -5,25 +5,77 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.scwang.smartrefresh.header.StoreHouseHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import org.simple.eventbus.Subscriber;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.di.component.DaggerMySharesComponent;
+import pers.jay.wanandroid.event.Event;
+import pers.jay.wanandroid.model.Article;
+import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.mvp.contract.MySharesContract;
 import pers.jay.wanandroid.mvp.presenter.MySharesPresenter;
 
 import pers.jay.wanandroid.R;
+import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
+import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
+import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
+import pers.jay.wanandroid.utils.RvScrollTopUtils;
+import pers.jay.wanandroid.utils.SmartRefreshUtils;
+import pers.zjc.commonlibs.util.FragmentUtils;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
+import static pers.jay.wanandroid.common.Const.Key.KEY_TITLE;
 
 public class MySharesFragment extends BaseFragment<MySharesPresenter>
         implements MySharesContract.View {
+
+    @BindView(R.id.ivLeft)
+    ImageView ivLeft;
+    @BindView(R.id.toolbar_left)
+    RelativeLayout toolbarLeft;
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
+    @BindView(R.id.ivRight)
+    ImageView ivRight;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.fabTop)
+    FloatingActionButton fabTop;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.srlSquare)
+    SmartRefreshLayout srlSquare;
+
+    private ArticleAdapter mAdapter;
+
+    private List<Article> mArticles = new ArrayList<>();
+    private int page = 1;
+    private int pageCount;
 
     public static MySharesFragment newInstance() {
         MySharesFragment fragment = new MySharesFragment();
@@ -38,63 +90,96 @@ public class MySharesFragment extends BaseFragment<MySharesPresenter>
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_my_shares, container, false);
+        return inflater.inflate(R.layout.fragment_square, container, false);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        initToolbar();
+        initRefreshLayout();
+        initRecyclerView();
+        mPresenter.loadData(0);
     }
 
-    /**
-     * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
-     * 建议在有多个需要与外界交互的方法时, 统一传 {@link Message}, 通过 what 字段来区分不同的方法, 在 {@link #setData(Object)}
-     * 方法中就可以 {@code switch} 做不同的操作, 这样就可以用统一的入口方法做多个不同的操作, 可以起到分发的作用
-     * <p>
-     * 调用此方法时请注意调用时 Fragment 的生命周期, 如果调用 {@link #setData(Object)} 方法时 {@link Fragment#onCreate(Bundle)} 还没执行
-     * 但在 {@link #setData(Object)} 里却调用了 Presenter 的方法, 是会报空的, 因为 Dagger 注入是在 {@link Fragment#onCreate(Bundle)} 方法中执行的
-     * 然后才创建的 Presenter, 如果要做一些初始化操作,可以不必让外部调用 {@link #setData(Object)}, 在 {@link #initData(Bundle)} 中初始化就可以了
-     * <p>
-     * Example usage:
-     * <pre>
-     * public void setData(@Nullable Object data) {
-     *     if (data != null && data instanceof Message) {
-     *         switch (((Message) data).what) {
-     *             case 0:
-     *                 loadData(((Message) data).arg1);
-     *                 break;
-     *             case 1:
-     *                 refreshUI();
-     *                 break;
-     *             default:
-     *                 //do something
-     *                 break;
-     *         }
-     *     }
-     * }
-     *
-     * // call setData(Object):
-     * Message data = new Message();
-     * data.what = 0;
-     * data.arg1 = 1;
-     * fragment.setData(data);
-     * </pre>
-     *
-     * @param data 当不需要参数时 {@code data} 可以为 {@code null}
-     */
+    private void initToolbar() {
+        tvTitle.setText("我的分享");
+        Glide.with(ivRight.getContext()).load(R.drawable.ic_add_24dp).into(ivRight);
+        ivRight.setOnClickListener(v -> toSharePage());
+        fabTop.setOnClickListener(v -> scrollTop());
+        toolbarLeft.setOnClickListener(v -> killMyself());
+    }
+
+    private void scrollTop() {
+        RvScrollTopUtils.smoothScrollTop(recyclerView);
+    }
+
+    private void toSharePage() {
+        FragmentUtils.add(getChildFragmentManager(), ShareFragment.newInstance(), R.id.flContainer, true, R.anim.anim_fade_out, R.anim.anim_fade_in);
+    }
+
     @Override
     public void setData(@Nullable Object data) {
 
     }
 
     @Override
-    public void showLoading() {
+    public boolean onBackPress() {
+        killMyself();
+        return true;
+    }
 
+    private void initRecyclerView() {
+        mAdapter = new ArticleAdapter(new ArrayList<>(), ArticleAdapter.TYPE_COMMON);
+        ArmsUtils.configRecyclerView(recyclerView, new LinearLayoutManager(mContext));
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(() -> {
+            if ((pageCount != 0 && pageCount == page + 1)) {
+                mAdapter.loadMoreEnd();
+                return;
+            }
+            page++;
+            mPresenter.loadData(page);
+        }, recyclerView);
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mContext, X5WebActivity.class);
+                Article article = mAdapter.getData().get(position);
+                intent.putExtra(Const.Key.KEY_WEB_PAGE_TYPE, WebActivity.TYPE_ARTICLE);
+                intent.putExtra(Const.Key.KEY_WEB_PAGE_DATA, article);
+                launchActivity(intent);
+            }
+        });
+    }
+
+    private void initRefreshLayout() {
+        StoreHouseHeader header = new StoreHouseHeader(mContext);
+        header.initWithString("WANANDROID");
+        SmartRefreshUtils.with(srlSquare).setRefreshListener(() -> {
+            if (mPresenter != null) {
+                page = 1;
+                mPresenter.loadData(page);
+            }
+        });
+        srlSquare.setRefreshHeader(header);
+        srlSquare.setEnableAutoLoadMore(false); //是否启用列表惯性滑动到底部时自动加载更多
+        srlSquare.setDisableContentWhenRefresh(true); //是否在刷新的时候禁止列表的操作
+        srlSquare.setEnableLoadMore(false); //是否启用列表手动加载更多
+    }
+
+    @Override
+    public void showLoading() {
+        Timber.e("showLoading, 当前状态：");
+        srlSquare.autoRefreshAnimationOnly();
     }
 
     @Override
     public void hideLoading() {
-
+//        // 由于解绑时机发生在onComplete()之后，容易引起空指针
+//        if (srlSquare == null) {
+//            return;
+//        }
+        srlSquare.finishRefresh();
     }
 
     @Override
@@ -111,6 +196,32 @@ public class MySharesFragment extends BaseFragment<MySharesPresenter>
 
     @Override
     public void killMyself() {
+        FragmentUtils.pop(getFragmentManager(), true);
+    }
 
+    @Override
+    public void showData(ArticleInfo data) {
+        pageCount = data.getPageCount();
+        List<Article> articles = data.getDatas();
+        if (articles.isEmpty()) {
+            mAdapter.loadMoreEnd();
+            return;
+        }
+        if (data.getCurPage() == 1) {
+            mArticles = data.getDatas();
+            mAdapter.replaceData(mArticles);
+        }
+        else {
+            mArticles.addAll(data.getDatas());
+            mAdapter.addData(data.getDatas());
+        }
+        mAdapter.loadMoreComplete();
+    }
+
+    @Subscriber
+    public void onShareSuccess(Event event) {
+        if (event != null && event.getEventCode() == Const.EventCode.SHARE_SUCCESS) {
+            mPresenter.loadData(0);
+        }
     }
 }

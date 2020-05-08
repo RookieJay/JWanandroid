@@ -50,7 +50,6 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 /**
  * @author ZJC
  */
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class TodoFragment extends BaseFragment<TodoPresenter>
         implements TodoContract.View, ScrollTopListener {
 

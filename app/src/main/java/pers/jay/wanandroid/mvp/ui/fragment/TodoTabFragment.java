@@ -48,7 +48,6 @@ import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class TodoTabFragment extends BaseLazyLoadFragment {
 
     @BindView(R.id.ivLeft)
@@ -172,7 +171,6 @@ public class TodoTabFragment extends BaseLazyLoadFragment {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void openTodoEditPage() {
         Intent intent = new Intent(mContext, TodoEditActivity.class);
         intent.putExtra(Const.Key.KEY_TODO_TYPE, mTodoType);

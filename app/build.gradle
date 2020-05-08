@@ -130,6 +130,8 @@ dependencies {
     implementation rootProject.ext.dependencies["rxjava2"]
     implementation rootProject.ext.dependencies["retrofit-adapter-rxjava2"]
     implementation rootProject.ext.dependencies["rxpermissions2"]
+    implementation rootProject.ext.dependencies["AutoDispose"]
+    implementation rootProject.ext.dependencies["AutoDispose-components"]
 
     // network
     implementation rootProject.ext.dependencies["retrofit"]

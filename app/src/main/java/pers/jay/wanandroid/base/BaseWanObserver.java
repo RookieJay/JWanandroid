@@ -6,6 +6,8 @@ import android.net.ParseException;
 import android.text.TextUtils;
 
 import com.jess.arms.mvp.IView;
+import com.uber.autodispose.AutoDispose;
+import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
 import org.json.JSONException;
 import org.simple.eventbus.EventBus;
@@ -23,10 +25,11 @@ import pers.jay.wanandroid.http.ApiException;
 import pers.jay.wanandroid.result.BaseWanBean;
 import pers.zjc.commonlibs.util.StringUtils;
 import retrofit2.HttpException;
+import timber.log.Timber;
 
 public abstract class BaseWanObserver<T extends BaseWanBean> extends ResourceObserver<T> {
 
-    protected IView mView;
+    private IView mView;
     private String mErroMessage;
     private JApplication mApp = JApplication.getInstance();
 
@@ -36,16 +39,16 @@ public abstract class BaseWanObserver<T extends BaseWanBean> extends ResourceObs
 
     @Override
     protected void onStart() {
+        Timber.e("onStart");
         super.onStart();
-//        if (!NetWorkManager.isNetWorkAvailable()) {
-//            mView.showMessage(mApp.getString(R.string.network_unavailable_tip));
-//            onComplete();
-//        }
-//        mView.showLoading();
     }
 
     @Override
     public void onNext(T t) {
+        Timber.e("onNext");
+        if (mView != null) {
+            mView.hideLoading();
+        }
         switch (t.getErrorCode()) {
             case Const.HttpConst.HTTP_CODE_SUCCESS:
                 onSuccess(t);
@@ -62,6 +65,7 @@ public abstract class BaseWanObserver<T extends BaseWanBean> extends ResourceObs
 
     @Override
     public void onError(Throwable e) {
+        Timber.e("onError");
         if (e instanceof ConnectException ||  e instanceof UnknownHostException) {   //   连接错误
             onException(ExceptionReason.CONNECT_ERROR);
         } else if ( e instanceof InterruptedIOException) {  //  连接超时
@@ -86,6 +90,9 @@ public abstract class BaseWanObserver<T extends BaseWanBean> extends ResourceObs
     }
 
     protected void onException(ExceptionReason reason) {
+        if (mView != null) {
+            mView.hideLoading();
+        }
         switch (reason) {
             case PARSE_ERROR:
                 mErroMessage = mApp.getString(R.string.error_parse);
@@ -110,9 +117,7 @@ public abstract class BaseWanObserver<T extends BaseWanBean> extends ResourceObs
 
     @Override
     public void onComplete() {
-        if (mView != null) {
-            mView.hideLoading();
-        }
+        Timber.e("onComplete");
     }
 
     /**

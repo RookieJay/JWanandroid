@@ -52,7 +52,9 @@ public class SquarePresenter extends BasePresenter<SquareContract.Model, SquareC
 
                   @Override
                   protected void onStart() {
-                      mRootView.showLoading();
+                      if (page == 0) {
+                          mRootView.showLoading();
+                      }
                   }
 
                   @Override

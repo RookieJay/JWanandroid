@@ -269,8 +269,8 @@ public interface WanAndroidService {
      * 如果你登陆了，可以直接点击查看自己分享的列表：
      * https://wanandroid.com/user/lg/private_articles/1/json
      */
-    @GET("user/lg/private_articles/1/json")
-    Observable<WanAndroidResponse<ShareUserArticles>> privateArticles();
+    @GET("user/lg/private_articles/{page}/json")
+    Observable<WanAndroidResponse<ShareUserArticles>> privateArticles(@Path("page") int page);
 
     /**
      * 10.4 删除自己分享的文章

@@ -379,5 +379,12 @@ public interface WanAndroidService {
     @GET("lg/todo/v2/list/{page}/json")
     Observable<WanAndroidResponse<PageInfo<Todo>>> todoList(@Path("page") int page, @QueryMap LinkedHashMap<String, Object> map);
 
+    /**
+     * 问答列表
+     * @param page 页码从1开始
+     * @return
+     */
+    @GET("wenda/list/{page}/json")
+    Observable<WanAndroidResponse<ArticleInfo>> qaList(@Path("page") int page);
 
 }

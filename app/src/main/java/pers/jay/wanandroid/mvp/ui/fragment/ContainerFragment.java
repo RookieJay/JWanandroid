@@ -528,13 +528,13 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
                 case R.id.nav_home:
                     viewPager.setCurrentItem(0);
                     break;
-                case R.id.nav_structure:
+                case R.id.nav_wenda:
                     viewPager.setCurrentItem(1);
                     break;
                 case R.id.nav_public:
                     viewPager.setCurrentItem(2);
                     break;
-                case R.id.nav_navigation:
+                case R.id.nav_structure:
                     viewPager.setCurrentItem(3);
                     break;
                 case R.id.navigation_project:
@@ -604,11 +604,11 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
             default:
                 return HomeFragment.newInstance();
             case 1:
-                return KnowledgeFragment.newInstance();
+                return QAFragment.newInstance();
             case 2:
                 return WeixinFragment.newInstance();
             case 3:
-                return NavFragment.newInstance();
+                return StructureFragment.newInstance();
             case 4:
                 return ProjectFragment.newInstance();
         }

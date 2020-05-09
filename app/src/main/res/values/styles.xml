@@ -110,4 +110,11 @@
         <!--<item name="android:textColor">@color/dark_2B</item>-->
     </style>
     
+    <!--多状态视图-->
+    <style name="MultiStatusViewStyle">
+        <item name="emptyView">@layout/layout_empty_view</item>
+        <item name="errorView">@layout/layout_error_view</item>
+        <item name="loadingView">@layout/layout_loading_view</item>
+        <item name="noNetworkView">@layout/layout_no_network_view</item>
+    </style>
 </resources>

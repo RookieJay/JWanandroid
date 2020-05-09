@@ -10,14 +10,14 @@
         android:id="@+id/empty_retry_view"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_100"
-        android:src="@drawable/ic_error"/>
+        android:src="@drawable/ic_no_network"/>
     
     <TextView
         android:id="@+id/status_hint_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxWidth="@dimen/dp_100"
-        android:text="@string/status_error"
+        android:text="@string/status_network"
         android:layout_below="@+id/empty_retry_view" />
 
 </RelativeLayout>

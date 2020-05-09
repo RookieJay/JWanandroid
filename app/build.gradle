@@ -116,6 +116,8 @@ dependencies {
     implementation rootProject.ext.dependencies["BasePopupSupport"]
     implementation rootProject.ext.dependencies["CircleImageView"]
     implementation rootProject.ext.dependencies["LikeButton"]
+    implementation rootProject.ext.dependencies["multipleStatusView"]
+    implementation rootProject.ext.dependencies["AVLoading"]
 
     //沉浸式
     implementation rootProject.ext.dependencies["immersionbar-base"]

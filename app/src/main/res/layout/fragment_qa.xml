@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<com.classic.common.MultipleStatusView
+    android:id="@+id/statusView"
+    style="@style/MultiStatusViewStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,18 +15,16 @@
         app:srlEnablePreviewInEditMode="true"
         app:srlPrimaryColor="@color/colorPrimary"
         app:srlAccentColor="@android:color/white">
-    
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                
-                <include layout="@layout/include_base_recycler_view" />
         
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             
+            <include layout="@layout/include_base_recycler_view" />
+        
+        </LinearLayout>
+    
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     
-    <include layout="@layout/include_progressbar"/>
-    
-</FrameLayout>
+</com.classic.common.MultipleStatusView>

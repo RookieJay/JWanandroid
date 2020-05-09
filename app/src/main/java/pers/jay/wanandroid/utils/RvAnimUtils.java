@@ -2,6 +2,8 @@ package pers.jay.wanandroid.utils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import pers.jay.wanandroid.common.AppConfig;
+
 /**
  * @author CuiZhen
  * @date 2019/5/20
@@ -70,5 +72,12 @@ public class RvAnimUtils {
                 adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
                 break;
         }
+    }
+
+    public static void loadAnimation(BaseQuickAdapter adapter) {
+        if (adapter == null) {
+            throw new IllegalArgumentException("adapter can not be null");
+        }
+        adapter.openLoadAnimation(AppConfig.getInstance().getRvAnim());
     }
 }

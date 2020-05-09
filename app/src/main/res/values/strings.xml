@@ -31,10 +31,11 @@
     
     <!-- bottom title -->
     <string name="title_home">首页</string>
-    <string name="title_structure">知识体系</string>
+    <string name="title_structure">体系</string>
     <string name="title_public">公众号</string>
     <string name="title_nav">导航</string>
     <string name="title_project">项目</string>
+    <string name="title_wenda">问答</string>
     
     <!-- article -->
     <string name="art_author">作者</string>
@@ -100,6 +101,11 @@
     <string name="open_link">打开链接</string>
     <string name="text_limit_100">100字以内</string>
     <string name="eg_article_link">如：https://www.jianshu.com/p/a8673ec5acd3</string>
+    
+    <string name="status_error">哎呀，出现错误啦</string>
+    <string name="status_empty">这里还没有数据哦</string>
+    <string name="status_loading">正在努力加载中</string>
+    <string name="status_network">网络好像有点问题</string>
     
 
 </resources>

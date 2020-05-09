@@ -22,6 +22,7 @@ import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.event.Event;
 import pers.jay.wanandroid.http.ApiException;
+import pers.jay.wanandroid.http.NetWorkManager;
 import pers.jay.wanandroid.result.BaseWanBean;
 import pers.zjc.commonlibs.util.StringUtils;
 import retrofit2.HttpException;
@@ -39,13 +40,14 @@ public abstract class BaseWanObserver<T extends BaseWanBean> extends ResourceObs
 
     @Override
     protected void onStart() {
-        Timber.e("onStart");
+        if (!NetWorkManager.isNetWorkAvailable()) {
+            mView.showNoNetwork();
+        }
         super.onStart();
     }
 
     @Override
     public void onNext(T t) {
-        Timber.e("onNext");
         if (mView != null) {
             mView.hideLoading();
         }
@@ -112,12 +114,12 @@ public abstract class BaseWanObserver<T extends BaseWanBean> extends ResourceObs
                 break;
         }
         mView.showMessage(mErroMessage);
+        mView.showError(mErroMessage);
         onComplete();
     }
 
     @Override
     public void onComplete() {
-        Timber.e("onComplete");
     }
 
     /**

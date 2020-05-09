@@ -133,7 +133,7 @@ public class MySharesFragment extends BaseFragment<MySharesPresenter>
         ArmsUtils.configRecyclerView(recyclerView, new LinearLayoutManager(mContext));
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(() -> {
-            if ((pageCount != 0 && pageCount == page + 1)) {
+            if (pageCount == 1) {
                 mAdapter.loadMoreEnd();
                 return;
             }
@@ -210,12 +210,15 @@ public class MySharesFragment extends BaseFragment<MySharesPresenter>
         if (data.getCurPage() == 1) {
             mArticles = data.getDatas();
             mAdapter.replaceData(mArticles);
+            if (data.getPageCount() == data.getCurPage()) {
+                mAdapter.loadMoreEnd();
+            }
         }
         else {
             mArticles.addAll(data.getDatas());
             mAdapter.addData(data.getDatas());
+            mAdapter.loadMoreComplete();
         }
-        mAdapter.loadMoreComplete();
     }
 
     @Subscriber

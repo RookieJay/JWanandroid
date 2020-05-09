@@ -5,11 +5,11 @@
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_nav_home"
         android:title="@string/title_home" />
-
+    
     <item
-        android:id="@+id/nav_structure"
+        android:id="@+id/nav_wenda"
         android:icon="@drawable/ic_nav_project"
-        android:title="@string/title_structure" />
+        android:title="@string/title_wenda" />
 
     <item
         android:id="@+id/nav_public"
@@ -17,9 +17,9 @@
         android:title="@string/title_public" />
     
     <item
-        android:id="@+id/nav_navigation"
-        android:icon="@drawable/ic_nav_navigation"
-        android:title="@string/title_nav" />
+        android:id="@+id/nav_structure"
+        android:icon="@drawable/ic_nav_project"
+        android:title="@string/title_structure" />
     
     <item
         android:id="@+id/navigation_project"

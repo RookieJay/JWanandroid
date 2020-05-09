@@ -16,8 +16,6 @@
 package com.jess.arms.mvp;
 
 import android.app.Activity;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
@@ -75,6 +73,21 @@ public interface IView {
      * 杀死自己
      */
     default void killMyself() {
+
+    }
+
+    /**
+     * 显示错误
+     * @param msg
+     */
+    default void showError(String msg) {
+
+    }
+
+    /**
+     * 显示无网络
+     */
+    default void showNoNetwork() {
 
     }
 }

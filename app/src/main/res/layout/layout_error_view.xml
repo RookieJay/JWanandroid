@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:id="@+id/empty_view"
+    android:id="@+id/error_view"
     android:background="@color/white">
     
     <ImageView
-        android:id="@+id/empty_retry_view"
+        android:id="@+id/error_retry_view"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_100"
         android:src="@drawable/ic_error"/>
@@ -18,6 +18,6 @@
         android:layout_height="wrap_content"
         android:maxWidth="@dimen/dp_100"
         android:text="@string/status_error"
-        android:layout_below="@+id/empty_retry_view" />
+        android:layout_below="@+id/error_retry_view" />
 
 </RelativeLayout>

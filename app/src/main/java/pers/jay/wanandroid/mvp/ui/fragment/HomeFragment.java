@@ -58,7 +58,6 @@ import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements HomeContract.View, ScrollTopListener {
 
     Banner banner;
@@ -147,8 +146,8 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
             mPresenter.requestArticle(page);
         }, mRecyclerView);
         // 开启越界回弹
-        refreshLayout.setEnableOverScrollBounce(true);
-        refreshLayout.setEnableOverScrollDrag(true);
+//        refreshLayout.setEnableOverScrollBounce(true);
+//        refreshLayout.setEnableOverScrollDrag(true);
     }
 
     private void switchToWebPage(int position) {
@@ -162,16 +161,13 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
     private void initRefreshLayout() {
         StoreHouseHeader header = new StoreHouseHeader(mContext);
         header.initWithString("WANANDROID");
+        refreshLayout.setRefreshHeader(header);
         SmartRefreshUtils.with(refreshLayout).setRefreshListener(() -> {
             if (mPresenter != null) {
                 page = 0;
                 mPresenter.requestHomeData();
             }
         });
-        refreshLayout.setRefreshHeader(header);
-        refreshLayout.setEnableAutoLoadMore(false); //是否启用列表惯性滑动到底部时自动加载更多
-        refreshLayout.setDisableContentWhenRefresh(true); //是否在刷新的时候禁止列表的操作
-        refreshLayout.setEnableLoadMore(false); //是否启用列表手动加载更多
     }
 
     private void initBanner() {

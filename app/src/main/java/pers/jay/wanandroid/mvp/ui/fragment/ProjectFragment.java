@@ -50,7 +50,6 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
 
     private TabFragmentStatePagerAdapter adapter;
     private List<String> mTitles = new ArrayList<>();
-    private List<Tab> mTabs = new ArrayList<>();
 
     @Override
     public void onAttach(Context context) {
@@ -144,7 +143,6 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
     public void showData(List<Tab> data) {
         viewPager.setOffscreenPageLimit(data.size() - 1);
         adapter.setData(data);
-        this.mTabs = data;
         for (Tab tab : data) {
             mTitles.add(Html.fromHtml(tab.getName()).toString());
         }

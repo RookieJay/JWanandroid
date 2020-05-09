@@ -67,6 +67,7 @@ public class KnowledgeFragment extends BaseLazyLoadFragment<KnowledgePresenter>
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         initView();
+        mPresenter.requestTreeData();
     }
 
     @Override
@@ -95,9 +96,6 @@ public class KnowledgeFragment extends BaseLazyLoadFragment<KnowledgePresenter>
     }
 
     private void initRefreshLayout() {
-        StoreHouseHeader header = new StoreHouseHeader(mContext);
-        header.initWithString(getString(R.string.app_name));
-        refreshLayout.setRefreshHeader(header);
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.setEnableAutoLoadMore(false);
         refreshLayout.setOnRefreshListener(refreshLayout -> mPresenter.requestTreeData());

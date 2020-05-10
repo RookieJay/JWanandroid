@@ -10,15 +10,21 @@ import com.jess.arms.utils.RxLifecycleUtils;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
 import javax.inject.Inject;
 
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 import pers.jay.wanandroid.base.BaseWanObserver;
 import pers.jay.wanandroid.model.Coin;
 import pers.jay.wanandroid.model.CoinHistory;
 import pers.jay.wanandroid.model.PageInfo;
 import pers.jay.wanandroid.mvp.contract.MyCoinContract;
+import pers.jay.wanandroid.result.BaseWanBean;
 import pers.jay.wanandroid.result.WanAndroidResponse;
 import pers.jay.wanandroid.utils.rx.RxScheduler;
 import pers.zjc.commonlibs.util.ObjectUtils;
@@ -49,7 +55,7 @@ public class MyCoinPresenter extends BasePresenter<MyCoinContract.Model, MyCoinC
         this.mApplication = null;
     }
 
-    public void loadMyCoin(int page) {
+    public void loadMyCoinHistory(int page) {
         mModel.getMyCoin(page)
               .compose(RxScheduler.Obs_io_main())
               .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
@@ -61,8 +67,7 @@ public class MyCoinPresenter extends BasePresenter<MyCoinContract.Model, MyCoinC
                   }
 
                   @Override
-                  public void onSuccess(
-                          WanAndroidResponse<PageInfo<CoinHistory>> response) {
+                  public void onSuccess(WanAndroidResponse<PageInfo<CoinHistory>> response) {
                       mRootView.showData(response.getData());
                   }
               });
@@ -70,7 +75,6 @@ public class MyCoinPresenter extends BasePresenter<MyCoinContract.Model, MyCoinC
 
     /**
      * 获取排行榜第一名分数
-     * @param page
      */
     public void loadRank(int page) {
         mModel.getRank(1)
@@ -89,5 +93,83 @@ public class MyCoinPresenter extends BasePresenter<MyCoinContract.Model, MyCoinC
                       mRootView.showRank(coin);
                   }
               });
+    }
+
+    public void loadData() {
+        Observable.zip(mModel.getMyCoin(1), mModel.getRank(1),
+                new BiFunction<WanAndroidResponse<PageInfo<CoinHistory>>, WanAndroidResponse<PageInfo<Coin>>, CoinRank>() {
+                    @Override
+                    public CoinRank apply(WanAndroidResponse<PageInfo<CoinHistory>> hisResponse,
+                                          WanAndroidResponse<PageInfo<Coin>> rankResponse) throws Exception {
+                        PageInfo<CoinHistory> info = hisResponse.getData();
+                        Coin coin = rankResponse.getData().getDatas().get(0);
+                        return new CoinRank(info, coin);
+                    }
+                })
+                  .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                  .compose(RxScheduler.Obs_io_main())
+                  .subscribe(new Observer<CoinRank>() {
+                      @Override
+                      public void onSubscribe(Disposable d) {
+
+                      }
+
+                      @Override
+                      public void onNext(CoinRank coinRank) {
+                          mRootView.showData(coinRank.getInfo());
+                          mRootView.showRank(coinRank.getCoin());
+                      }
+
+                      @Override
+                      public void onError(Throwable e) {
+
+                      }
+
+                      @Override
+                      public void onComplete() {
+
+                      }
+                  });
+    }
+
+    public void loadMyCoin() {
+        mModel.personalCoin()
+              .retryWhen(new RetryWithDelay(5, 3))
+              .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+              .compose(RxScheduler.Obs_io_main())
+              .subscribe(new BaseWanObserver<WanAndroidResponse<Coin>>(mRootView) {
+                  @Override
+                  public void onSuccess(WanAndroidResponse<Coin> response) {
+                      mRootView.setMyCoin(response.getData());
+                  }
+              });
+    }
+
+    class CoinRank extends BaseWanBean {
+
+        private PageInfo<CoinHistory> info;
+
+        private Coin coin;
+
+        public CoinRank(PageInfo<CoinHistory> info, Coin coin) {
+            this.info = info;
+            this.coin = coin;
+        }
+
+        public PageInfo<CoinHistory> getInfo() {
+            return info;
+        }
+
+        public void setInfo(PageInfo<CoinHistory> info) {
+            this.info = info;
+        }
+
+        public Coin getCoin() {
+            return coin;
+        }
+
+        public void setCoin(Coin coin) {
+            this.coin = coin;
+        }
     }
 }

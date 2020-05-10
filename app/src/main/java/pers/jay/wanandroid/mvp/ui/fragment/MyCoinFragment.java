@@ -39,6 +39,7 @@ import pers.jay.wanandroid.mvp.ui.adapter.MyCoinAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.widgets.DashboardView;
 import pers.zjc.commonlibs.util.FragmentUtils;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -69,8 +70,8 @@ public class MyCoinFragment extends BaseFragment<MyCoinPresenter> implements MyC
     private int pageCount;
     private int page;
 
-    private int maxCoin = 100;
-    private int myCoin = 100;
+    private int maxCoin;
+    private int myCoin;
 
     public static MyCoinFragment newInstance() {
         return new MyCoinFragment();
@@ -91,8 +92,8 @@ public class MyCoinFragment extends BaseFragment<MyCoinPresenter> implements MyC
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         setView();
-        mPresenter.loadMyCoin(1);
         mPresenter.loadRank(1);
+        mPresenter.loadMyCoinHistory(1);
     }
 
     private void setView() {
@@ -111,7 +112,7 @@ public class MyCoinFragment extends BaseFragment<MyCoinPresenter> implements MyC
                 return;
             }
             page++;
-            mPresenter.loadMyCoin(page);
+            mPresenter.loadMyCoinHistory(page);
         }, mRecyclerView);
     }
 
@@ -129,18 +130,11 @@ public class MyCoinFragment extends BaseFragment<MyCoinPresenter> implements MyC
     }
 
     private void loadCoinAnim() {
-        dvCoin.setProgress(maxCoin, myCoin);
-//        ValueAnimator animator = ValueAnimator.ofFloat(0, myCoin);
-//        animator.setDuration(4000);
-//        animator.setInterpolator(new LinearInterpolator());
-//        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//            @Override
-//            public void onAnimationUpdate(ValueAnimator animation) {
-//                float current = (float) animation.getAnimatedValue();
-//
-//            }
-//        });
-//        animator.start();
+        if (myCoin == 0) {
+            mPresenter.loadMyCoin();
+        } else {
+            dvCoin.setProgress(maxCoin, myCoin);
+        }
     }
 
     @Override
@@ -208,13 +202,21 @@ public class MyCoinFragment extends BaseFragment<MyCoinPresenter> implements MyC
         loadCoinAnim();
     }
 
+    @Override
+    public void setMyCoin(Coin data) {
+        this.myCoin = data.getCoinCount();
+        dvCoin.setProgress(maxCoin, myCoin);
+    }
+
     /**
      * 登录成功
      */
     @Subscriber
     public void onLoginSuccess(Event event) {
+        Timber.e("onLoginSuccess");
         if (null != event && event.getEventCode() == Const.EventCode.LOGIN_SUCCESS) {
-            mPresenter.loadMyCoin(page);
+            Timber.e("loadData");
+            mPresenter.loadData();
         }
     }
 

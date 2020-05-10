@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 
+import com.classic.common.MultipleStatusView;
 import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -66,8 +67,8 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
     RecyclerView mRecyclerView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.statusView)
+    MultipleStatusView statusView;
 
     private ArticleAdapter adapter;
 
@@ -77,7 +78,6 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
     private int pageCount;
     private LinearLayoutManager layoutManager;
 
-    private Animation likeAnimation;
     private List<String> bannerUrls = new ArrayList<>();
     private List<String> bannerTitles = new ArrayList<>();
 
@@ -108,11 +108,16 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
         initRefreshLayout();
         initScrollList();
         initBanner();
-        initScaleAnimation();
+        initStatusView();
     }
 
-    private void initScaleAnimation() {
-        likeAnimation = AnimationUtils.loadAnimation(JApplication.getInstance(), R.anim.anim_scale_from_center_out);
+    private void initStatusView() {
+        statusView.setOnRetryClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.requestHomeData();
+            }
+        });
     }
 
     private void initScrollList() {
@@ -121,8 +126,6 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
         loadAnimation(AppConfig.getInstance().getRvAnim());
         layoutManager = new LinearLayoutManager(mContext);
         ArmsUtils.configRecyclerView(mRecyclerView, layoutManager);
-        //分割线 1px 颜色colorPrimary
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL_LIST, 1, R.color.colorPrimary));
         mRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter, view, position) -> switchToWebPage(position));
         adapter.setLikeListener(new ArticleAdapter.LikeListener() {
@@ -145,9 +148,6 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
             page++;
             mPresenter.requestArticle(page);
         }, mRecyclerView);
-        // 开启越界回弹
-//        refreshLayout.setEnableOverScrollBounce(true);
-//        refreshLayout.setEnableOverScrollDrag(true);
     }
 
     private void switchToWebPage(int position) {
@@ -167,7 +167,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
                 page = 0;
                 mPresenter.requestHomeData();
             }
-        });
+        }).pureScrollMode();
     }
 
     private void initBanner() {
@@ -196,20 +196,13 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
 
     @Override
     public void showLoading() {
-        progressBar.setVisibility(View.VISIBLE);
+        statusView.showLoading();
     }
 
     @Override
     public void hideLoading() {
-        // 由于解绑时机发生在onComplete()之后，容易引起空指针
-        if (progressBar == null) {
-            return;
-        }
-        if (refreshLayout == null) {
-            return;
-        }
-        progressBar.setVisibility(View.GONE);
         refreshLayout.finishRefresh();
+        statusView.showContent();
     }
 
     @Override
@@ -247,7 +240,6 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
 
     @Override
     public void showBanner(List<BannerImg> bannerImgs) {
-        Timber.e("请求到banner，当前线程"+ Thread.currentThread().getName());
         mBannerImgs = bannerImgs;
         bannerUrls.clear();
         bannerTitles.clear();
@@ -332,6 +324,11 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
         RvScrollTopUtils.smoothScrollTop(mRecyclerView);
     }
 
+    @Override
+    public void scrollToTopRefresh() {
+        lazyLoadData();
+    }
+
     /**
      * 登录成功
      */
@@ -388,5 +385,15 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
         // 意外销毁时（屏幕方向切换、颜色模式改变等）保存状态
         outState.putBoolean(Const.Key.SAVE_INSTANCE_STATE, true);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void showError(String msg) {
+        statusView.showError(msg);
+    }
+
+    @Override
+    public void showNoNetwork() {
+        statusView.showNoNetwork();
     }
 }

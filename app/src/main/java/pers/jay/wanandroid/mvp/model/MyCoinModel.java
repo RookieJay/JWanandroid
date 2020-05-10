@@ -62,4 +62,9 @@ public class MyCoinModel extends BaseModel implements MyCoinContract.Model {
     public Observable<WanAndroidResponse<PageInfo<Coin>>> getRank(int page) {
         return wanAndroidService.allRank(page);
     }
+
+    @Override
+    public Observable<WanAndroidResponse<Coin>> personalCoin() {
+        return wanAndroidService.personalCoin();
+    }
 }

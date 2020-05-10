@@ -8,7 +8,7 @@
     
     <item
         android:id="@+id/nav_wenda"
-        android:icon="@drawable/ic_nav_project"
+        android:icon="@drawable/ic_question_answer"
         android:title="@string/title_wenda" />
 
     <item

@@ -29,6 +29,8 @@ public interface MyCoinContract {
         void showData(PageInfo<CoinHistory> data);
 
         void showRank(Coin coin);
+
+        void setMyCoin(Coin data);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -37,5 +39,7 @@ public interface MyCoinContract {
         Observable<WanAndroidResponse<PageInfo<CoinHistory>>> getMyCoin(int page);
 
         Observable<WanAndroidResponse<PageInfo<Coin>>> getRank(int page);
+
+        Observable<WanAndroidResponse<Coin>> personalCoin();
     }
 }

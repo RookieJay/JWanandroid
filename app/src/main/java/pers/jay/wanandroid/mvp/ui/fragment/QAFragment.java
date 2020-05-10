@@ -131,7 +131,7 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter> implements QAC
                 page = 1;
                 mPresenter.loadData(page);
             }
-        });
+        }).pureScrollMode();
     }
 
     @Override

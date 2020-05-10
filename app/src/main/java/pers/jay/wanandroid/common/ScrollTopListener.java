@@ -4,4 +4,6 @@ public interface ScrollTopListener {
 
     void scrollToTop();
 
+    default void scrollToTopRefresh() {};
+
 }

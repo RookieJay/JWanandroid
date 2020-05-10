@@ -7,11 +7,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -77,7 +75,6 @@ import pers.jay.wanandroid.utils.rx.RxScheduler;
 import pers.jay.wanandroid.widgets.PoemTextView;
 import pers.zjc.commonlibs.constant.PermissionConstants;
 import pers.zjc.commonlibs.ui.BasePagerAdapter;
-import pers.zjc.commonlibs.util.ActivityUtils;
 import pers.zjc.commonlibs.util.ImageUtils;
 import pers.zjc.commonlibs.util.PermissionUtils;
 import pers.zjc.commonlibs.util.StringUtils;
@@ -545,18 +542,22 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
             }
             return false;
         });
-        bottomNav.setOnNavigationItemReselectedListener(menuItem -> slideToTop());
+        bottomNav.setOnNavigationItemReselectedListener(menuItem -> slideToTop(true));
     }
+
 
     private void initFloatingButton() {
-        fabTop.setOnClickListener(v -> slideToTop());
+        fabTop.setOnClickListener(v -> slideToTop(false));
     }
 
-    private void slideToTop() {
+    private void slideToTop(boolean refresh) {
         int pos = viewPager.getCurrentItem();
         Fragment fragment = fragmentPagerAdapter.getFragment(pos);
         if (fragment instanceof ScrollTopListener) {
             ((ScrollTopListener)fragment).scrollToTop();
+            if (refresh) {
+                ((ScrollTopListener)fragment).scrollToTopRefresh();
+            }
         }
     }
 

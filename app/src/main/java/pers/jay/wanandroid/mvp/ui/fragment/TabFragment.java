@@ -10,8 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
+import com.classic.common.MultipleStatusView;
 import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -37,6 +37,7 @@ import pers.jay.wanandroid.mvp.presenter.TabPresenter;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
+import pers.jay.wanandroid.utils.SmartRefreshUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
 
@@ -47,8 +48,8 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
     RecyclerView mRecyclerView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.statusView)
+    MultipleStatusView statusView;
 
     private ArticleAdapter adapter;
     private List<Article> mArticles = new ArrayList<>();
@@ -89,7 +90,6 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
     }
 
     private void initData() {
-        Timber.e("initData");
         Bundle bundle = getArguments();
         if (bundle == null) {
             return;
@@ -111,7 +111,6 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
             showMessage("presenter is null");
             return;
         }
-        showLoading();
     }
 
     private void initKnowledgeData(Bundle bundle) {
@@ -134,6 +133,7 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
     }
 
     private void refreshData() {
+        assert mPresenter != null;
         mPresenter.requestArticles(cid, 0, fromType);
     }
 
@@ -143,11 +143,9 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
         ArmsUtils.configRecyclerView(mRecyclerView, new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
         // 开启越界回弹
-        refreshLayout.setEnableOverScrollBounce(true);
-        refreshLayout.setEnableOverScrollDrag(true);
-        refreshLayout.setEnableLoadMore(false);
-        refreshLayout.setEnableAutoLoadMore(false);
-        refreshLayout.setOnRefreshListener(refreshLayout -> refreshData());
+        SmartRefreshUtils.with(refreshLayout)
+                         .pureScrollMode()
+                         .setRefreshListener(this::refreshData);
         adapter.setOnLoadMoreListener(() -> {
             if ((pageCount != 0 && pageCount == page + 1)) {
                 adapter.loadMoreEnd();
@@ -211,18 +209,18 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
 
     @Override
     protected void lazyLoadData() {
-        Timber.e("lazyLoadData cid" + cid + " page" + page);
+        showLoading();
         refreshData();
     }
 
     @Override
     public void showLoading() {
-        progressBar.setVisibility(View.VISIBLE);
+        statusView.showLoading();
     }
 
     @Override
     public void hideLoading() {
-        progressBar.setVisibility(View.INVISIBLE);
+        statusView.showContent();
         refreshLayout.finishRefresh();
     }
 
@@ -295,5 +293,20 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
 
     private void loadAnimation(int type) {
         adapter.openLoadAnimation(type);
+    }
+
+    @Override
+    public void onCollectSuccess(Article article, int position) {
+
+    }
+
+    @Override
+    public void onCollectFail(Article article, int position) {
+        adapter.restoreLike(position);
+    }
+
+    @Override
+    public void scrollToTopRefresh() {
+        lazyLoadData();
     }
 }

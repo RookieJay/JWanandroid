@@ -51,12 +51,6 @@ public class NavPresenter extends BasePresenter<NavContract.Model, NavContract.V
               .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
               .compose(RxScheduler.Obs_io_main())
               .subscribe(new BaseWanObserver<WanAndroidResponse<List<Navi>>>(mRootView) {
-
-                  @Override
-                  protected void onStart() {
-                      mRootView.showLoading();
-                  }
-
                   @Override
                   public void onSuccess(WanAndroidResponse<List<Navi>> response) {
                       mRootView.showNaviData(response.getData());

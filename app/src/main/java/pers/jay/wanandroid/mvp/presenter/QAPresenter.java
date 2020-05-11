@@ -12,6 +12,8 @@ import javax.inject.Inject;
 
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import pers.jay.wanandroid.base.BaseWanObserver;
+import pers.jay.wanandroid.common.CollectHelper;
+import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.mvp.contract.QAContract;
 import pers.jay.wanandroid.result.WanAndroidResponse;
@@ -50,17 +52,14 @@ public class QAPresenter extends BasePresenter<QAContract.Model, QAContract.View
               .subscribe(new BaseWanObserver<WanAndroidResponse<ArticleInfo>>(mRootView) {
 
                   @Override
-                  protected void onStart() {
-                      if (page == 1) {
-                          mRootView.showLoading();
-                      }
-                  }
-
-                  @Override
                   public void onSuccess(WanAndroidResponse<ArticleInfo> response) {
                       ArticleInfo info = response.getData();
                       mRootView.showData(info);
                   }
               });
+    }
+
+    public void collectArticle(Article item, int position) {
+        CollectHelper.with(mRootView).target(item).position(position).collect();
     }
 }

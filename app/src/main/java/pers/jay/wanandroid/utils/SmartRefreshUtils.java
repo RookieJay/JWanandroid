@@ -3,6 +3,7 @@ package pers.jay.wanandroid.utils;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -41,6 +42,11 @@ public class SmartRefreshUtils {
         mRefreshLayout.setEnablePureScrollMode(true);
         mRefreshLayout.setEnableNestedScroll(true);
         mRefreshLayout.setEnableOverScrollDrag(true);
+        return this;
+    }
+
+    public SmartRefreshUtils setRefreshHeader(@NonNull RefreshHeader header) {
+        mRefreshLayout.setRefreshHeader(header);
         return this;
     }
 

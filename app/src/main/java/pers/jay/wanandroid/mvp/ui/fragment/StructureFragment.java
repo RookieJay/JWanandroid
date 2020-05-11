@@ -113,4 +113,19 @@ public class StructureFragment extends BaseFragment implements ScrollTopListener
             ((ScrollTopListener)fragment).scrollToTop();
         }
     }
+
+    @Override
+    public void scrollToTopRefresh() {
+        if (adapter == null || viewPager == null) {
+            return;
+        }
+        // 获取缓存的fragment引用
+        Fragment fragment = adapter.getFragment(viewPager.getCurrentItem());
+        if (fragment == null) {
+            return;
+        }
+        if (fragment.isAdded() && fragment.getUserVisibleHint() && fragment instanceof ScrollTopListener) {
+            ((ScrollTopListener)fragment).scrollToTopRefresh();
+        }
+    }
 }

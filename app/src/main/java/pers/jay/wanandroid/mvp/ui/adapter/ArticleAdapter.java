@@ -20,6 +20,7 @@ import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.utils.JUtils;
 import pers.zjc.commonlibs.util.StringUtils;
+import timber.log.Timber;
 
 public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
 
@@ -89,33 +90,13 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
         void unLiked(Article item, int adapterPosition);
     }
 
-    /* 效果是列表所有item都生效 */
-//    public void loadAnim(ImageView view, boolean collect) {
-//        if (collect) {
-//            likeAnimation = AnimationUtils.loadAnimation(JApplication.getInstance(), R.anim.anim_fade_in);
-//        }
-//
-//        likeAnimation.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                if (collect) {
-//                    Glide.with(mContext).load(R.drawable.ic_like_fill).into(view);
-//                } else {
-//                    Glide.with(mContext).load(R.drawable.ic_like).into(view);
-//                }
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//        });
-////        view.startAnimation(likeAnimation);
-//    }
-
+    public void restoreLike(int position) {
+        LikeButton likeButton = (LikeButton)getViewByPosition(position, R.id.ivLike);
+        if (likeButton == null) {
+            Timber.e("没找到按钮");
+            return;
+        }
+        likeButton.setLiked(!likeButton.isLiked());
+        notifyItemChanged(position);
+    }
 }

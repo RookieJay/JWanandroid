@@ -1,25 +1,19 @@
 package pers.jay.wanandroid.mvp.ui.fragment;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ProgressBar;
 
 import com.classic.common.MultipleStatusView;
 import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
-import com.like.LikeButton;
 import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
@@ -38,14 +32,13 @@ import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.common.GlideImageLoader;
-import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.common.ScrollTopListener;
 import pers.jay.wanandroid.di.component.DaggerHomeComponent;
 import pers.jay.wanandroid.event.Event;
-import pers.jay.wanandroid.model.ArticleInfo;
-import pers.jay.wanandroid.mvp.contract.HomeContract;
 import pers.jay.wanandroid.model.Article;
+import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.model.BannerImg;
+import pers.jay.wanandroid.mvp.contract.HomeContract;
 import pers.jay.wanandroid.mvp.presenter.HomePresenter;
 import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
@@ -59,7 +52,8 @@ import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
-public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements HomeContract.View, ScrollTopListener {
+public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
+        implements HomeContract.View, ScrollTopListener {
 
     Banner banner;
     Unbinder unbinder;
@@ -102,7 +96,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
     public void initData(@Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(Const.Key.SAVE_INSTANCE_STATE)) {
-//                lazyLoadData();
+                //                lazyLoadData();
             }
         }
         initRefreshLayout();
@@ -162,20 +156,23 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
         StoreHouseHeader header = new StoreHouseHeader(mContext);
         header.initWithString("WANANDROID");
         refreshLayout.setRefreshHeader(header);
-        SmartRefreshUtils.with(refreshLayout).setRefreshListener(() -> {
+        SmartRefreshUtils.with(refreshLayout)
+                         .pureScrollMode()
+                         .setRefreshListener(() -> {
             if (mPresenter != null) {
                 page = 0;
                 mPresenter.requestHomeData();
             }
-        }).pureScrollMode();
+        });
     }
 
     private void initBanner() {
         // 用代码创建的banner无法显示指示器，换为使用布局创建
-//        banner = new Banner(mContext);
-        banner = (Banner)LayoutInflater.from(mContext).inflate(R.layout.layout_banner, mRecyclerView, false);
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                UIUtils.dp2px(mContext, 200L));
+        //        banner = new Banner(mContext);
+        banner = (Banner)LayoutInflater.from(mContext)
+                                       .inflate(R.layout.layout_banner, mRecyclerView, false);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, UIUtils.dp2px(mContext, 200L));
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
         banner.setLayoutParams(params);
         //显示圆形指示器和标题（水平显示)
@@ -223,7 +220,8 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
@@ -274,30 +272,8 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
     }
 
     @Override
-    public void updateCollectStatus(boolean collect, Article item, int position) {
-        for (Article article : adapter.getData()) {
-            if (article.equals(item)) {
-                article.setCollect(collect);
-            }
-        }
-        adapter.notifyItemChanged(position);
-    }
-
-
-    @Override
     public void showLoadMoreFail() {
         adapter.loadMoreFail();
-    }
-
-    @Override
-    public void restoreLikeButton(int position) {
-        LikeButton likeButton = (LikeButton)adapter.getViewByPosition(position, R.id.ivLike);
-        if (likeButton == null) {
-            Timber.e("没找到按钮");
-            return;
-        }
-        likeButton.setLiked(!likeButton.isLiked());
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -395,5 +371,15 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter> implements
     @Override
     public void showNoNetwork() {
         statusView.showNoNetwork();
+    }
+
+    @Override
+    public void onCollectSuccess(Article article, int position) {
+
+    }
+
+    @Override
+    public void onCollectFail(Article article, int position) {
+        adapter.restoreLike(position);
     }
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
+import pers.jay.wanandroid.common.ICollectView;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.model.BannerImg;
@@ -28,7 +29,7 @@ import pers.jay.wanandroid.result.WanAndroidResponse;
 public interface HomeContract {
 
     //对于经常使用的关于UI的方法可以定义到IView中,如显示隐藏进度条,和显示文字消息
-    interface View extends IView {
+    interface View extends ICollectView {
 
         void showMoreArticles(ArticleInfo articleInfo);
 
@@ -36,11 +37,7 @@ public interface HomeContract {
 
         void refresh(List<Article> articleList);
 
-        void updateCollectStatus(boolean isCollect, Article article, int position);
-
         void showLoadMoreFail();
-
-        void restoreLikeButton(int position);
 
         void addDailyPic(String url);
     }

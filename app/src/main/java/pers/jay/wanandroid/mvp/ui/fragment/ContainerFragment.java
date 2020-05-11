@@ -554,10 +554,10 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         int pos = viewPager.getCurrentItem();
         Fragment fragment = fragmentPagerAdapter.getFragment(pos);
         if (fragment instanceof ScrollTopListener) {
-            ((ScrollTopListener)fragment).scrollToTop();
             if (refresh) {
                 ((ScrollTopListener)fragment).scrollToTopRefresh();
             }
+            ((ScrollTopListener)fragment).scrollToTop();
         }
     }
 
@@ -735,9 +735,12 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        Timber.e("%s 保存状态", this.getClass().getSimpleName());
         // 意外销毁时（屏幕方向切换、颜色模式改变等）保存状态
         outState.putBoolean(Const.Key.SAVE_INSTANCE_STATE, true);
         super.onSaveInstanceState(outState);
+    }
+
+    public void switchToHome() {
+        viewPager.setCurrentItem(1);
     }
 }

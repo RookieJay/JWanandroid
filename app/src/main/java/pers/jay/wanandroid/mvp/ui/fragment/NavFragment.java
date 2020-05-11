@@ -2,6 +2,8 @@ package pers.jay.wanandroid.mvp.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import com.jess.arms.utils.ArmsUtils;
 import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +89,7 @@ public class NavFragment extends BaseLazyLoadFragment<NavPresenter>
 
     private void initRefreshLayout() {
         SmartRefreshUtils.with(refreshLayout)
+                         .pureScrollMode()
                          .setRefreshListener(() -> mPresenter.requestNavData());
     }
 
@@ -143,6 +147,11 @@ public class NavFragment extends BaseLazyLoadFragment<NavPresenter>
     @Override
     public void scrollToTop() {
         RvScrollTopUtils.smoothScrollTop(recyclerView);
+    }
+
+    @Override
+    public void scrollToTopRefresh() {
+        lazyLoadData();
     }
 
     @Override

@@ -20,6 +20,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.like.LikeButton;
 import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -30,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import pers.jay.wanandroid.R;
+import pers.jay.wanandroid.common.CollectHelper;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.di.component.DaggerSquareComponent;
 import pers.jay.wanandroid.event.Event;
@@ -37,17 +39,20 @@ import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.mvp.contract.SquareContract;
 import pers.jay.wanandroid.mvp.presenter.SquarePresenter;
+import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
 import pers.zjc.commonlibs.util.FragmentUtils;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 import static pers.jay.wanandroid.common.Const.Key.KEY_TITLE;
 
-public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter> implements SquareContract.View {
+public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter>
+        implements SquareContract.View {
 
     @BindView(R.id.ivLeft)
     ImageView ivLeft;
@@ -115,7 +120,8 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter> implem
     }
 
     private void toSharePage() {
-        FragmentUtils.add(getChildFragmentManager(), ShareFragment.newInstance(), R.id.flContainer, true, R.anim.anim_fade_out, R.anim.anim_fade_in);
+        FragmentUtils.add(getChildFragmentManager(), ShareFragment.newInstance(), R.id.flContainer,
+                true, R.anim.anim_fade_out, R.anim.anim_fade_in);
     }
 
     @Override
@@ -145,21 +151,31 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter> implem
                 launchActivity(intent);
             }
         });
+        mAdapter.setLikeListener(new ArticleAdapter.LikeListener() {
+            @Override
+            public void liked(Article item, int position) {
+                mPresenter.collectArticle(item, position);
+            }
+
+            @Override
+            public void unLiked(Article item, int position) {
+                mPresenter.collectArticle(item, position);
+            }
+        });
     }
 
     private void initRefreshLayout() {
         StoreHouseHeader header = new StoreHouseHeader(mContext);
         header.initWithString("WANANDROID");
-        SmartRefreshUtils.with(srlSquare).setRefreshListener(() -> {
-            if (mPresenter != null) {
-                page = 0;
-                mPresenter.loadData(page);
-            }
-        });
-        srlSquare.setRefreshHeader(header);
-        srlSquare.setEnableAutoLoadMore(false); //是否启用列表惯性滑动到底部时自动加载更多
-        srlSquare.setDisableContentWhenRefresh(true); //是否在刷新的时候禁止列表的操作
-        srlSquare.setEnableLoadMore(false); //是否启用列表手动加载更多
+        SmartRefreshUtils.with(srlSquare)
+                         .pureScrollMode()
+                         .setRefreshHeader(header)
+                         .setRefreshListener(() -> {
+                            if (mPresenter != null) {
+                                page = 0;
+                                mPresenter.loadData(page);
+                            }
+                        });
     }
 
     @Override
@@ -218,5 +234,24 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter> implem
         if (event != null && event.getEventCode() == Const.EventCode.SHARE_SUCCESS) {
             mPresenter.loadData(0);
         }
+    }
+
+    @Override
+    public void onCollectSuccess(Article article, int position) {
+    }
+
+    @Override
+    public void onCollectFail(Article article, int position) {
+        mAdapter.restoreLike(position);
+    }
+
+    @Override
+    public boolean onBackPress() {
+        MainActivity activity = (MainActivity)getActivity();
+        if (activity == null) {
+            return false;
+        }
+        activity.switchToContainer();
+        return true;
     }
 }

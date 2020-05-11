@@ -15,6 +15,7 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import javax.inject.Inject;
 
 import pers.jay.wanandroid.base.BaseWanObserver;
+import pers.jay.wanandroid.common.CollectHelper;
 import pers.jay.wanandroid.http.RetryWithDelay;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
@@ -80,23 +81,6 @@ public class SearchResultPresenter
      * 收藏或取消收藏文章
      */
     public void collectArticle(Article article, int position) {
-        Observable<WanAndroidResponse> observable;
-        boolean isCollect = article.isCollect();
-        if (!isCollect) {
-            observable = mModel.collect(article.getId());
-        }
-        else {
-            observable = mModel.unCollect(article.getId());
-        }
-        observable.compose(RxScheduler.Obs_io_main())
-                  .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                  .retryWhen(new RetryWithDelay(1000L))
-                  .subscribe(new BaseWanObserver<WanAndroidResponse>(mRootView) {
-                      @Override
-                      public void onSuccess(WanAndroidResponse wanAndroidResponse) {
-                          //                        mRootView.showMessage(!isCollect ? "收藏成功" : "取消收藏成功");
-                          mRootView.updateCollectStatus(!isCollect, article, position);
-                      }
-                  });
+        CollectHelper.with(mRootView).target(article).position(position).collect();
     }
 }

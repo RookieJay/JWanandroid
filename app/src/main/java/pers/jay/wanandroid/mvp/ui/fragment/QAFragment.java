@@ -38,7 +38,8 @@ import pers.jay.wanandroid.utils.SmartRefreshUtils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
-public class QAFragment extends BaseLazyLoadFragment<QAPresenter> implements QAContract.View, ScrollTopListener {
+public class QAFragment extends BaseLazyLoadFragment<QAPresenter>
+        implements QAContract.View, ScrollTopListener {
 
     @BindView(R.id.mRecyclerView)
     RecyclerView mRecyclerView;
@@ -95,12 +96,12 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter> implements QAC
         adapter.setLikeListener(new ArticleAdapter.LikeListener() {
             @Override
             public void liked(Article item, int adapterPosition) {
-                //                mPresenter.collectArticle(item, adapterPosition);
+                mPresenter.collectArticle(item, adapterPosition);
             }
 
             @Override
             public void unLiked(Article item, int adapterPosition) {
-                //                mPresenter.collectArticle(item, adapterPosition);
+                mPresenter.collectArticle(item, adapterPosition);
             }
         });
 
@@ -126,12 +127,12 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter> implements QAC
         StoreHouseHeader header = new StoreHouseHeader(mContext);
         header.initWithString("WANANDROID");
         refreshLayout.setRefreshHeader(header);
-        SmartRefreshUtils.with(refreshLayout).setRefreshListener(() -> {
+        SmartRefreshUtils.with(refreshLayout).pureScrollMode().setRefreshListener(() -> {
             if (mPresenter != null) {
                 page = 1;
                 mPresenter.loadData(page);
             }
-        }).pureScrollMode();
+        });
     }
 
     @Override
@@ -169,6 +170,7 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter> implements QAC
 
     @Override
     protected void lazyLoadData() {
+        showLoading();
         mPresenter.loadData(page);
     }
 
@@ -205,5 +207,14 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter> implements QAC
     @Override
     public void showNoNetwork() {
         statusView.showNoNetwork();
+    }
+
+    @Override
+    public void onCollectSuccess(Article article, int position) {
+    }
+
+    @Override
+    public void onCollectFail(Article article, int position) {
+        adapter.restoreLike(position);
     }
 }

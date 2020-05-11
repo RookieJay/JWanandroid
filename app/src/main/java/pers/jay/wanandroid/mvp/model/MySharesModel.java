@@ -44,4 +44,9 @@ public class MySharesModel extends BaseModel implements MySharesContract.Model {
     public Observable<WanAndroidResponse<ShareUserArticles>> getMyShares(int page) {
         return wanAndroidService.privateArticles(page);
     }
+
+    @Override
+    public Observable<WanAndroidResponse> deleteShare(int id) {
+        return wanAndroidService.deleteArticle(id);
+    }
 }

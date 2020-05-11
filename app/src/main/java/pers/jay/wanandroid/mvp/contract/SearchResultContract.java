@@ -4,6 +4,7 @@ import com.jess.arms.mvp.IView;
 import com.jess.arms.mvp.IModel;
 
 import io.reactivex.Observable;
+import pers.jay.wanandroid.common.ICollectView;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.result.WanAndroidResponse;
@@ -11,7 +12,7 @@ import pers.jay.wanandroid.result.WanAndroidResponse;
 public interface SearchResultContract {
 
     //对于经常使用的关于UI的方法可以定义到IView中,如显示隐藏进度条,和显示文字消息
-    interface View extends IView {
+    interface View extends ICollectView {
 
         void showEmpty();
 

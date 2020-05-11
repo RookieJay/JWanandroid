@@ -138,6 +138,21 @@ public class ProjectFragment extends BaseLazyLoadFragment<ProjectPresenter>
         }
     }
 
+    @Override
+    public void scrollToTopRefresh() {
+        if (adapter == null || viewPager == null) {
+            return;
+        }
+        // 获取缓存的fragment引用
+        Fragment fragment = adapter.getFragment(viewPager.getCurrentItem());
+        if (fragment == null) {
+            return;
+        }
+        if (fragment.isAdded() && fragment.getUserVisibleHint() && fragment instanceof ScrollTopListener) {
+            ((ScrollTopListener)fragment).scrollToTopRefresh();
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void showData(List<Tab> data) {

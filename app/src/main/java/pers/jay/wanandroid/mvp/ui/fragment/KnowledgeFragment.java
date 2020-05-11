@@ -158,4 +158,8 @@ public class KnowledgeFragment extends BaseLazyLoadFragment<KnowledgePresenter>
         RvScrollTopUtils.smoothScrollTop(recyclerView);
     }
 
+    @Override
+    public void scrollToTopRefresh() {
+        lazyLoadData();
+    }
 }

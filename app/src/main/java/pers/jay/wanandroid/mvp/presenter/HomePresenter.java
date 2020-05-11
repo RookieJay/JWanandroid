@@ -25,6 +25,7 @@ import io.reactivex.schedulers.Schedulers;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import okhttp3.ResponseBody;
 import pers.jay.wanandroid.base.BaseWanObserver;
+import pers.jay.wanandroid.common.CollectHelper;
 import pers.jay.wanandroid.http.RetryWithDelay;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
@@ -135,26 +136,18 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                   .compose(RxScheduler.Obs_io_main())
                   .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                   .retryWhen(new RetryWithDelay())
-                  .doOnNext(new Consumer<WanAndroidResponse<ZipEntity>>() {
-                      @Override
-                      public void accept(WanAndroidResponse<ZipEntity> response) throws Exception {
-                          ZipEntity zipEntity = response.getData();
-                          List<BannerImg> bannerImgs = zipEntity.getBannerResponse().getData();
-                          List<Article> articles = zipEntity.getArticleResponse().getData();
-                          if (ObjectUtils.isNotEmpty(bannerImgs)) {
-                              mRootView.showBanner(bannerImgs);
-                          }
-                          if (ObjectUtils.isNotEmpty(articles)) {
-                              mRootView.refresh(articles);
-                          }
+                  .doOnNext(response -> {
+                      ZipEntity zipEntity = response.getData();
+                      List<BannerImg> bannerImgs = zipEntity.getBannerResponse().getData();
+                      List<Article> articles = zipEntity.getArticleResponse().getData();
+                      if (ObjectUtils.isNotEmpty(bannerImgs)) {
+                          mRootView.showBanner(bannerImgs);
+                      }
+                      if (ObjectUtils.isNotEmpty(articles)) {
+                          mRootView.refresh(articles);
                       }
                   })
-                  .doOnComplete(new Action() {
-                      @Override
-                      public void run() throws Exception {
-                          mRootView.hideLoading();
-                      }
-                  })
+                  .doOnComplete(() -> mRootView.hideLoading())
                   // 回到io线程发起下一个请求
                   .observeOn(Schedulers.io())
                   // 使用flatMap进行嵌套请求，完成以上三个网络请求后再请求每日一图
@@ -203,36 +196,7 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
      * 收藏或取消收藏文章
      */
     public void collectArticle(Article article, int position) {
-        Observable<WanAndroidResponse> observable;
-        boolean isCollect = article.isCollect();
-        if (!isCollect) {
-            observable = mModel.collect(article.getId());
-        }
-        else {
-            observable = mModel.unCollect(article.getId());
-        }
-        observable.compose(RxScheduler.Obs_io_main())
-                  .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                  .retryWhen(new RetryWithDelay(1000L))
-                  .subscribe(new BaseWanObserver<WanAndroidResponse>(mRootView) {
-                      @Override
-                      public void onSuccess(WanAndroidResponse wanAndroidResponse) {
-                          //                        mRootView.showMessage(!isCollect ? "收藏成功" : "取消收藏成功");
-                          mRootView.updateCollectStatus(!isCollect, article, position);
-                      }
-
-                      @Override
-                      public void onError(Throwable e) {
-                          super.onError(e);
-                          mRootView.restoreLikeButton(position);
-                      }
-
-                      @Override
-                      protected void onException(ExceptionReason reason) {
-                          super.onException(reason);
-                          mRootView.restoreLikeButton(position);
-                      }
-                  });
+        CollectHelper.with(mRootView).target(article).position(position).collect();
     }
 
     public void loadDailyPic() {

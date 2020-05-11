@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.like.LikeButton;
 
 import org.simple.eventbus.Subscriber;
 
@@ -37,6 +38,7 @@ import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -231,4 +233,13 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter>
         adapter.openLoadAnimation(type);
     }
 
+    @Override
+    public void onCollectSuccess(Article article, int position) {
+
+    }
+
+    @Override
+    public void onCollectFail(Article article, int position) {
+        adapter.restoreLike(position);
+    }
 }

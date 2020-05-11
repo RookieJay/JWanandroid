@@ -7,20 +7,18 @@ import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.RxLifecycleUtils;
-import com.uber.autodispose.AutoDispose;
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
 import javax.inject.Inject;
 
-import androidx.lifecycle.LifecycleOwner;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import pers.jay.wanandroid.base.BaseWanObserver;
+import pers.jay.wanandroid.common.CollectHelper;
+import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.model.ShareUserArticles;
 import pers.jay.wanandroid.mvp.contract.MySharesContract;
 import pers.jay.wanandroid.result.WanAndroidResponse;
 import pers.jay.wanandroid.utils.rx.RxScheduler;
-import timber.log.Timber;
 
 @FragmentScope
 public class MySharesPresenter
@@ -69,5 +67,21 @@ public class MySharesPresenter
                       mRootView.showData(articleInfo);
                   }
               });
+    }
+
+    public void collectArticle(Article item, int position) {
+        CollectHelper.with(mRootView).target(item).position(position).collect();
+    }
+
+    public void delete(int id, int position) {
+        mModel.deleteShare(id)
+              .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+              .compose(RxScheduler.Obs_io_main())
+        .subscribe(new BaseWanObserver<WanAndroidResponse>(mRootView) {
+            @Override
+            public void onSuccess(WanAndroidResponse wanAndroidResponse) {
+                mRootView.deleteSuccess(position);
+            }
+        });
     }
 }

@@ -75,6 +75,7 @@ public interface Const {
         String KEY_START_TYPE = "KEY_START_TYPE";
         String KEY_MY_COIN = "KEY_MY_COIN";
         String SAVE_INSTANCE_STATE = "SAVE_INSTANCE_STATE";
+        String KEY_USER_ID = "KEY_USER_ID";
     }
 
     interface Type {

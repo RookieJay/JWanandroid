@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import com.jess.arms.utils.ArmsUtils;
 
 import org.simple.eventbus.EventBus;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.AppConfig;
@@ -35,6 +38,7 @@ import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.zjc.commonlibs.util.ClipboardUtils;
 import pers.zjc.commonlibs.util.FragmentUtils;
+import pers.zjc.commonlibs.util.KeyboardUtils;
 import pers.zjc.commonlibs.util.StringUtils;
 import timber.log.Timber;
 
@@ -115,7 +119,8 @@ public class ShareFragment extends BaseFragment<SharePresenter> implements Share
     private void initToolbar() {
         ivLeft.setOnClickListener(v -> killMyself());
         tvTitle.setText("分享文章");
-        Glide.with(ivRight.getContext()).load(R.drawable.ic_upload).into(ivRight);
+//        Glide.with(ivRight.getContext()).load(R.drawable.ic_upload).into(ivRight);
+        ivRight.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_upload));
         ivRight.setOnClickListener(v -> shareArticle());
         ivRight.setVisibility(View.GONE);
     }
@@ -207,6 +212,7 @@ public class ShareFragment extends BaseFragment<SharePresenter> implements Share
     @Override
     public void success() {
         EventBusManager.getInstance().post(new Event<>(Const.EventCode.SHARE_SUCCESS, null));
+        KeyboardUtils.hideSoftInput(Objects.requireNonNull(getActivity()));
         killMyself();
     }
 

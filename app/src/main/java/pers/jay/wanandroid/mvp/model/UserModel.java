@@ -11,20 +11,12 @@ import com.jess.arms.di.scope.FragmentScope;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import pers.jay.wanandroid.http.NetWorkManager;
+import pers.jay.wanandroid.model.ShareUserArticles;
 import pers.jay.wanandroid.mvp.contract.UserContract;
+import pers.jay.wanandroid.result.WanAndroidResponse;
 
-/**
- * ================================================
- * Description:
- * <p>
- * Created by MVPArmsTemplate on 01/28/2020 18:33
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
- * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
- * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
- * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
- * ================================================
- */
 @FragmentScope
 public class UserModel extends BaseModel implements UserContract.Model {
 
@@ -43,5 +35,10 @@ public class UserModel extends BaseModel implements UserContract.Model {
         super.onDestroy();
         this.mGson = null;
         this.mApplication = null;
+    }
+
+    @Override
+    public Observable<WanAndroidResponse<ShareUserArticles>> getUserArticles(long userId, int page) {
+        return NetWorkManager.getInstance().getWanAndroidService().shareUserArticles(userId, page);
     }
 }

@@ -217,4 +217,9 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter>
     public void onCollectFail(Article article, int position) {
         adapter.restoreLike(position);
     }
+
+    @Override
+    public void scrollToTopRefresh() {
+        lazyLoadData();
+    }
 }

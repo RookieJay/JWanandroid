@@ -2,16 +2,22 @@ package pers.jay.wanandroid.mvp.presenter;
 
 import android.app.Application;
 
-import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.FragmentScope;
-import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
-
-import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import com.jess.arms.integration.AppManager;
+import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.RxLifecycleUtils;
 
 import javax.inject.Inject;
 
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import pers.jay.wanandroid.base.BaseWanObserver;
+import pers.jay.wanandroid.model.ArticleInfo;
+import pers.jay.wanandroid.model.Coin;
+import pers.jay.wanandroid.model.ShareUserArticles;
 import pers.jay.wanandroid.mvp.contract.UserContract;
+import pers.jay.wanandroid.result.WanAndroidResponse;
+import pers.jay.wanandroid.utils.rx.RxScheduler;
 
 @FragmentScope
 public class UserPresenter extends BasePresenter<UserContract.Model, UserContract.View> {
@@ -37,5 +43,21 @@ public class UserPresenter extends BasePresenter<UserContract.Model, UserContrac
         this.mAppManager = null;
         this.mImageLoader = null;
         this.mApplication = null;
+    }
+
+    public void loadData(long userId, int page) {
+        mModel.getUserArticles(userId, page)
+              .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+              .compose(RxScheduler.Obs_io_main())
+              .subscribe(new BaseWanObserver<WanAndroidResponse<ShareUserArticles>>(mRootView) {
+                  @Override
+                  public void onSuccess(WanAndroidResponse<ShareUserArticles> response) {
+                        ShareUserArticles data = response.getData();
+                        Coin coin = data.getCoinInfo();
+                        mRootView.showCoin(coin);
+                        ArticleInfo info = data.getShareArticles();
+                        mRootView.showArticles(info);
+                  }
+              });
     }
 }

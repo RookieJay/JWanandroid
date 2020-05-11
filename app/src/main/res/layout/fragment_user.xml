@@ -1,28 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:material="http://schemas.android.com/apk/res-auto">
+    app:srlAccentColor="@android:color/white"
+    app:srlEnablePreviewInEditMode="true"
+    app:srlPrimaryColor="@color/colorPrimary">
     
-    <!--标题栏布局-->
-    <android.support.design.widget.AppBarLayout
+    <com.classic.common.MultipleStatusView
+        android:id="@+id/statusView"
+        style="@style/MultiStatusViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    
-        <!--折叠标题栏-->
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            material:contentScrim="?attr/colorPrimary"
-            material:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:fitsSystemWindows="true">
-            
-            <include layout="@layout/layout_drawer_header"/>
-            
-        </android.support.design.widget.CollapsingToolbarLayout>
+        android:layout_height="match_parent"
+        android:background="@color/white">
         
-    </android.support.design.widget.AppBarLayout>
-
-</android.support.design.widget.CoordinatorLayout>
+        <android.support.design.widget.CoordinatorLayout
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+            <!--标题栏布局-->
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                android:orientation="vertical">
+                
+                <!--折叠标题栏-->
+                <android.support.design.widget.CollapsingToolbarLayout
+                    android:id="@+id/collapsingToolbarLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true"
+                    app:contentScrim="@color/transparent"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                    
+                    <include layout="@layout/include_toolbar_collapse"/>
+                    
+                    <include
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        layout="@layout/layout_drawer_header"
+                        app:layout_collapseMode="pin"
+                        app:layout_collapseParallaxMultiplier="0.7" />
+                
+                </android.support.design.widget.CollapsingToolbarLayout>
+                
+            </android.support.design.widget.AppBarLayout>
+    
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mRecyclerView"
+                style="@style/RecyclerViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+                android:overScrollMode="never"
+                tools:itemCount="6"
+                tools:listitem="@layout/item_article" />
+        
+        </android.support.design.widget.CoordinatorLayout>
+    
+    </com.classic.common.MultipleStatusView>
+    
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

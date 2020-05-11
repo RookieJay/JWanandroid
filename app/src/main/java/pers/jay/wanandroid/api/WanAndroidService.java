@@ -260,9 +260,11 @@ public interface WanAndroidService {
     /**
      * 10.2 分享人对应列表数据
      * https://www.wanandroid.com/user/2/share_articles/1/json
+     * 用户id: 拼接在url上
+     * 页码拼接在url上从1开始
      */
-    @GET("/user/2/share_articles/{page}/json")
-    Observable<WanAndroidResponse<ShareUserArticles>> shareUserArticles(@Path("page") int page);
+    @GET("/user/{userId}/share_articles/{page}/json")
+    Observable<WanAndroidResponse<ShareUserArticles>> shareUserArticles(@Path("userId") long userId, @Path("page") int page);
 
     /**
      * 10.3 自己的分享的文章列表

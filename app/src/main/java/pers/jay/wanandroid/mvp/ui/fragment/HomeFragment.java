@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.classic.common.MultipleStatusView;
 import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
@@ -40,6 +41,7 @@ import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.model.BannerImg;
 import pers.jay.wanandroid.mvp.contract.HomeContract;
 import pers.jay.wanandroid.mvp.presenter.HomePresenter;
+import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
@@ -133,7 +135,22 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
                 mPresenter.collectArticle(item, adapterPosition);
             }
         });
-
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Article article = HomeFragment.this.adapter.getData().get(position);
+                switch (view.getId()) {
+                    case R.id.tvAuthor:
+                        switchToUserPage(article);
+                        break;
+                    case R.id.tvType:
+                        switchTabPage(article);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         adapter.setOnLoadMoreListener(() -> {
             if (pageCount != 0 && pageCount == page + 1) {
                 adapter.loadMoreEnd();
@@ -142,6 +159,23 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
             page++;
             mPresenter.requestArticle(page);
         }, mRecyclerView);
+    }
+
+    private void switchTabPage(Article article) {
+        showMessage("tab");
+    }
+
+    private void switchToUserPage(Article article) {
+        UserFragment userFragment = UserFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putLong(Const.Key.KEY_USER_ID, article.getUserId());
+        bundle.putString(Const.Key.KEY_TITLE, article.getAuthor());
+        userFragment.setArguments(bundle);
+        MainActivity activity = (MainActivity)getActivity();
+        if (activity == null) {
+            return;
+        }
+        activity.switchFragment(userFragment);
     }
 
     private void switchToWebPage(int position) {
@@ -156,9 +190,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
         StoreHouseHeader header = new StoreHouseHeader(mContext);
         header.initWithString("WANANDROID");
         refreshLayout.setRefreshHeader(header);
-        SmartRefreshUtils.with(refreshLayout)
-                         .pureScrollMode()
-                         .setRefreshListener(() -> {
+        SmartRefreshUtils.with(refreshLayout).pureScrollMode().setRefreshListener(() -> {
             if (mPresenter != null) {
                 page = 0;
                 mPresenter.requestHomeData();

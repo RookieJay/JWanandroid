@@ -24,7 +24,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
-            android:theme="@style/RippleWhite"
+            android:theme="@style/RippleButton"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@mipmap/ic_arrow_back_white_24dp"/>
     </RelativeLayout>
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:ellipsize="marquee"
-        android:textColor="@color/white"
+        android:textColor="@color/color_base_text"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="30dp"
         android:singleLine="true"
@@ -48,7 +48,7 @@
         android:layout_height="25dp"
         tools:src="@drawable/ic_more_vert"
         android:contentDescription="@string/toolbar_more"
-        android:theme="@style/RippleWhite"
+        android:theme="@style/RippleButton"
         android:layout_gravity="end|center_vertical" />
 
 </android.support.v7.widget.Toolbar>

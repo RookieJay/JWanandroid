@@ -135,7 +135,7 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                 })
                   .compose(RxScheduler.Obs_io_main())
                   .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                  .retryWhen(new RetryWithDelay())
+                  .retryWhen(new RetryWithDelay(10, 2000))
                   .doOnNext(response -> {
                       ZipEntity zipEntity = response.getData();
                       List<BannerImg> bannerImgs = zipEntity.getBannerResponse().getData();

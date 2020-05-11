@@ -206,7 +206,9 @@ public class ShareFragment extends BaseFragment<SharePresenter> implements Share
 
     @Override
     public void killMyself() {
-        FragmentUtils.pop(getFragmentManager(), true);
+        if (getFragmentManager() != null) {
+            FragmentUtils.pop(getFragmentManager(), true);
+        }
     }
 
     @Override
@@ -219,5 +221,13 @@ public class ShareFragment extends BaseFragment<SharePresenter> implements Share
     @Override
     public void parseOut(String title) {
         etTitle.setText(title);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (getActivity() != null) {
+            KeyboardUtils.hideSoftInput(getActivity());
+        }
     }
 }

@@ -16,7 +16,7 @@
         android:layout_centerVertical="true"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:src="@mipmap/ic_arrow_back_white_24dp"
-        android:theme="@style/RippleWhite" />
+        android:theme="@style/RippleButton" />
     
     <EditText
         android:id="@+id/etSearch"
@@ -32,7 +32,7 @@
         android:paddingStart="@dimen/dp_10"
         android:paddingEnd="@dimen/dp_5"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/base_bg_color"
         android:textColorHint="@color/gray"
         android:textSize="@dimen/sp_14"
         tools:drawableRight="@drawable/ic_clear"
@@ -45,7 +45,7 @@
         android:layout_gravity="end|center_vertical"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:scaleType="centerCrop"
-        android:theme="@style/RippleWhite"
+        android:theme="@style/RippleButton"
         
         android:src="@drawable/ic_search" />
 

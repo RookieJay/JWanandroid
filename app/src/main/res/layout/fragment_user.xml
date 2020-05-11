@@ -14,7 +14,7 @@
         style="@style/MultiStatusViewStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/base_bg_color">
         
         <android.support.design.widget.CoordinatorLayout
             android:fitsSystemWindows="true"

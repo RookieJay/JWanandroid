@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.classic.common.MultipleStatusView;
 import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -70,6 +71,8 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter>
     RecyclerView recyclerView;
     @BindView(R.id.srlSquare)
     SmartRefreshLayout srlSquare;
+    @BindView(R.id.statusView)
+    MultipleStatusView statusView;
 
     private ArticleAdapter mAdapter;
 
@@ -180,12 +183,13 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter>
 
     @Override
     public void showLoading() {
-        srlSquare.autoRefreshAnimationOnly();
+        statusView.showLoading();
     }
 
     @Override
     public void hideLoading() {
         srlSquare.finishRefresh();
+        statusView.showContent();
     }
 
     @Override
@@ -253,5 +257,15 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter>
         }
         activity.switchToContainer();
         return true;
+    }
+
+    @Override
+    public void showError(String msg) {
+        statusView.showError(msg);
+    }
+
+    @Override
+    public void showNoNetwork() {
+        statusView.showNoNetwork();
     }
 }

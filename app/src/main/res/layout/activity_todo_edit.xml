@@ -134,8 +134,8 @@
                 android:text="@string/bt_commit"
                 android:layout_margin="@dimen/dp_20"
                 android:background="@color/colorPrimary"
-                android:textColor="@color/white"
-                style="@style/RippleWhite"/>
+                android:textColor="@color/base_bg_color"
+                style="@style/RippleButton"/>
 
         </LinearLayout>
     

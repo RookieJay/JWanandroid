@@ -11,7 +11,7 @@
     android:paddingRight="15dp"
     android:layout_margin="@dimen/dp_5"
     android:gravity="center"
-    android:theme="@style/RippleWhite"
+    android:theme="@style/RippleButton"
     android:clickable="true"
     android:focusable="true"
     android:id="@+id/tvTreeChild"/>

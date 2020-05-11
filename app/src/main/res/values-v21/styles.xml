@@ -46,7 +46,7 @@
     </style>
     
     <!--  按钮圆形波纹效果，通过theme属性引入,且其中重要属性android:background要设置为无边界的波纹  -->
-    <style name="RippleWhite">
+    <style name="RippleButton">
         <!--点击后波纹的颜色-->
         <item name="android:colorControlHighlight">#FAFAFA</item>
         <!--效果半径-->
@@ -75,9 +75,9 @@
     <!-- searchEditTextTheme -->
     <style name="searchEditTextTheme" parent="Widget.AppCompat.EditText">
         <item name="android:background">@drawable/bg_edit_text_search</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:colorAccent">@color/white</item>
-        <item name="android:colorPrimary">@color/white</item>
+        <item name="android:textColorPrimary">@color/base_bg_color</item>
+        <item name="android:colorAccent">@color/base_bg_color</item>
+        <item name="android:colorPrimary">@color/base_bg_color</item>
     </style>
     
     <style name="dialog_date">

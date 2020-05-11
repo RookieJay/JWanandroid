@@ -165,7 +165,7 @@ public class UserFragment extends BaseFragment<UserPresenter> implements UserCon
                 //使用下面两个方法设置展开透明->折叠时你想要的颜色 设置收缩展开toolbar字体颜色
 //                collapsingToolbarLayout.setExpandedTitleColor(Color.BLACK);
 //                collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
-                appBarLayout.setBackgroundResource(R.color.white);
+                appBarLayout.setBackgroundResource(R.color.base_bg_color);
             }
             else {
                 tvTitle.setAlpha(0);
@@ -188,6 +188,7 @@ public class UserFragment extends BaseFragment<UserPresenter> implements UserCon
             assert mPresenter != null;
             mPresenter.loadData(mUserId, mPage);
         }, mRecyclerView);
+        statusView.setOnRetryClickListener(v -> mPresenter.loadData(mUserId, mPage));
     }
 
     @Override

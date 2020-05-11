@@ -40,10 +40,11 @@ public abstract class BaseWanObserver<T extends BaseWanBean> extends ResourceObs
 
     @Override
     protected void onStart() {
+        super.onStart();
         if (!NetWorkManager.isNetWorkAvailable()) {
             mView.showNoNetwork();
+            dispose();
         }
-        super.onStart();
     }
 
     @Override

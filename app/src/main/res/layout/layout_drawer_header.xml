@@ -33,7 +33,7 @@
             android:id="@+id/tvLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/base_bg_color"
             android:textSize="@dimen/sp_12"
             tools:text="@string/hint_level" />
         
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_5"
-            android:textColor="@color/white"
+            android:textColor="@color/base_bg_color"
             android:textSize="@dimen/sp_12"
             tools:text="@string/hint_rank" />
     
@@ -56,7 +56,7 @@
         android:layout_below="@+id/ivAvatar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_5"
-        android:textColor="@color/white"
+        android:textColor="@color/base_bg_color"
         android:textSize="@dimen/sp_16"
         android:textStyle="bold" />
     
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/white"
+        android:textColor="@color/base_bg_color"
         android:textSize="@dimen/sp_12"
         android:layout_below="@+id/tvUserName"/>
     
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/llLevel"
         tools:text="晓看红湿处，花重锦官城"
-        android:textColor="@color/white"
+        android:textColor="@color/base_bg_color"
         android:maxLines="2"
         android:textSize="16sp"
         android:gravity="center" />

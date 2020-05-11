@@ -9,7 +9,7 @@
     app:cardCornerRadius="@dimen/dp_10"
     app:cardElevation="@dimen/dp_5"
     app:cardMaxElevation="@dimen/dp_10"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/base_bg_color"
     android:layout_marginTop="@dimen/dp_10"
     android:layout_marginStart="@dimen/dp_10"
     android:layout_marginEnd="@dimen/dp_10">
@@ -23,7 +23,7 @@
         app:lv_text="@string/mark_important"
         app:lv_fill_triangle="true"
         app:lv_background_color="@color/red"
-        app:lv_text_color="@color/white"
+        app:lv_text_color="@color/base_bg_color"
         app:lv_padding="@dimen/dp_5"/>
         
         <RelativeLayout

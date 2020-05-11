@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/base_bg_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     
@@ -23,7 +23,7 @@
             android:minHeight="45dp"
             app:tl_textsize="@dimen/sp_14"
             app:tl_indicator_margin_bottom="@dimen/dp_5"
-            app:tl_indicator_color="@color/white"
+            app:tl_indicator_color="@color/base_bg_color"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:tl_tab_padding="@dimen/dp_10"/>
         

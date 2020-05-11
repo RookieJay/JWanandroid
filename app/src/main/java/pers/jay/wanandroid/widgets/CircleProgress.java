@@ -51,7 +51,7 @@ public class CircleProgress extends View {
         super(context, attrs);
         // 获取自定义属性
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.CircleProgress);
-        mSolidColor = typedArray.getColor(R.styleable.CircleProgress_cp_solid_color, getResources().getColor(R.color.white));
+        mSolidColor = typedArray.getColor(R.styleable.CircleProgress_cp_solid_color, getResources().getColor(R.color.base_bg_color));
         mProgressColor = typedArray.getColor(R.styleable.CircleProgress_cp_progress_color, getResources().getColor(R.color.red));
         mStrokeColor = typedArray.getColor(R.styleable.CircleProgress_cp_stroke_color, getResources().getColor(R.color.gray));
         mSolidWidth = typedArray.getDimension(R.styleable.CircleProgress_cp_stroke_width, dp2px(2));

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/base_bg_color">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
@@ -11,7 +12,7 @@
         android:layout_height="match_parent"
         app:srlEnablePreviewInEditMode="true"
         app:srlPrimaryColor="@color/colorPrimary"
-        app:srlAccentColor="@color/white">
+        app:srlAccentColor="@color/base_bg_color">
     
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

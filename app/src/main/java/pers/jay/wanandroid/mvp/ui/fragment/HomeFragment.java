@@ -216,6 +216,11 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
                 startActivity(intent);
             }
         });
+//                Paint paint = new Paint();
+//                ColorMatrix cm = new ColorMatrix();
+//                cm.setSaturation(0);
+//                paint.setColorFilter(new ColorMatrixColorFilter(cm));
+//                getWindow().getDecorView().setLayerType(View.LAYER_TYPE_HARDWARE, paint);
     }
 
     @Override

@@ -53,7 +53,7 @@
                     style="@style/Widget.Design.BottomNavigationView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@color/base_bg_color"
                     app:labelVisibilityMode="labeled"
                     app:layout_behavior="pers.jay.wanandroid.widgets.behavior.BottomNavigationBehavior"
                     android:layout_gravity="bottom"

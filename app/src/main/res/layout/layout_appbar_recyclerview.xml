@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/base_bg_color">
     
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -34,8 +34,8 @@
                     app:dv_arcWidth="3dp"
                     app:dv_circleRadius="180"
                     app:dv_centerTextSize="20sp"
-                    app:dv_centerTextColor="@color/white"
-                    app:dv_arcColor="@color/white"
+                    app:dv_centerTextColor="@color/base_bg_color"
+                    app:dv_arcColor="@color/base_bg_color"
                     app:dv_startAngle="135"
                     app:dv_maxAngle="270"
                     app:dv_arcPadding="0dp"

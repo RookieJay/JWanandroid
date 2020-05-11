@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:id="@+id/error_view"
-    android:background="@color/white">
+    android:background="@color/base_bg_color">
     
     <ImageView
         android:id="@+id/error_retry_view"

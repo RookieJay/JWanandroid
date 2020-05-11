@@ -220,7 +220,7 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         tvRank = headerView.findViewById(R.id.tvRank);
         ivAvatar = headerView.findViewById(R.id.ivAvatar);
         tvPoem = headerView.findViewById(R.id.tvPoem);
-        ivAvatar.setBorderColor(ContextCompat.getColor(mContext, R.color.white));
+        ivAvatar.setBorderColor(ContextCompat.getColor(mContext, R.color.base_bg_color));
         ivAvatar.setBorderWidth(5);
         ivAvatar.setOnClickListener(v -> openGallery());
         tvCoinCount = (TextView)navigationView.getMenu().getItem(0).getActionView();

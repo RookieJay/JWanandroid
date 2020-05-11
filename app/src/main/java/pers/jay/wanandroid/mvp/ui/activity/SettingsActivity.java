@@ -116,38 +116,39 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
         animLayer = AnyLayer.dialog(SettingsActivity.this)
                             .contentView(R.layout.layout_popup_list)
                             .cancelableOnTouchOutside(true)
+                            .backgroundDimAmount(0.5f)
                             .gravity(Gravity.BOTTOM)
                             .dragDismiss(DragLayout.DragStyle.Bottom)
                             .contentAnimator(new Layer.AnimatorCreator() {
-                            @Override
-                            public Animator createInAnimator(View target) {
-                                return AnimatorHelper.createBottomInAnim(target);
-                            }
+                                @Override
+                                public Animator createInAnimator(View target) {
+                                    return AnimatorHelper.createBottomInAnim(target);
+                                }
 
-                            @Override
-                            public Animator createOutAnimator(View target) {
-                                return AnimatorHelper.createBottomOutAnim(target);
-                            }
-                        })
+                                @Override
+                                public Animator createOutAnimator(View target) {
+                                    return AnimatorHelper.createBottomOutAnim(target);
+                                }
+                            })
                             .bindData(layer -> {
-                            RecyclerView rv = layer.getView(R.id.mRecyclerView);
-                            ArmsUtils.configRecyclerView(rv,
-                                    new LinearLayoutManager(SettingsActivity.this));
-                            List<String> list = Arrays.asList(
-                                    RvAnimUtils.getName(RvAnimUtils.RvAnim.NONE),
-                                    RvAnimUtils.getName(RvAnimUtils.RvAnim.ALPHAIN),
-                                    RvAnimUtils.getName(RvAnimUtils.RvAnim.SCALEIN),
-                                    RvAnimUtils.getName(RvAnimUtils.RvAnim.SLIDEIN_BOTTOM),
-                                    RvAnimUtils.getName(RvAnimUtils.RvAnim.SLIDEIN_LEFT),
-                                    RvAnimUtils.getName(RvAnimUtils.RvAnim.SLIDEIN_RIGHT));
-                            SimpleListAdapter adapter = new SimpleListAdapter(list);
-                            rv.setAdapter(adapter);
-                            adapter.setOnItemClickListener((adapter1, view, position) -> {
-                                tvRvAnim.setText(RvAnimUtils.getName(position));
-                                AppConfig.getInstance().setRvAnim(position);
-                                layer.dismiss();
+                                RecyclerView rv = layer.getView(R.id.mRecyclerView);
+                                ArmsUtils.configRecyclerView(rv,
+                                        new LinearLayoutManager(SettingsActivity.this));
+                                List<String> list = Arrays.asList(
+                                        RvAnimUtils.getName(RvAnimUtils.RvAnim.NONE),
+                                        RvAnimUtils.getName(RvAnimUtils.RvAnim.ALPHAIN),
+                                        RvAnimUtils.getName(RvAnimUtils.RvAnim.SCALEIN),
+                                        RvAnimUtils.getName(RvAnimUtils.RvAnim.SLIDEIN_BOTTOM),
+                                        RvAnimUtils.getName(RvAnimUtils.RvAnim.SLIDEIN_LEFT),
+                                        RvAnimUtils.getName(RvAnimUtils.RvAnim.SLIDEIN_RIGHT));
+                                SimpleListAdapter adapter = new SimpleListAdapter(list);
+                                rv.setAdapter(adapter);
+                                adapter.setOnItemClickListener((adapter1, view, position) -> {
+                                    tvRvAnim.setText(RvAnimUtils.getName(position));
+                                    AppConfig.getInstance().setRvAnim(position);
+                                    layer.dismiss();
+                                });
                             });
-                        });
         animLayer.show();
     }
 
@@ -200,48 +201,51 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
 
     private void setupDarkMode() {
         darkModeLayer = AnyLayer.dialog(SettingsActivity.this)
-                            .contentView(R.layout.layout_popup_list)
-                            .cancelableOnTouchOutside(true)
-                            .gravity(Gravity.BOTTOM)
-                            .dragDismiss(DragLayout.DragStyle.Bottom)
-                            .contentAnimator(new Layer.AnimatorCreator() {
-                                @Override
-                                public Animator createInAnimator(View target) {
-                                    return AnimatorHelper.createBottomInAnim(target);
-                                }
-
-                                @Override
-                                public Animator createOutAnimator(View target) {
-                                    return AnimatorHelper.createBottomOutAnim(target);
-                                }
-                            })
-                            .bindData(layer -> {
-                                RecyclerView rv = layer.getView(R.id.mRecyclerView);
-                                ArmsUtils.configRecyclerView(rv,
-                                        new LinearLayoutManager(SettingsActivity.this));
-                                List<String> list = Arrays.asList(
-                                        DarkModeUtils.getName(0),
-                                        DarkModeUtils.getName(1),
-                                        DarkModeUtils.getName(2),
-                                        DarkModeUtils.getName(3));
-                                SimpleListAdapter adapter = new SimpleListAdapter(list);
-                                rv.setAdapter(adapter);
-                                adapter.setOnItemClickListener((adapter1, view, position) -> {
-                                    layer.dismiss();
-                                    tvDarkMode.setText(DarkModeUtils.getName(position));
-                                    String mode = tvDarkMode.getText().toString();
-                                    String currentMode = DarkModeUtils.getName(AppConfig.getInstance().getDarkModePosition());
-                                    if (StringUtils.equals(currentMode, mode)) {
-                                        return;
+                                .contentView(R.layout.layout_popup_list)
+                                .cancelableOnTouchOutside(true)
+                                .gravity(Gravity.BOTTOM)
+                                .backgroundDimAmount(0.5f)
+                                .dragDismiss(DragLayout.DragStyle.Bottom)
+                                .contentAnimator(new Layer.AnimatorCreator() {
+                                    @Override
+                                    public Animator createInAnimator(View target) {
+                                        return AnimatorHelper.createBottomInAnim(target);
                                     }
-                                    AppConfig.getInstance().setDarkModePosition(position);
-                                    JApplication.loadDarkMode();
-                                    Timber.e("SettingsActivity准备重建");
-                                    recreate();
-                                    JApplication.avoidSplashRecreate(this, SettingsActivity.class);
-                                    EventBus.getDefault().post(new Event<>(Const.EventCode.CHANGE_UI_MODE, null));
+
+                                    @Override
+                                    public Animator createOutAnimator(View target) {
+                                        return AnimatorHelper.createBottomOutAnim(target);
+                                    }
+                                })
+                                .bindData(layer -> {
+                                    RecyclerView rv = layer.getView(R.id.mRecyclerView);
+                                    ArmsUtils.configRecyclerView(rv,
+                                            new LinearLayoutManager(SettingsActivity.this));
+                                    List<String> list = Arrays.asList(DarkModeUtils.getName(0),
+                                            DarkModeUtils.getName(1), DarkModeUtils.getName(2),
+                                            DarkModeUtils.getName(3));
+                                    SimpleListAdapter adapter = new SimpleListAdapter(list);
+                                    rv.setAdapter(adapter);
+                                    adapter.setOnItemClickListener((adapter1, view, position) -> {
+                                        layer.dismiss();
+                                        tvDarkMode.setText(DarkModeUtils.getName(position));
+                                        String mode = tvDarkMode.getText().toString();
+                                        String currentMode = DarkModeUtils.getName(
+                                                AppConfig.getInstance().getDarkModePosition());
+                                        if (StringUtils.equals(currentMode, mode)) {
+                                            return;
+                                        }
+                                        AppConfig.getInstance().setDarkModePosition(position);
+                                        JApplication.loadDarkMode();
+                                        Timber.e("SettingsActivity准备重建");
+                                        recreate();
+                                        JApplication.avoidSplashRecreate(this,
+                                                SettingsActivity.class);
+                                        EventBus.getDefault()
+                                                .post(new Event<>(Const.EventCode.CHANGE_UI_MODE,
+                                                        null));
+                                    });
                                 });
-                            });
         darkModeLayer.show();
     }
 
@@ -259,7 +263,5 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
             EventBusManager.getInstance().post(event);
         }
     }
-
-
 
 }

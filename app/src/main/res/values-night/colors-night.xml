@@ -7,14 +7,14 @@
     <!--custom-->
     <color name="base_bg_color">@color/black_dark</color>
     <color name="base_item_tint">@color/gray</color>
-    <color name="color_base_text">@color/white</color>
-    <color name="color_reverse_text">@color/white</color>
+    <color name="text_color_base">@color/whitesmoke</color>
+    <color name="text_color_second">@color/deep_gray</color>
+    <color name="text_color_reverse">@color/whitesmoke</color>
     <color name="nav_selected">@color/colorPrimary</color>
     <color name="nav_unselected">@color/gray1</color>
     <color name="color_line_divider">@color/gray_80_80</color>
     <color name="color_pressed">@color/gray_dark</color>
     <color name="colorPrimaryLight">@color/blue_light1</color>
-    
     
     <color name="red">#D24D57</color>
     <color name="orange">#EB7347</color>

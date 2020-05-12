@@ -106,10 +106,9 @@ public class UIUtils {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             //设置状态栏颜色
             if (isLight) {
-                window.setStatusBarColor(resources.getColor(R.color.colorPrimary));
-                //                window.setStatusBarColor(Color.TRANSPARENT);
+                window.setStatusBarColor(resources.getColor(R.color.colorPrimary, null));
             } else {
-                window.setStatusBarColor(resources.getColor(R.color.colorAccent));
+                window.setStatusBarColor(resources.getColor(R.color.colorAccent, null));
             }
             //状态栏颜色接近于白色，文字图标变成黑色
             View decor = window.getDecorView();

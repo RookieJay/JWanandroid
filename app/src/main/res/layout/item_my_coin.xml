@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@color/base_bg_color">
     
     <TextView
         android:id="@+id/tvReason"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp_14"
-        android:textColor="@color/black"
+        android:textColor="@color/text_color_reverse"
         tools:text="签到"
         android:gravity="start|top"/>
     
@@ -19,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp_14"
+        android:textColor="@color/text_color_second"
         tools:text="2019-12-16 09:43:11 签到 , 积分：13 + 19"
         android:layout_below="@+id/tvReason"/>
     

@@ -61,6 +61,7 @@
     
         <TextView
             android:id="@+id/tvAuthor"
+            android:textColor="@color/text_color_second"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -72,6 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
+            android:textColor="@color/text_color_second"
             tools:text="@string/art_date"
             android:gravity="end|center_vertical"/>
         
@@ -108,7 +110,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 tools:text="@string/art_title"
-                android:textColor="@color/black"/>
+                android:textColor="@color/text_color_reverse"/>
         
             <TextView
                 android:id="@+id/tvDesc"
@@ -119,7 +121,8 @@
                 android:maxLines="3"
                 android:ellipsize="end"
                 tools:text="@string/art_desc"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:textColor="@color/text_color_second"/>
     
         </LinearLayout>
 
@@ -138,6 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
+            android:textColor="@color/text_color_second"
             tools:text="@string/art_type"
             android:layout_alignParentStart="true"
              android:layout_centerVertical="true"/>

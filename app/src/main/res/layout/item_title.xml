@@ -17,7 +17,7 @@
         android:layout_marginTop="@dimen/dp_20"
         android:paddingLeft="@dimen/dp_5"
         android:paddingRight="@dimen/dp_5"
-        android:textColor="@color/color_reverse_text"
+        android:textColor="@color/text_color_reverse"
         android:drawablePadding="@dimen/dp_3" />
         
     <com.google.android.flexbox.FlexboxLayout

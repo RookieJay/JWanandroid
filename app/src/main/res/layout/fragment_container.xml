@@ -67,13 +67,14 @@
     
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationView"
-        style="@style/Widget.Design.NavigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:headerLayout="@layout/layout_drawer_header"
         app:menu="@menu/menu_drawer_navigation"
         android:layout_gravity="start"
         app:insetForeground="@android:color/transparent"
+        android:background="@color/base_bg_color"
+        style="@style/MenuStyle"
         android:fitsSystemWindows="true">
     
     </android.support.design.widget.NavigationView>

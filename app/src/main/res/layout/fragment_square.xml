@@ -36,30 +36,32 @@
             app:pressedTranslationZ="@dimen/dp_10"
             app:rippleColor="@color/colorPrimaryDark" />
     
-        <com.classic.common.MultipleStatusView
-            android:id="@+id/statusView"
-            style="@style/MultiStatusViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-    
             <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:id="@+id/srlSquare"
                 app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    style="@style/RecyclerViewStyle"
+    
+                <com.classic.common.MultipleStatusView
+                    android:id="@+id/statusView"
+                    style="@style/MultiStatusViewStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:overScrollMode="never"
-                    tools:itemCount="6"
-                    tools:listitem="@layout/item_article" />
+                    android:layout_height="wrap_content">
+                
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        style="@style/RecyclerViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overScrollMode="never"
+                        tools:itemCount="6"
+                        tools:listitem="@layout/item_article" />
+
+                </com.classic.common.MultipleStatusView>
                 
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
        
-        </com.classic.common.MultipleStatusView>
+        
         
     </android.support.design.widget.CoordinatorLayout>
     

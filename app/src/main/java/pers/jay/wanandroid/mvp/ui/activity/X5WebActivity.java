@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -65,14 +66,8 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
     Toolbar toolbar;
     @BindView(R.id.webView)
     X5WebView webView;
-    @BindView(R.id.ivBack)
-    ImageView ivBack;
-    @BindView(R.id.ivRefresh)
-    ImageView ivRefresh;
-    @BindView(R.id.ivForward)
-    ImageView ivForward;
     @BindView(R.id.flWeb)
-    FrameLayout flWeb;
+    NestedScrollView flWeb;
     @BindView(R.id.fabTop)
     FloatingActionButton fabTop;
 
@@ -111,11 +106,13 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
                     break;
                 case TYPE_ARTICLE:
                     mArticle = intent.getParcelableExtra(Const.Key.KEY_WEB_PAGE_DATA);
+                    assert mArticle != null;
                     mUrl = mArticle.getLink();
                     mTitle = mArticle.getTitle();
                     break;
                 case TYPE_BANNER:
                     BannerImg bannerImg = intent.getParcelableExtra(Const.Key.KEY_WEB_PAGE_DATA);
+                    assert bannerImg != null;
                     mUrl = bannerImg.getUrl();
                     mTitle = bannerImg.getTitle();
                     break;
@@ -145,8 +142,7 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
         fabTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                webView.scrollTo(0, 0);
-                webView.flingScroll(5, 5);
+                flWeb.scrollTo(0, 0);
             }
         });
     }
@@ -166,16 +162,36 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
         webView.setWebChromeClient(new MyX5WebChromeClient(webView, lv,this));
         webView.getSettings().setJavaScriptEnabled(true);
         if (DarkModeUtils.getMode(AppConfig.getInstance().getDarkModePosition()) == AppCompatDelegate.MODE_NIGHT_YES) {
-            Timber.e("暗黑模式");
             webView.loadUrl("javascript:function setBgColor(){" + "document.getElementsByTagName('body')[0].style.background='#1A1714'" + "};setBgColor();");
             webView.loadUrl("javascript:function setTextColor(){document.getElementsByTagName('body')[0].style.webkitTextFillColor= '#999999'" + "};setTextColor();");
             webView.setBackground(getDrawable(R.color.black));
+            Timber.e("暗黑模式设置完成");
         }
         webView.loadUrl(mUrl);
         // 加载完成后才可以滚动
         if (lv.getProgress() == 100) {
             webView.setEnabled(true);
         }
+        webView.setOnScrollChangeListener(new X5WebView.OnScrollChangeListener() {
+            @Override
+            public void onPageEnd(int l, int t, int oldl, int oldt) {
+
+            }
+
+            @Override
+            public void onPageTop(int l, int t, int oldl, int oldt) {
+
+            }
+
+            @Override
+            public void onScrollChanged(int l, int t, int oldl, int oldt) {
+                if (t - oldt > 0) {
+                    Timber.e("下滑");
+                } else if (t - oldt < 0){
+                    Timber.e("上滑");
+                }
+            }
+        });
     }
 
     private class MyX5WebViewClient extends X5WebViewClient {

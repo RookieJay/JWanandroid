@@ -79,7 +79,7 @@
     <!-- searchEditTextTheme -->
     <style name="searchEditTextTheme" parent="Widget.AppCompat.EditText">
         <item name="android:background">@drawable/bg_edit_text_search</item>
-        <item name="android:textColorPrimary">@color/color_base_text</item>
+        <item name="android:textColorPrimary">@color/text_color_base</item>
         <item name="android:colorAccent">@color/colorPrimaryDark</item>
         <item name="android:colorPrimary">@color/colorPrimary</item>
     </style>
@@ -116,5 +116,10 @@
         <item name="errorView">@layout/layout_error_view</item>
         <item name="loadingView">@layout/layout_loading_view</item>
         <item name="noNetworkView">@layout/layout_no_network_view</item>
+    </style>
+    
+    <!--菜单style-->
+    <style name="MenuStyle" parent="Widget.Design.NavigationView">
+        <item name="android:actionMenuTextColor">@color/text_color_reverse</item>
     </style>
 </resources>

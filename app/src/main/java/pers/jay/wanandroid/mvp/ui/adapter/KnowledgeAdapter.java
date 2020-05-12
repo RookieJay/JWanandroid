@@ -19,7 +19,6 @@ import pers.jay.wanandroid.model.Tab;
 
 public class KnowledgeAdapter extends BaseQuickAdapter<Tab, BaseViewHolder> {
 
-    private SparseArray<TextView> mChildViewArray = new SparseArray<>();
     private OnChildClickListener mOnChildClickListener;
 
     public KnowledgeAdapter(int layoutResId, @Nullable List<Tab> data) {
@@ -32,7 +31,6 @@ public class KnowledgeAdapter extends BaseQuickAdapter<Tab, BaseViewHolder> {
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, Tab item) {
-        helper.itemView.setBackground(JApplication.getInstance().getDrawable(R.drawable.ripple_gray));
         helper.setText(R.id.treeTitle, item.getName());
         FlexboxLayout fbl = helper.getView(R.id.fbl);
         fbl.removeAllViews();

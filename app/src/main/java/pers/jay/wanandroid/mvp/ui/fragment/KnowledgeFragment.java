@@ -46,7 +46,6 @@ public class KnowledgeFragment extends BaseLazyLoadFragment<KnowledgePresenter>
     ProgressBar progressBar;
 
     private KnowledgeAdapter adapter;
-    private List<Tab> mData = new ArrayList<>();
 
     public static KnowledgeFragment newInstance() {
         return new KnowledgeFragment();
@@ -137,7 +136,6 @@ public class KnowledgeFragment extends BaseLazyLoadFragment<KnowledgePresenter>
 
     @Override
     public void showTreeData(List<Tab> tabs) {
-        this.mData = tabs;
         adapter.replaceData(tabs);
         adapter.notifyDataSetChanged();
     }

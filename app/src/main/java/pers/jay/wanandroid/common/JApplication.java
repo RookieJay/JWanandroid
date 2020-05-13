@@ -9,6 +9,7 @@ import android.os.HandlerThread;
 import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 
 import com.jess.arms.base.App;
 import com.jess.arms.base.BaseApplication;
@@ -33,11 +34,11 @@ import com.ycbjie.webviewlib.X5WebUtils;
 import org.jetbrains.annotations.NotNull;
 
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
-import pers.jay.wanandroid.BuildConfig;
 import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.utils.DarkModeUtils;
 import pers.jay.wanandroid.utils.TimberUtils;
 import pers.zjc.commonlibs.util.SPUtils;
+import pers.zjc.commonlibs.util.Utils;
 import timber.log.Timber;
 
 public class JApplication extends BaseApp implements App{
@@ -89,10 +90,6 @@ public class JApplication extends BaseApp implements App{
         }
         mApplication = this;
         delayInit();
-        //设置log自动在apk为debug版本时打开，在release版本时关闭
-        TimberUtils.setLogAuto();
-        RetrofitUrlManager.getInstance().setDebug(true);
-        SPUtils.create(this, "cookies_prefs");
     }
 
     private void delayInit() {
@@ -103,14 +100,22 @@ public class JApplication extends BaseApp implements App{
         new Handler(thread.getLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.e("delayInit当前线程", Thread.currentThread().getName());
+                Utils.init(JApplication.this);
                 RxTool.init(getApp());
-                //Bugly
+                // Bugly
                 Bugly.init(getApplicationContext(), Const.APP_ID, false);
                 // X5
                 X5WebUtils.init(getApp());
                 // 暗黑模式
                 loadDarkMode();
                 JinrishiciFactory.init(getApp());
+                // 设置log自动在apk为debug版本时打开，在release版本时关闭
+                TimberUtils.setLogAuto();
+                // 开启 Debug 模式下可以打印网络请求日志
+                RetrofitUrlManager.getInstance().setDebug(true);
+                // 初始化sp
+                SPUtils.create(getApplicationContext(), "cookies_prefs");
             }
         }, 5000L);
 

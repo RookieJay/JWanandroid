@@ -50,7 +50,7 @@
         
                 <android.support.design.widget.BottomNavigationView
                     android:id="@+id/bottomNav"
-                    style="@style/Widget.Design.BottomNavigationView"
+                    style="@style/MenuStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/base_bg_color"

@@ -18,6 +18,6 @@ public class TodoTypeAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, String type) {
-        helper.setText(R.id.tvDate, type);
+        helper.setText(R.id.tvItem, type);
     }
 }

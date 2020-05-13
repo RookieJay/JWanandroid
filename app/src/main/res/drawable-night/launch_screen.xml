@@ -17,7 +17,7 @@
     <item>
         <bitmap
             android:src="@drawable/ic_splash"
-            android:gravity="center"/>
+            android:gravity="center" />
     </item>
     
 </layer-list>

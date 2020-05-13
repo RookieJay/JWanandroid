@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "pers.zjc.wanandroid"
+        applicationId "pers.jay.wanandroid"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]

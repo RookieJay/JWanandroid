@@ -41,7 +41,6 @@ import pers.zjc.commonlibs.util.ToastUtils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class TodoEditActivity extends BaseActivity<TodoEditPresenter>
         implements TodoEditContract.View {
 

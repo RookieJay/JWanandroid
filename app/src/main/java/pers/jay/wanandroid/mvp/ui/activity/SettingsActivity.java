@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -131,6 +132,7 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
                                 }
                             })
                             .bindData(layer -> {
+                                layer.getParent().setBackground(ContextCompat.getDrawable(this, R.drawable.bg_corner_top_dialog));
                                 RecyclerView rv = layer.getView(R.id.mRecyclerView);
                                 ArmsUtils.configRecyclerView(rv,
                                         new LinearLayoutManager(SettingsActivity.this));

@@ -2,11 +2,9 @@ package pers.jay.wanandroid.mvp.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -17,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
-import com.jess.arms.base.BaseFragment;
 import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -34,17 +32,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import per.goweii.anylayer.Align;
+import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.Layer;
 import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.common.ScrollTopListener;
 import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.activity.TodoEditActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.TodoTypeAdapter;
-import pers.jay.wanandroid.utils.UIUtils;
+import pers.jay.wanandroid.widgets.DividerItemDecoration;
 import pers.zjc.commonlibs.util.FragmentUtils;
+import pers.zjc.commonlibs.util.ScreenUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
-import razerdp.basepopup.BasePopupWindow;
-import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -69,8 +69,6 @@ public class TodoTabFragment extends BaseLazyLoadFragment {
     @BindView(R.id.fabTop)
     FloatingActionButton fabTop;
 
-    private BasePopupWindow popupWindow;
-//    private View popRootView;
     private RecyclerView popRv;
 
     private List<String> mTitles = new ArrayList<>();
@@ -83,6 +81,8 @@ public class TodoTabFragment extends BaseLazyLoadFragment {
     private int mTodoCat = 1;
     private int mPosition;
     private MainActivity mActivity;
+    private Layer popWindow;
+    private View popView;
 
     public static Fragment newInstance() {
         return new TodoTabFragment();
@@ -110,6 +110,7 @@ public class TodoTabFragment extends BaseLazyLoadFragment {
         initTodoType();
         initFragments();
         setView();
+        initPopView();
     }
 
     @Override
@@ -145,7 +146,6 @@ public class TodoTabFragment extends BaseLazyLoadFragment {
         initFab();
         initToolbar();
         initTabLayout();
-        initTodoTypeView();
     }
 
     private void initFab() {
@@ -153,22 +153,32 @@ public class TodoTabFragment extends BaseLazyLoadFragment {
         fabTop.setOnClickListener(v -> openTodoEditPage());
     }
 
-    private void initTodoTypeView() {
-        popRv = (RecyclerView)LayoutInflater.from(mContext).inflate(R.layout.include_base_recycler_view, null);
-        ArmsUtils.configRecyclerView(popRv, new LinearLayoutManager(mContext));
-        mTodoTypeAdapter = new TodoTypeAdapter(R.layout.item_todo_title, mTodoCats);
-        popRv.setAdapter(mTodoTypeAdapter);
-        mTodoTypeAdapter.setOnItemClickListener((adapter, view, position) -> {
-            mTodoType = viewPager.getCurrentItem();
-            mPosition = position;
-            mTodoCat = position + 1;
-            tvTitle.setText(String.format(getResources().getString(R.string.navi_todo)+"(%s)",mTodoCats.get(position)));
-            Fragment fragment = mFragments.get(mTodoType);
-            if (fragment instanceof TodoFragment && fragment.isAdded() && fragment.isVisible() && fragment.getUserVisibleHint()) {
-                ((TodoFragment)fragment).changeType(mTodoCat);
-                popupWindow.dismiss();
-            }
-        });
+    private void initPopView() {
+        popView = LayoutInflater.from(mContext).inflate(R.layout.layout_popup_list, null, false);
+        popWindow = AnyLayer.popup(ivRight)
+                            .align(Align.Direction.VERTICAL, Align.Horizontal.CENTER, Align.Vertical.BELOW, false)
+                            .contentView(popView)
+                            .cancelableOnTouchOutside(true)
+                            .bindData(layer -> {
+                                popRv = layer.getView(R.id.mRecyclerView);
+                                popRv.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL_LIST));
+                                ArmsUtils.configRecyclerView(popRv, new LinearLayoutManager(mContext));
+                                mTodoTypeAdapter = new TodoTypeAdapter(R.layout.popup_todo_item_list, mTodoCats);
+                                mTodoTypeAdapter.setOnItemClickListener((adapter, view, position) -> {
+                                    hidePopMenu();
+                                    mTodoType = viewPager.getCurrentItem();
+                                    mPosition = position;
+                                    mTodoCat = position + 1;
+                                    tvTitle.setText(String.format(getResources().getString(R.string.navi_todo) + "(%s)",
+                                            mTodoCats.get(position)));
+                                    Fragment fragment = mFragments.get(mTodoType);
+                                    if (fragment instanceof TodoFragment && fragment.isAdded() && fragment.isVisible() && fragment
+                                            .getUserVisibleHint()) {
+                                        ((TodoFragment)fragment).changeType(mTodoCat);
+                                    }
+                                });
+                                popRv.setAdapter(mTodoTypeAdapter);
+                            });
     }
 
     private void openTodoEditPage() {
@@ -193,22 +203,26 @@ public class TodoTabFragment extends BaseLazyLoadFragment {
         tvTitle.setText(getResources().getString(R.string.navi_todo));
         ivLeft.setOnClickListener(v -> killMyself());
         ivRight.setImageDrawable(mContext.getDrawable(R.drawable.ic_swap_horiz_black_24dp));
-        ivRight.setOnClickListener(v -> showTodoTypeMenu());
+        ivRight.setOnClickListener(v -> showPopMenu());
     }
 
-    private void showTodoTypeMenu() {
-        popupWindow = new BasePopupWindow(mContext, UIUtils.dp2px(mContext, 70), UIUtils.dp2px(mContext, 400)) {
-            @Override
-            public View onCreateContentView() {
-                if (popRv == null) {
-                    popRv = (RecyclerView)createPopupById(R.layout.layout_popup_list);
-                }
-                return popRv;
+    private void showPopMenu() {
+        if (popWindow != null && !popWindow.isShow()) {
+            popWindow.show();
+            if (popView == null) {
+                return;
             }
-        };
-        popupWindow.setOffsetX(toolbar.getWidth() - 100);
-        popupWindow.setAutoLocatePopup(true);
-        popupWindow.showPopupWindow(toolbar);
+//            ViewGroup.LayoutParams params = popView.getLayoutParams();
+//            params.width = ScreenUtils.getScreenWidth() / 2;
+//            params.height = ScreenUtils.getScreenWidth() / 3;
+//            popView.setLayoutParams(params);
+        }
+    }
+
+    private void hidePopMenu() {
+        if (popWindow != null && popWindow.isShow()) {
+            popWindow.dismiss();
+        }
     }
 
     private void initTabLayout() {
@@ -239,10 +253,12 @@ public class TodoTabFragment extends BaseLazyLoadFragment {
     }
 
     static class InnerPagerAdapter extends FragmentPagerAdapter {
+
         private ArrayList<Fragment> fragments = new ArrayList<>();
         private String[] titles;
 
-        public InnerPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments, String[] titles) {
+        public InnerPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments,
+                                 String[] titles) {
             super(fm);
             this.fragments = fragments;
             this.titles = titles;
@@ -280,6 +296,5 @@ public class TodoTabFragment extends BaseLazyLoadFragment {
         killMyself();
         return true;
     }
-
 
 }

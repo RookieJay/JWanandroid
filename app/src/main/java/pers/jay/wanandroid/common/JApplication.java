@@ -1,10 +1,12 @@
 package pers.jay.wanandroid.common;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 
@@ -86,22 +88,32 @@ public class JApplication extends BaseApp implements App{
             this.mAppDelegate.onCreate(this);
         }
         mApplication = this;
+        delayInit();
         //设置log自动在apk为debug版本时打开，在release版本时关闭
         TimberUtils.setLogAuto();
         RetrofitUrlManager.getInstance().setDebug(true);
         SPUtils.create(this, "cookies_prefs");
-        if (BuildConfig.DEBUG) {
-//            DoraemonKit.install(this);
-//            DoraemonKit.hide();
-        }
-        RxTool.init(this);
-        //Bugly
-        Bugly.init(getApplicationContext(), Const.APP_ID, false);
-        // X5
-        X5WebUtils.init(this);
-        // 暗黑模式
-        loadDarkMode();
-        JinrishiciFactory.init(this);
+    }
+
+    private void delayInit() {
+        //设置线程的优先级，不与主线程抢资源
+        HandlerThread thread = new HandlerThread("app_delay_init_thread", Process.THREAD_PRIORITY_BACKGROUND);
+        thread.start();
+        //子线程初始化第三方组件.建议延迟初始化，可以发现是否影响其它功能，或者是崩溃！
+        new Handler(thread.getLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                RxTool.init(getApp());
+                //Bugly
+                Bugly.init(getApplicationContext(), Const.APP_ID, false);
+                // X5
+                X5WebUtils.init(getApp());
+                // 暗黑模式
+                loadDarkMode();
+                JinrishiciFactory.init(getApp());
+            }
+        }, 5000L);
+
     }
 
     public static void loadDarkMode() {

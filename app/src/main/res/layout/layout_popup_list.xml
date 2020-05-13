@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_corner_dialog"
     android:overScrollMode="never"
-    android:paddingTop="10dp">
+    android:background="@drawable/bg_corner_dialog"
+    android:padding="5dp">
     
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -14,6 +14,6 @@
         android:id="@+id/mRecyclerView"
         tools:itemCount="6"
         tools:listitem="@layout/base_popup_item_list"
-        style="@style/RecyclerViewStyle" />
+        android:scrollbars="none" />
     
 </RelativeLayout>

@@ -212,10 +212,10 @@ public class TodoTabFragment extends BaseLazyLoadFragment {
             if (popView == null) {
                 return;
             }
-//            ViewGroup.LayoutParams params = popView.getLayoutParams();
-//            params.width = ScreenUtils.getScreenWidth() / 2;
-//            params.height = ScreenUtils.getScreenWidth() / 3;
-//            popView.setLayoutParams(params);
+            ViewGroup.LayoutParams params = popView.getLayoutParams();
+            params.width = ScreenUtils.getScreenWidth() / 2;
+            params.height = ScreenUtils.getScreenWidth() / 3;
+            popView.setLayoutParams(params);
         }
     }
 

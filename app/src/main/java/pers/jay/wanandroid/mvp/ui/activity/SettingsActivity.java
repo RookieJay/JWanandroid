@@ -132,7 +132,6 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
                                 }
                             })
                             .bindData(layer -> {
-                                layer.getParent().setBackground(ContextCompat.getDrawable(this, R.drawable.bg_corner_top_dialog));
                                 RecyclerView rv = layer.getView(R.id.mRecyclerView);
                                 ArmsUtils.configRecyclerView(rv,
                                         new LinearLayoutManager(SettingsActivity.this));

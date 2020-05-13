@@ -38,7 +38,7 @@ gradle.taskGraph.beforeTask { task ->
 }
 
 gradle.buildFinished {
-    println '执行阶段，耗时：' + (System.currentTimeMillis() - beginOfProjectExcute) + 'ms'
+//    println '执行阶段，耗时：' + (System.currentTimeMillis() - beginOfProjectExcute) + 'ms'
 }
 
 

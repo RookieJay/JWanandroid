@@ -112,8 +112,6 @@ dependencies {
     implementation rootProject.ext.dependencies["AnyLayer"]
     implementation rootProject.ext.dependencies["flexBox"]
     implementation rootProject.ext.dependencies["flycoTabLayout"]
-    implementation rootProject.ext.dependencies["BasePopup"]
-    implementation rootProject.ext.dependencies["BasePopupSupport"]
     implementation rootProject.ext.dependencies["CircleImageView"]
     implementation rootProject.ext.dependencies["LikeButton"]
     implementation rootProject.ext.dependencies["multipleStatusView"]

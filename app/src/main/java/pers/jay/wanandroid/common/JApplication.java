@@ -100,7 +100,6 @@ public class JApplication extends BaseApp implements App{
         new Handler(thread.getLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.e("delayInit当前线程", Thread.currentThread().getName());
                 Utils.init(JApplication.this);
                 RxTool.init(getApp());
                 // Bugly

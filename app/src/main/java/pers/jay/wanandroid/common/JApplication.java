@@ -89,6 +89,8 @@ public class JApplication extends BaseApp implements App{
             this.mAppDelegate.onCreate(this);
         }
         mApplication = this;
+        // 暗黑模式
+        loadDarkMode();
         delayInit();
     }
 
@@ -106,8 +108,7 @@ public class JApplication extends BaseApp implements App{
                 Bugly.init(getApplicationContext(), Const.APP_ID, false);
                 // X5
                 X5WebUtils.init(getApp());
-                // 暗黑模式
-                loadDarkMode();
+                // 今日诗词
                 JinrishiciFactory.init(getApp());
                 // 设置log自动在apk为debug版本时打开，在release版本时关闭
                 TimberUtils.setLogAuto();

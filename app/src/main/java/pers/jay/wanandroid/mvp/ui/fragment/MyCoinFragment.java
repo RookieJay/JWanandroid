@@ -68,7 +68,7 @@ public class MyCoinFragment extends BaseFragment<MyCoinPresenter> implements MyC
 
     private MyCoinAdapter adapter;
     private int pageCount;
-    private int page;
+    private int page = 1;
 
     private int maxCoin;
     private int myCoin;
@@ -107,7 +107,7 @@ public class MyCoinFragment extends BaseFragment<MyCoinPresenter> implements MyC
         ArmsUtils.configRecyclerView(mRecyclerView, new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
         adapter.setOnLoadMoreListener(() -> {
-            if ((pageCount != 1 && pageCount == page + 1)) {
+            if ((pageCount != 0 && pageCount == page + 1)) {
                 adapter.loadMoreEnd();
                 return;
             }
@@ -187,7 +187,7 @@ public class MyCoinFragment extends BaseFragment<MyCoinPresenter> implements MyC
             adapter.loadMoreEnd();
             return;
         }
-        if (info.getCurPage() == 0) {
+        if (info.getCurPage() == 1) {
             adapter.replaceData(info.getDatas());
         }
         else {

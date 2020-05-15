@@ -9,7 +9,7 @@
     android:background="?attr/colorPrimary"
     app:contentInsetStart="0dp"
     app:layout_collapseMode="pin"
-    app:layout_scrollFlags="scroll|enterAlways"
+    app:layout_scrollFlags="scroll|snap"
     android:padding="10dp">
     
     <RelativeLayout

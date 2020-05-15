@@ -61,7 +61,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                               if (user != null) {
                                   AppConfig.getInstance().setLogin(true);
                                   AppConfig.getInstance().setUserName(user.getUsername());
-                                  mRootView.loginSuccess(user);
+                                  mRootView.loginSuccess();
                               }
                           }
                           else {

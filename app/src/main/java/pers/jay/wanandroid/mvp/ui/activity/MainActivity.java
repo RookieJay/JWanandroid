@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.widget.FrameLayout;
 
 import com.jess.arms.base.BaseActivity;
@@ -36,6 +37,7 @@ import pers.jay.wanandroid.mvp.ui.fragment.SquareFragment;
 import pers.zjc.commonlibs.ui.BasePagerAdapter;
 import pers.zjc.commonlibs.util.ActivityUtils;
 import pers.zjc.commonlibs.util.FragmentUtils;
+import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -75,6 +77,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         //        cm.setSaturation(0);
         //        paint.setColorFilter(new ColorMatrixColorFilter(cm));
         //        getWindow().getDecorView().setLayerType(View.LAYER_TYPE_HARDWARE, paint);
+        ToastUtils.setGravity(Gravity.CENTER, 0, 0);
     }
 
     private void initViewPager() {

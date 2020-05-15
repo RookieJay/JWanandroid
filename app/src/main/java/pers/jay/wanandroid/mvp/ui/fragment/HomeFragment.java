@@ -49,6 +49,7 @@ import pers.jay.wanandroid.utils.JUtils;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
 import pers.jay.wanandroid.utils.UIUtils;
+import pers.zjc.commonlibs.util.StringUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
 
@@ -169,7 +170,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
         UserFragment userFragment = UserFragment.newInstance();
         Bundle bundle = new Bundle();
         bundle.putLong(Const.Key.KEY_USER_ID, article.getUserId());
-        bundle.putString(Const.Key.KEY_TITLE, article.getAuthor());
+        bundle.putString(Const.Key.KEY_TITLE, StringUtils.isEmpty(article.getAuthor()) ? article.getShareUser() : article.getAuthor());
         userFragment.setArguments(bundle);
         MainActivity activity = (MainActivity)getActivity();
         if (activity == null) {

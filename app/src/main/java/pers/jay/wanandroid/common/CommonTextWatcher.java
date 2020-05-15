@@ -1,6 +1,5 @@
 package pers.jay.wanandroid.common;
 
-import android.text.Editable;
 import android.text.TextWatcher;
 
 public abstract class CommonTextWatcher implements TextWatcher {

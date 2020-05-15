@@ -2,6 +2,7 @@
     <string name="app_name" tools:ignore="PrivateResource">JWanAndroid</string>
     <!--button-->
     <string name="bt_login">登录</string>
+    <string name="bt_signup">注册</string>
     <string name="bt_commit">提交</string>
     <!--textView-->
     <string name="tv_to_register">—没有账号？去注册—</string>
@@ -10,8 +11,10 @@
     <!--hint-->
     <string name="hint_account">账号</string>
     <string name="hint_password">密码</string>
+    <string name="hint_password_confirm">确认密码</string>
     <string name="error_no_account">请输入账号</string>
     <string name="error_no_password">请输入密码</string>
+    <string name="error_confirm_password">两次输入密码不一致</string>
     <string name="back_tips">再按一次退出程序</string>
     <string name="hint_search_articles">用空格隔开多个关键词</string>
     <string name="hint_user_name">去登录</string>

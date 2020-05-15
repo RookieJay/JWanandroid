@@ -1,5 +1,6 @@
 package pers.jay.wanandroid.mvp.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +11,6 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,6 +19,8 @@ import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.ArmsUtils;
+
+import org.simple.eventbus.Subscriber;
 
 import javax.inject.Inject;
 
@@ -39,7 +41,7 @@ import pers.zjc.commonlibs.util.FragmentUtils;
 import pers.zjc.commonlibs.util.KeyboardUtils;
 import pers.zjc.commonlibs.util.ScreenUtils;
 import pers.zjc.commonlibs.util.StringUtils;
-import timber.log.Timber;
+import pers.zjc.commonlibs.util.ToastUtils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -65,10 +67,19 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     private int scrollToPosition;
     private boolean isScrolled;
     private View mRootView;
+    private MainActivity mActivity;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof MainActivity) {
+            mActivity = (MainActivity)context;
+        }
     }
 
     @Override
@@ -129,6 +140,13 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
             tilPassword.setErrorEnabled(false);
         }
         loginPresenter.login(userName, password);
+    }
+
+    @OnClick(R.id.tvToRegister)
+    public void onRegClick(View view) {
+        KeyboardUtils.hideSoftInput(view);
+        SignupFragment signupFragment = SignupFragment.newInstance();
+        mActivity.switchFragment(signupFragment);
     }
 
     @Override
@@ -212,7 +230,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @Override
     public void showMessage(@NonNull String message) {
         checkNotNull(message);
-        ArmsUtils.snackbarText(message);
+        ToastUtils.showShort(message);
     }
 
     @Override
@@ -246,7 +264,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     }
 
     @Override
-    public void loginSuccess(User user) {
+    public void loginSuccess() {
         if (getFragmentManager() != null) {
             back();
             EventBusManager.getInstance().post(new Event<>(Const.EventCode.LOGIN_SUCCESS, null));
@@ -254,8 +272,18 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     }
 
     private void back() {
-        FragmentUtils.pop(getFragmentManager(), true);
+        if (getFragmentManager() != null) {
+            FragmentUtils.pop(getFragmentManager(), true);
+        }
         EventBusManager.getInstance().post(new Event<>(Const.EventCode.LOGIN_RETURN, null));
+    }
+
+    @Subscriber
+    public void onSignUpAndLoginSuccess(Event<User> event) {
+        if (event != null && event.getEventCode() == Const.EventCode.SIGN_SUCCESS) {
+            User user = event.getData();
+            loginPresenter.login(user.getUsername(), user.getPassword());
+        }
     }
 
 }

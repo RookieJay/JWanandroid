@@ -72,4 +72,9 @@ public class User {
     public List<Integer> getCollectIds() { return collectIds;}
 
     public void setCollectIds(List<Integer> collectIds) { this.collectIds = collectIds;}
+
+    @Override
+    public String toString() {
+        return "User{" + "admin=" + admin + ", email='" + email + '\'' + ", icon='" + icon + '\'' + ", id=" + id + ", nickname='" + nickname + '\'' + ", password='" + password + '\'' + ", token='" + token + '\'' + ", type=" + type + ", username='" + username + '\'' + ", chapterTops=" + chapterTops + ", collectIds=" + collectIds + '}';
+    }
 }

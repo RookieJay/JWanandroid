@@ -12,6 +12,7 @@
     android:focusableInTouchMode="true"
     android:scrollbars="vertical">
     
+    
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,21 +21,32 @@
         android:paddingRight="20dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp">
-    
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@mipmap/ic_launcher_web"
+        
+        <FrameLayout
+            android:id="@+id/flLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:contentDescription="@string/app_name" />
-        
+            android:background="@drawable/bg_corner_dialog"
+            android:backgroundTint="@color/colorPrimary"
+            android:padding="@dimen/dp_10">
+    
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_splash"
+                android:tint="@color/white"
+                android:contentDescription="@string/app_name" />
+            
+        </FrameLayout>
+    
         <android.support.design.widget.TextInputLayout
             android:id="@+id/tilUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ivLogo"
+            android:layout_below="@+id/flLogo"
             android:layout_marginTop="30dp"
             android:theme="@style/EditTextTheme"
             app:hintAnimationEnabled="false"

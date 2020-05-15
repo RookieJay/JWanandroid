@@ -100,6 +100,7 @@ public interface Const {
         int CHANGE_UI_MODE = 7;
         int SHARE_SUCCESS = 8;
         int LOGIN_RETURN = 9;
+        int SIGN_SUCCESS = 10;
     }
 
     @SuppressLint("SimpleDateFormat")

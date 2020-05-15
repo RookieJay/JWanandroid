@@ -15,14 +15,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             
-            <include layout="@layout/include_toolbar"/>
+            <include layout="@layout/include_toolbar_collapse"/>
             
             <!--    enterAlwaysCollapsed。这里涉及到Child View的高度和最小高度，向下滚动时，Child View先向下滚动最小高度值，然后Scrolling View开始滚动，到达边界时，Child View再向下滚动，直至显示完全。     -->
             <RelativeLayout
                 android:id="@+id/rlHead"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_120"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+                app:layout_scrollFlags="scroll|snap"
                 android:minHeight="@dimen/dp_120"
                 android:visibility="gone"
                 tools:visibility="visible">

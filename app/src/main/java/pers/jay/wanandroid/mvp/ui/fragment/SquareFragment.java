@@ -44,6 +44,7 @@ import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
+import pers.jay.wanandroid.utils.RvAnimUtils;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
 import pers.zjc.commonlibs.util.FragmentUtils;
@@ -135,6 +136,7 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter>
     private void initRecyclerView() {
         mAdapter = new ArticleAdapter(new ArrayList<>(), ArticleAdapter.TYPE_COMMON);
         ArmsUtils.configRecyclerView(recyclerView, new LinearLayoutManager(mContext));
+        RvAnimUtils.loadAnimation(mAdapter);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(() -> {
             if ((pageCount != 0 && pageCount == page + 1)) {
@@ -267,5 +269,14 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter>
     @Override
     public void showNoNetwork() {
         statusView.showNoNetwork();
+    }
+
+    @Subscriber
+    public void onAnimChanged(Event event) {
+        if (null != event && event.getEventCode() == Const.EventCode.CHANGE_RV_ANIM) {
+            if (mAdapter != null) {
+                RvAnimUtils.loadAnimation(mAdapter);
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@
             android:id="@+id/tvRank"
             android:layout_width="25dp"
             android:layout_height="wrap_content"
+            android:textColor="@color/text_color_second"
             android:maxWidth="40dp"
             android:textSize="@dimen/sp_14"
             tools:text="49"

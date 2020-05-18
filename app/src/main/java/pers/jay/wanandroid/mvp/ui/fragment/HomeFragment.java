@@ -163,7 +163,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     }
 
     private void switchTabPage(Article article) {
-        showMessage("tab");
+
     }
 
     private void switchToUserPage(Article article) {

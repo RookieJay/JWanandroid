@@ -1,8 +1,6 @@
 package pers.jay.wanandroid.mvp.ui.adapter;
 
 import android.support.annotation.NonNull;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -27,21 +25,15 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
     public static final int TYPE_COMMON = 1;
     public static final int TYPE_COLLECTION = 2;
 
-    private Animation likeAnimation;
     private int mType;
-    private RequestOptions options = new RequestOptions().placeholder(
-            JApplication.getInstance().getDrawable(R.color.gray))
-                                                         .error(JApplication.getInstance()
-                                                                            .getDrawable(
-                                                                                    R.color.red))
+    private RequestOptions options = new RequestOptions().placeholder(JApplication.getInstance().getDrawable(R.color.gray))
+                                                         .error(JApplication.getInstance().getDrawable(R.color.red))
                                                          .transform(new RoundedCorners(20));
     private LikeListener likeListener;
 
     public ArticleAdapter(List<Article> articles, int type) {
         super(R.layout.item_article, articles);
         mType = type;
-        likeAnimation = AnimationUtils.loadAnimation(JApplication.getInstance(),
-                R.anim.anim_fade_out);
     }
 
     public void setLikeListener(LikeListener likeListener) {

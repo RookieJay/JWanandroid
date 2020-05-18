@@ -17,6 +17,8 @@ import com.jess.arms.utils.ArmsUtils;
 import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import org.simple.eventbus.Subscriber;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,7 @@ import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.common.ScrollTopListener;
 import pers.jay.wanandroid.di.component.DaggerQAComponent;
+import pers.jay.wanandroid.event.Event;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.mvp.contract.QAContract;
@@ -221,5 +224,14 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter>
     @Override
     public void scrollToTopRefresh() {
         lazyLoadData();
+    }
+
+    @Subscriber
+    public void onAnimChanged(Event event) {
+        if (null != event && event.getEventCode() == Const.EventCode.CHANGE_RV_ANIM) {
+            if (adapter != null) {
+                RvAnimUtils.loadAnimation(adapter);
+            }
+        }
     }
 }

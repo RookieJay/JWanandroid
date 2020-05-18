@@ -1,8 +1,12 @@
 package pers.jay.wanandroid.common;
 
+import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.utils.DarkModeUtils;
+import pers.jay.wanandroid.utils.PoemUtils;
 import pers.jay.wanandroid.utils.RvAnimUtils;
 import pers.zjc.commonlibs.util.SPUtils;
+import pers.zjc.commonlibs.util.StringUtils;
+import timber.log.Timber;
 
 public class AppConfig {
 
@@ -15,6 +19,7 @@ public class AppConfig {
     private int rvAnim = RvAnimUtils.RvAnim.NONE;
     private int darkModePosition = DarkModeUtils.POSITION_NIGHT_FOLLOW_SYSTEM;
     private String avatar;
+    private String poem;
 
     private final SPUtils spUtils = SPUtils.getInstance("config");;
 
@@ -36,6 +41,7 @@ public class AppConfig {
         rvAnim = spUtils.getInt("rvAnim", rvAnim);
         avatar = spUtils.getString("avatar", "");
         darkModePosition = spUtils.getInt("darkModePosition", darkModePosition);
+        poem = spUtils.getString("poem", "");
     }
 
     public String getToken() {
@@ -117,6 +123,20 @@ public class AppConfig {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
         spUtils.put("avatar", avatar);
+    }
+
+    public String getPoem() {
+        String s = StringUtils.isEmpty(poem) ? JApplication.getInstance().getResources().getString(R.string.app_name) : poem;
+        Timber.e(StringUtils.isEmpty(poem) ?  "空的呢" : poem);
+        return s;
+    }
+
+    public void setPoem(String poem) {
+        if (StringUtils.isEmpty(poem)) {
+            poem = JApplication.getInstance().getResources().getString(R.string.app_name);
+        }
+        this.poem = poem;
+        spUtils.put("poem", poem);
     }
 
     public void clear() {

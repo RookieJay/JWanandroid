@@ -69,7 +69,7 @@ public class NetWorkManager {
 //        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         //这行必须加 不然默认不打印
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient.Builder builder = RetrofitUrlManager.getInstance().with(new OkHttpClient.Builder());
+        OkHttpClient.Builder builder = getOkHttpBuilder();
         // debug模式才打印
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(interceptor);
@@ -86,6 +86,10 @@ public class NetWorkManager {
                           .addInterceptor(new DoraemonInterceptor())
                           .build();
         return mOkHttpClient;
+    }
+
+    public OkHttpClient.Builder getOkHttpBuilder() {
+        return RetrofitUrlManager.getInstance().with(new OkHttpClient.Builder());
     }
 
     public <T> T getApiService(Class<T> tClass) {

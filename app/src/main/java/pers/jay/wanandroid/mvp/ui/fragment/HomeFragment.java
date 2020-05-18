@@ -17,6 +17,8 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -170,7 +172,8 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
         UserFragment userFragment = UserFragment.newInstance();
         Bundle bundle = new Bundle();
         bundle.putLong(Const.Key.KEY_USER_ID, article.getUserId());
-        bundle.putString(Const.Key.KEY_TITLE, StringUtils.isEmpty(article.getAuthor()) ? article.getShareUser() : article.getAuthor());
+        bundle.putString(Const.Key.KEY_TITLE, StringUtils.isEmpty(
+                article.getAuthor()) ? article.getShareUser() : article.getAuthor());
         userFragment.setArguments(bundle);
         MainActivity activity = (MainActivity)getActivity();
         if (activity == null) {
@@ -188,15 +191,18 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     }
 
     private void initRefreshLayout() {
-        StoreHouseHeader header = new StoreHouseHeader(mContext);
-        header.initWithString("WANANDROID");
-        refreshLayout.setRefreshHeader(header);
-        SmartRefreshUtils.with(refreshLayout).pureScrollMode().setRefreshListener(() -> {
-            if (mPresenter != null) {
-                page = 0;
-                mPresenter.requestHomeData();
-            }
-        });
+        SmartRefreshUtils.with(refreshLayout)
+                         .pureScrollMode()
+                         .showPoem()
+                         .setRefreshListener(() -> {
+                             if (mPresenter != null) {
+                                 page = 0;
+                                 mPresenter.requestHomeData();
+                             }
+                             ClassicsHeader header = (ClassicsHeader)refreshLayout.getRefreshHeader();
+                             header.setLastUpdateText("当前页" + page);
+                             refreshLayout.setRefreshHeader(header);
+                         });
     }
 
     private void initBanner() {
@@ -217,11 +223,11 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
                 startActivity(intent);
             }
         });
-//                Paint paint = new Paint();
-//                ColorMatrix cm = new ColorMatrix();
-//                cm.setSaturation(0);
-//                paint.setColorFilter(new ColorMatrixColorFilter(cm));
-//                getWindow().getDecorView().setLayerType(View.LAYER_TYPE_HARDWARE, paint);
+        //                Paint paint = new Paint();
+        //                ColorMatrix cm = new ColorMatrix();
+        //                cm.setSaturation(0);
+        //                paint.setColorFilter(new ColorMatrixColorFilter(cm));
+        //                getWindow().getDecorView().setLayerType(View.LAYER_TYPE_HARDWARE, paint);
     }
 
     @Override

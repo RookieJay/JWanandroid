@@ -18,7 +18,11 @@ import com.jess.arms.base.delegate.AppLifecycles;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.Preconditions;
+import com.jinrishici.sdk.android.JinrishiciClient;
 import com.jinrishici.sdk.android.factory.JinrishiciFactory;
+import com.jinrishici.sdk.android.listener.JinrishiciCallback;
+import com.jinrishici.sdk.android.model.JinrishiciRuntimeException;
+import com.jinrishici.sdk.android.model.PoetySentence;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -27,6 +31,7 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.bugly.Bugly;
 import com.vondear.rxtool.RxTool;
 import com.ycbjie.webviewlib.X5WebUtils;
@@ -51,7 +56,9 @@ public class JApplication extends BaseApp implements App{
                     @Override
                     public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
                         layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色
-                        return new MaterialHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
+                        ClassicsHeader header = new ClassicsHeader(context);
+                        header.setEnableLastTime(false);
+                        return header;//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
                     }
                 });
                 //设置全局的Footer构建器
@@ -91,6 +98,8 @@ public class JApplication extends BaseApp implements App{
         mApplication = this;
         // 暗黑模式
         loadDarkMode();
+        // 设置log自动在apk为debug版本时打开，在release版本时关闭
+        TimberUtils.setLogAuto();
         delayInit();
     }
 
@@ -110,16 +119,15 @@ public class JApplication extends BaseApp implements App{
                 X5WebUtils.init(getApp());
                 // 今日诗词
                 JinrishiciFactory.init(getApp());
-                // 设置log自动在apk为debug版本时打开，在release版本时关闭
-                TimberUtils.setLogAuto();
                 // 开启 Debug 模式下可以打印网络请求日志
                 RetrofitUrlManager.getInstance().setDebug(true);
                 // 初始化sp
                 SPUtils.create(getApplicationContext(), "cookies_prefs");
             }
         }, 5000L);
-
     }
+
+
 
     public static void loadDarkMode() {
         int position = AppConfig.getInstance().getDarkModePosition();

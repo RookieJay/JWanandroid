@@ -14,6 +14,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -24,16 +26,21 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import okhttp3.ResponseBody;
+import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.base.BaseWanObserver;
+import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.CollectHelper;
+import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.http.RetryWithDelay;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.model.BannerImg;
 import pers.jay.wanandroid.mvp.contract.HomeContract;
 import pers.jay.wanandroid.result.WanAndroidResponse;
+import pers.jay.wanandroid.utils.PoemUtils;
 import pers.jay.wanandroid.utils.rx.RxScheduler;
 import pers.zjc.commonlibs.util.ObjectUtils;
+import pers.zjc.commonlibs.util.StringUtils;
 import timber.log.Timber;
 
 @FragmentScope
@@ -158,6 +165,14 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                               @Override
                               public ObservableSource<ResponseBody> apply(
                                       WanAndroidResponse<ZipEntity> zipEntityWanAndroidResponse) throws Exception {
+                                  // 判断本地是否获取到，若无则获取今日诗词并保存本地
+                                  String poem = AppConfig.getInstance().getPoem();
+                                  String appName = JApplication.getInstance().getString(R.string.app_name);
+                                  if (StringUtils.isEmpty(poem) || StringUtils.equals(poem, appName)) {
+                                      PoemUtils.getPoemSync();
+                                      Timber.e(StringUtils.isEmpty(poem) ?  "设置后空的呢" : poem);
+                                  }
+                                  // 获取每日一图
                                   return mModel.getBingImg();
                               }
                           })

@@ -3,7 +3,7 @@
 ## 介绍
 Java版Wanandroid客户端，主体使用MvpArms，利用 MVP + RxJava + Retrofit + Glide + EventBus等框架开发。
 
-# 界面截图
+## 界面截图
 
 | ![首页](imgs/首页.jpg) | ![知识体系](imgs/知识体系.jpg) | ![公众号](imgs/公众号.jpg) | ![导航](imgs/导航.jpg) |
 | --- | --- | --- | --- |
@@ -13,12 +13,8 @@ Java版Wanandroid客户端，主体使用MvpArms，利用 MVP + RxJava + Retrofi
 
 ## 体验apk:
 
-[https://www.pgyer.com/PmUT](https://www.pgyer.com/PmUT)
-
-或
-
-[https://github.com/RookieJay/JWanandroid/raw/master/apk/wanandroid-release-v1.0.0.apk](https://github.com/RookieJay/JWanandroid/raw/master/apk/wanandroid-release-v1.0.0.apk)
-
+- [蒲公英下载](https://www.pgyer.com/PmUT)
+- [github下载](https://github.com/RookieJay/JWanandroid/raw/master/apk/wanandroid-release-v1.0.0.apk)
 
 ## 开放API
 
@@ -26,15 +22,46 @@ Java版Wanandroid客户端，主体使用MvpArms，利用 MVP + RxJava + Retrofi
 
 ## 主要功能
 
-- 文章：首页、知识体系、公众号、导航、项目、广场
+- 文章：首页、问答、公众号、知识体系、导航、项目、广场
 - 搜索：热门搜索、搜索历史
 - 积分：我的积分、积分排行榜
 - 分享：我的分享、文章分享
 - 收藏：收藏/取消收藏文章、我的收藏
-- TODO：待办、已办的增删改查
+- TODO：待办、已办
 - 置顶：各个文章列表点击按钮置顶、底部导航再次点击置顶
 - 设置：暗黑模式、列表动画、检查更新
 - 个人：登录、头像本地设置及背景模糊
+
+## 开源框架
+
+- [JessYanCoding/MVPArms](https://github.com/JessYanCoding/MVPArms)
+- [square/dagger](https://github.com/square/dagger)
+- [ReactiveX/RxJava](https://github.com/ReactiveX/RxJava)
+- [square/retrofit](https://github.com/square/retrofit)
+- [tbruyelle/RxPermissions](https://github.com/tbruyelle/RxPermissions)
+- [bumptech/glide](https://github.com/bumptech/glide)
+- [scwang90/SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
+- [youth5201314/banner](https://github.com/youth5201314/banner)
+- [CymChad/BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
+- [goweii/AnyLayer](https://github.com/goweii/AnyLayer)
+- [H07000223/FlycoTabLayout](https://github.com/H07000223/FlycoTabLayout)
+- [jd-alexander/LikeButton](https://github.com/jd-alexander/LikeButton)
+- [Kennyc1012/MultiStateView](https://github.com/Kennyc1012/MultiStateView)
+
+## 更新日志
+
+### 1.1.0(2)
+- 适配Android Q 以下暗黑模式(手动开关)
+- 优化主界面及tab界面pagerAdapter
+- 配置改变时(横竖屏切换及昼夜模式改变)自定义逻辑，不执行系统默认重建
+- 新增/优化个人用户界面MD风格
+- 新增状态布局[MultiStateView](https://github.com/Kennyc1012/MultiStateView)
+- 新增分享、问答等功能
+- Application延迟加载第三方库，提高冷启动速度
+- 优化UI布局、fix bugs
+
+### 1.0.0(1)
+- 第一版，基本包含[wanandroid开放API](https://wanandroid.com/blog/show/2)所有功能
 
 
 

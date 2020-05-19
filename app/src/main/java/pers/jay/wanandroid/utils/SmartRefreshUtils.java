@@ -12,6 +12,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
+import pers.jay.wanandroid.widgets.PoemHeader;
 import pers.zjc.commonlibs.util.StringUtils;
 import timber.log.Timber;
 
@@ -127,10 +128,8 @@ public class SmartRefreshUtils {
         }
         String poem = AppConfig.getInstance().getPoem();
         Timber.e(StringUtils.isEmpty(poem) ?  "空的呢" : poem);
-        if (header instanceof StoreHouseHeader) {
-            ((StoreHouseHeader)header).initWithString("WANANDROID");
-        } else if (header instanceof ClassicsHeader) {
-            ((ClassicsHeader)header).setLastUpdateText(poem);
+        if (header instanceof PoemHeader) {
+            ((PoemHeader)header).setHeaderText(poem);
         }
         mRefreshLayout.setRefreshHeader(header);
         return this;

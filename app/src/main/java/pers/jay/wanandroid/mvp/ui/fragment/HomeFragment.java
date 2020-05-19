@@ -48,9 +48,11 @@ import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
 import pers.jay.wanandroid.utils.JUtils;
+import pers.jay.wanandroid.utils.PoemUtils;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
 import pers.jay.wanandroid.utils.UIUtils;
+import pers.jay.wanandroid.widgets.PoemHeader;
 import pers.zjc.commonlibs.util.StringUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
@@ -191,17 +193,21 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     }
 
     private void initRefreshLayout() {
+        PoemHeader header = new PoemHeader(mContext);
+        header.setPrimaryColors();
         SmartRefreshUtils.with(refreshLayout)
                          .pureScrollMode()
+                         .setRefreshHeader(header)
                          .showPoem()
                          .setRefreshListener(() -> {
                              if (mPresenter != null) {
                                  page = 0;
                                  mPresenter.requestHomeData();
                              }
-                             ClassicsHeader header = (ClassicsHeader)refreshLayout.getRefreshHeader();
-                             header.setLastUpdateText("当前页" + page);
-                             refreshLayout.setRefreshHeader(header);
+                             PoemUtils.getPoemAsync(() -> {
+                                 String poem = AppConfig.getInstance().getPoem();
+                                 header.setHeaderText(poem);
+                             });
                          });
     }
 

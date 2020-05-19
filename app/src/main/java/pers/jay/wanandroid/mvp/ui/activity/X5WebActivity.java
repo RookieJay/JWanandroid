@@ -66,8 +66,8 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
     Toolbar toolbar;
     @BindView(R.id.webView)
     X5WebView webView;
-    @BindView(R.id.flWeb)
-    NestedScrollView flWeb;
+//    @BindView(R.id.flWeb)
+//    NestedScrollView flWeb;
     @BindView(R.id.fabTop)
     FloatingActionButton fabTop;
 
@@ -142,7 +142,7 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
         fabTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flWeb.scrollTo(0, 0);
+//                flWeb.scrollTo(0, 0);
             }
         });
     }

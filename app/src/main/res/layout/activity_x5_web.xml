@@ -32,20 +32,20 @@
             app:pressedTranslationZ="@dimen/dp_10"
             app:rippleColor="@color/colorPrimaryDark" />
     
-        <android.support.v4.widget.NestedScrollView
-            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
-            android:id="@+id/flWeb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<!--        <android.support.v4.widget.NestedScrollView-->
+<!--            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"-->
+<!--            android:id="@+id/flWeb"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
                 
-                <com.ycbjie.webviewlib.X5WebView
-                    app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
+                <pers.jay.wanandroid.widgets.CollapsingWebView
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     android:id="@+id/webView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scrollbarSize="3dp"/>
         
-        </android.support.v4.widget.NestedScrollView>
+<!--        </android.support.v4.widget.NestedScrollView>-->
     
     
 </android.support.design.widget.CoordinatorLayout>

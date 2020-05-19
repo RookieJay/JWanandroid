@@ -4,38 +4,19 @@ import com.jinrishici.sdk.android.JinrishiciClient;
 import com.jinrishici.sdk.android.listener.JinrishiciCallback;
 import com.jinrishici.sdk.android.model.JinrishiciRuntimeException;
 import com.jinrishici.sdk.android.model.PoetySentence;
-import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.http.NetWorkManager;
+import pers.jay.wanandroid.widgets.PoemHeader;
 import pers.zjc.commonlibs.util.ThreadUtils;
 import timber.log.Timber;
 
 public final class PoemUtils {
 
-    public static void setHeaderWords(RefreshHeader header) {
-        if (header == null) {
-            return;
-        }
-        if (ThreadUtils.isMainThread()) {
-            Timber.e("同步方法，不能在主线程调用");
-            return;
-        }
-        String poem = AppConfig.getInstance().getPoem();
-        if (header instanceof StoreHouseHeader) {
-            ((StoreHouseHeader)header).initWithString("WANANDROID");
-        }
-        else if (header instanceof ClassicsHeader) {
-            ((ClassicsHeader)header).setLastUpdateText(poem);
-        }
-
-    }
-
-    public static void getPoemAsync(RefreshLayout refreshLayout) {
-        if (refreshLayout == null) {
+    public static void getPoemAsync(IPoemResult result) {
+        if (result == null) {
             return;
         }
         new JinrishiciClient().getOneSentenceBackground(new JinrishiciCallback() {
@@ -43,15 +24,16 @@ public final class PoemUtils {
             public void done(PoetySentence poetySentence) {
                 if (poetySentence.getData() != null) {
                     String content = poetySentence.getData().getContent();
-                    Timber.e("请求成功，诗句是%s", content);
-                    AppConfig.getInstance().setPoem(format(content));
-                    setHeaderWords(refreshLayout.getRefreshHeader());
+                    Timber.e("异步请求成功，诗句是%s", content);
+                    AppConfig.getInstance().setPoem(content);
+                    result.onSuccess();
                 }
             }
 
             @Override
             public void error(JinrishiciRuntimeException e) {
                 AppConfig.getInstance().setPoem("");
+                result.onFail();
             }
         });
     }
@@ -73,7 +55,8 @@ public final class PoemUtils {
             return;
         }
         String poem = data.getContent();
-        AppConfig.getInstance().setPoem(format(poem));
+        Timber.e("同步请求成功，诗句是%s", poem);
+        AppConfig.getInstance().setPoem(poem);
     }
 
     /**
@@ -84,6 +67,14 @@ public final class PoemUtils {
     public static String format(String s) {
         return s.replaceAll(
                 "[`qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}【】‘；：”“’。，、？|-]", "");
+    }
+
+    public interface IPoemResult {
+
+        void onSuccess();
+
+        default void onFail(){};
+
     }
 
 }

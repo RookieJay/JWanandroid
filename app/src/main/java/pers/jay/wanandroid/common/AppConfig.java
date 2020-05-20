@@ -2,11 +2,9 @@ package pers.jay.wanandroid.common;
 
 import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.utils.DarkModeUtils;
-import pers.jay.wanandroid.utils.PoemUtils;
 import pers.jay.wanandroid.utils.RvAnimUtils;
 import pers.zjc.commonlibs.util.SPUtils;
 import pers.zjc.commonlibs.util.StringUtils;
-import timber.log.Timber;
 
 public class AppConfig {
 
@@ -127,7 +125,6 @@ public class AppConfig {
 
     public String getPoem() {
         String s = StringUtils.isEmpty(poem) ? JApplication.getInstance().getResources().getString(R.string.app_name) : poem;
-        Timber.e(StringUtils.isEmpty(poem) ?  "空的呢" : poem);
         return s;
     }
 

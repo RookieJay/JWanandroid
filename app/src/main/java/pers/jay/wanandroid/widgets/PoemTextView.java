@@ -33,7 +33,7 @@ public class PoemTextView extends android.support.v7.widget.AppCompatTextView {
 
     public PoemTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setTypeface(genTypeface());
+//        setTypeface(genTypeface());
         initAttrs(context, attrs, defStyleAttr);
         if (!JinrishiciFactory.isInit())
             JinrishiciFactory.init(context);

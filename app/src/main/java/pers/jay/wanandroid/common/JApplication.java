@@ -42,6 +42,7 @@ import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.utils.DarkModeUtils;
 import pers.jay.wanandroid.utils.TimberUtils;
+import pers.jay.wanandroid.widgets.PoemHeader;
 import pers.zjc.commonlibs.util.SPUtils;
 import pers.zjc.commonlibs.util.Utils;
 import timber.log.Timber;
@@ -56,9 +57,8 @@ public class JApplication extends BaseApp implements App{
                     @Override
                     public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
                         layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色
-                        ClassicsHeader header = new ClassicsHeader(context);
-                        header.setEnableLastTime(false);
-                        return header;//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
+                        //                        header.setPrimaryColors();
+                        return new PoemHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
                     }
                 });
                 //设置全局的Footer构建器

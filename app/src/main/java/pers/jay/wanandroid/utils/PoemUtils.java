@@ -13,8 +13,15 @@ import pers.jay.wanandroid.widgets.PoemHeader;
 import pers.zjc.commonlibs.util.ThreadUtils;
 import timber.log.Timber;
 
+/**
+ * 今日诗词获取工具类，同步+异步
+ */
 public final class PoemUtils {
 
+    /**
+     * 异步请求
+     * @param result 请求结果回调
+     */
     public static void getPoemAsync(IPoemResult result) {
         if (result == null) {
             return;

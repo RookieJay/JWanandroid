@@ -170,11 +170,8 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter>
     }
 
     private void initRefreshLayout() {
-        StoreHouseHeader header = new StoreHouseHeader(mContext);
-        header.initWithString("WANANDROID");
         SmartRefreshUtils.with(srlSquare)
                          .pureScrollMode()
-                         .setRefreshHeader(header)
                          .setRefreshListener(() -> {
                             if (mPresenter != null) {
                                 page = 0;

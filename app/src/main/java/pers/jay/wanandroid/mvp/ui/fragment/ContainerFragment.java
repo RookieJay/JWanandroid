@@ -220,6 +220,8 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         tvRank = headerView.findViewById(R.id.tvRank);
         ivAvatar = headerView.findViewById(R.id.ivAvatar);
         tvPoem = headerView.findViewById(R.id.tvPoem);
+        // 隐藏掉 转到刷新header
+        tvPoem.setVisibility(View.GONE);
         ivAvatar.setBorderColor(ContextCompat.getColor(mContext, R.color.base_bg_color));
         ivAvatar.setBorderWidth(5);
         ivAvatar.setOnClickListener(v -> openGallery());

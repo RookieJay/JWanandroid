@@ -126,6 +126,7 @@ public class SmartRefreshUtils {
         if (header == null) {
             throw new IllegalStateException("the RefreshHeader can not be null");
         }
+        Timber.e("调用getPoem");
         String poem = AppConfig.getInstance().getPoem();
         Timber.e(StringUtils.isEmpty(poem) ?  "空的呢" : poem);
         if (header instanceof PoemHeader) {

@@ -193,21 +193,13 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     }
 
     private void initRefreshLayout() {
-        PoemHeader header = new PoemHeader(mContext);
-        header.setPrimaryColors();
         SmartRefreshUtils.with(refreshLayout)
                          .pureScrollMode()
-                         .setRefreshHeader(header)
-                         .showPoem()
                          .setRefreshListener(() -> {
                              if (mPresenter != null) {
                                  page = 0;
                                  mPresenter.requestHomeData();
                              }
-                             PoemUtils.getPoemAsync(() -> {
-                                 String poem = AppConfig.getInstance().getPoem();
-                                 header.setHeaderText(poem);
-                             });
                          });
     }
 

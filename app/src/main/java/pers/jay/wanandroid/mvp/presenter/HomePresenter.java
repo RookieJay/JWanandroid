@@ -170,7 +170,6 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                                   String appName = JApplication.getInstance().getString(R.string.app_name);
                                   if (StringUtils.isEmpty(poem) || StringUtils.equals(poem, appName)) {
                                       PoemUtils.getPoemSync();
-                                      Timber.e(StringUtils.isEmpty(poem) ?  "设置后空的呢" : poem);
                                   }
                                   // 获取每日一图
                                   return mModel.getBingImg();

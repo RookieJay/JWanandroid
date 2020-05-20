@@ -127,9 +127,6 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter>
     }
 
     private void initRefreshLayout() {
-        StoreHouseHeader header = new StoreHouseHeader(mContext);
-        header.initWithString("WANANDROID");
-        refreshLayout.setRefreshHeader(header);
         SmartRefreshUtils.with(refreshLayout).pureScrollMode().setRefreshListener(() -> {
             if (mPresenter != null) {
                 page = 1;

@@ -1,7 +1,7 @@
 # JWanandroid
 
 ## 介绍
-Java版Wanandroid客户端，主体使用MvpArms，利用 MVP + RxJava + Retrofit + Glide + EventBus等框架开发。
+Java版Wanandroid客户端，主体使用MVPArms，利用 MVP + RxJava + Retrofit + Glide + EventBus等框架开发。
 
 ## 界面截图
 
@@ -14,7 +14,7 @@ Java版Wanandroid客户端，主体使用MvpArms，利用 MVP + RxJava + Retrofi
 ## 体验apk:
 
 - [蒲公英下载](https://www.pgyer.com/PmUT)
-- [github下载](https://github.com/RookieJay/JWanandroid/raw/master/apk/wanandroid-release-v1.0.0.apk)
+- [github下载](https://github.com/RookieJay/JWanandroid/raw/master/apk/wanandroid-release-v1.1.0.apk)
 
 ## 开放API
 
@@ -59,6 +59,7 @@ Java版Wanandroid客户端，主体使用MvpArms，利用 MVP + RxJava + Retrofi
 - 新增分享、问答等功能
 - Application延迟加载第三方库，提高冷启动速度
 - 优化UI布局、fix bugs
+- 集成今日诗词，全局刷新header展示
 
 ### 1.0.0(1)
 - 第一版，基本包含[wanandroid开放API](https://wanandroid.com/blog/show/2)所有功能

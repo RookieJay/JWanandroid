@@ -26,7 +26,7 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
     public static final int TYPE_COLLECTION = 2;
 
     private int mType;
-    private RequestOptions options = new RequestOptions().placeholder(JApplication.getInstance().getDrawable(R.color.gray))
+    private RequestOptions options = new RequestOptions().placeholder(R.drawable.placeholder_wanandroid)
                                                          .error(JApplication.getInstance().getDrawable(R.color.red))
                                                          .transform(new RoundedCorners(20));
     private LikeListener likeListener;

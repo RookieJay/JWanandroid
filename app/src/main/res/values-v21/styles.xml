@@ -54,19 +54,6 @@
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
     
-    <!--  recyclerView  -->
-    <style name="RecyclerViewStyle">
-        <item name="android:scrollbarThumbVertical">@color/colorPrimary</item>
-<!--        <item name="android:scrollbarTrackVertical">@color/colorPrimary</item>-->
-<!--        <item name="android:paddingLeft">@dimen/dp_10</item>-->
-<!--        <item name="android:paddingRight">@dimen/dp_10</item>-->
-        <item name="android:scrollbarSize">@dimen/dp_3</item>
-        <item name="android:overScrollMode">ifContentScrolls</item>
-        <item name="android:scrollbars">vertical</item>
-        <item name="android:scrollbarStyle">outsideOverlay</item>
-        <item name="android:background">@color/trans</item>
-    </style>
-
     <!-- 圆形progressBar样式   -->
     <style name="CircleProgressBar">
         <item name="android:color">@color/colorPrimary</item>

@@ -61,7 +61,7 @@
     
     <!--  recyclerView  -->
     <style name="RecyclerViewStyle">
-        <item name="android:scrollbarThumbVertical">@color/colorPrimary</item>
+        <item name="android:scrollbarThumbVertical">@color/color_line_divider</item>
         <!--        <item name="android:scrollbarTrackVertical">@color/colorPrimary</item>-->
         <!--        <item name="android:paddingLeft">@dimen/dp_10</item>-->
         <!--        <item name="android:paddingRight">@dimen/dp_10</item>-->

@@ -109,7 +109,7 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
         ivLeft.setOnClickListener(this);
         llRvAnim.setOnClickListener(this);
         llDarkMode.setOnClickListener(this);
-        tvCheckUpdate.setText(AppUtils.getAppVersionName());
+        tvCheckUpdate.setText(String.format("%s(%s)", AppUtils.getAppVersionName(), AppUtils.getAppVersionCode()));
         llCheckUpdate.setOnClickListener(this);
     }
 

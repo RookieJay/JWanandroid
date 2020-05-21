@@ -13,6 +13,8 @@ buildscript {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         //Gradle Bintray Plugin
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+        // AspectjX
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.1'
     }
 }
 

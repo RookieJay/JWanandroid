@@ -44,6 +44,9 @@ public class WebViewProgress extends View {
         if (max == 0) {
             throw new IllegalArgumentException("The max value must be greater than 0.");
         }
+        if (getVisibility() == GONE) {
+            setVisibility(VISIBLE);
+        }
         this.progress = progress;
         // 重绘
         invalidate();
@@ -127,6 +130,7 @@ public class WebViewProgress extends View {
 
     public void hide() {
         setVisibility(GONE);
+        mAnimated = false;
     }
 
 }

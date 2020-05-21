@@ -3,17 +3,13 @@ package pers.jay.wanandroid.mvp.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,9 +17,10 @@ import android.widget.TextView;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.integration.EventBusManager;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
-import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.ycbjie.webviewlib.InterWebListener;
 import com.ycbjie.webviewlib.X5WebChromeClient;
@@ -32,7 +29,6 @@ import com.ycbjie.webviewlib.X5WebViewClient;
 
 import butterknife.BindView;
 import pers.jay.wanandroid.R;
-import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.di.component.DaggerX5Component;
 import pers.jay.wanandroid.event.Event;
@@ -41,10 +37,11 @@ import pers.jay.wanandroid.model.BannerImg;
 import pers.jay.wanandroid.mvp.contract.X5Contract;
 import pers.jay.wanandroid.mvp.presenter.X5Presenter;
 import pers.jay.wanandroid.utils.ADFilterTool;
-import pers.jay.wanandroid.utils.DarkModeUtils;
 import pers.jay.wanandroid.utils.JUtils;
 import pers.jay.wanandroid.utils.UIUtils;
+import pers.jay.wanandroid.widgets.ScrollWebView;
 import pers.jay.wanandroid.widgets.WebViewProgress;
+import pers.zjc.commonlibs.util.StringUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
 
@@ -56,24 +53,27 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
 
     @BindView(R.id.ivLeft)
     ImageView ivLeft;
+    @BindView(R.id.ivClose)
+    ImageView ivClose;
     @BindView(R.id.toolbar_left)
     RelativeLayout toolbarLeft;
     @BindView(R.id.tvTitle)
     TextView tvTitle;
     @BindView(R.id.ivRight)
-    ImageView ivRight;
+    LikeButton ivRight;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.webView)
-    X5WebView webView;
-//    @BindView(R.id.flWeb)
-//    NestedScrollView flWeb;
+    ScrollWebView webView;
     @BindView(R.id.fabTop)
     FloatingActionButton fabTop;
+//    @BindView(R.id.nsvWeb)
+//    NestedScrollView nsvWeb;
+    @BindView(R.id.wvp)
+    WebViewProgress wvp;
 
     private String mUrl = Const.Url.WAN_ANDROID;
     private String mTitle = "";
-    private WebViewProgress lv;
     private Article mArticle;
 
     @Override
@@ -133,43 +133,41 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
         tvTitle.setFocusableInTouchMode(true);
         tvTitle.setText(JUtils.html2String(mTitle));
         ivLeft.setOnClickListener(v -> killMyself());
-        ivRight.setOnClickListener(v -> mPresenter.collectArticle(mArticle));
+        ivClose.setOnClickListener(v -> finish());
         if (mArticle == null) {
             return;
         }
-        ivRight.setImageResource(mArticle.isCollect() ? R.drawable.ic_like_fill : R.drawable.ic_like);
-        ivRight.setVisibility(mArticle == null ? View.GONE : View.VISIBLE);
-        fabTop.setOnClickListener(new View.OnClickListener() {
+        ivRight.setOnLikeListener(new OnLikeListener() {
             @Override
-            public void onClick(View v) {
-//                flWeb.scrollTo(0, 0);
+            public void liked(LikeButton likeButton) {
+                mPresenter.collectArticle(mArticle);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                mPresenter.collectArticle(mArticle);
             }
         });
+        ivRight.setLiked(mArticle.isCollect());
+        ivRight.setVisibility(mArticle == null ? View.GONE : View.VISIBLE);
+        fabTop.setOnClickListener(v -> webView.smoothScrollTo(0, 0));
     }
 
     private void initWebView() {
         webView.setEnabled(false);
 
-        lv = new WebViewProgress(X5WebActivity.this);
-        // 设置可以支持缩放
-        webView.getSettings().setSupportZoom(true);
-        //扩大比例的缩放
-        webView.getSettings().setUseWideViewPort(true);
-        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        webView.getSettings().setLoadWithOverviewMode(true);
         //如果不设置WebViewClient，请求会跳转系统浏览器
-//        webView.setWebViewClient(new MyX5WebViewClient(webView, this));
-        webView.setWebChromeClient(new MyX5WebChromeClient(webView, lv,this));
-        webView.getSettings().setJavaScriptEnabled(true);
-        if (DarkModeUtils.getMode(AppConfig.getInstance().getDarkModePosition()) == AppCompatDelegate.MODE_NIGHT_YES) {
-            webView.loadUrl("javascript:function setBgColor(){" + "document.getElementsByTagName('body')[0].style.background='#1A1714'" + "};setBgColor();");
-            webView.loadUrl("javascript:function setTextColor(){document.getElementsByTagName('body')[0].style.webkitTextFillColor= '#999999'" + "};setTextColor();");
-            webView.setBackground(getDrawable(R.color.black));
-            Timber.e("暗黑模式设置完成");
+        webView.setWebViewClient(new MyX5WebViewClient(webView, this));
+        webView.setWebChromeClient(new MyX5WebChromeClient(webView, wvp,this));
+
+        // Android Q及以上开启软硬件加速
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            webView.setOpenLayerType(true);
         }
+
         webView.loadUrl(mUrl);
         // 加载完成后才可以滚动
-        if (lv.getProgress() == 100) {
+        if (wvp.getProgress() == 100) {
             webView.setEnabled(true);
         }
         webView.setOnScrollChangeListener(new X5WebView.OnScrollChangeListener() {
@@ -185,11 +183,11 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
 
             @Override
             public void onScrollChanged(int l, int t, int oldl, int oldt) {
-                if (t - oldt > 0) {
-                    Timber.e("下滑");
-                } else if (t - oldt < 0){
-                    Timber.e("上滑");
-                }
+//                if (t - oldt > 0) {
+//                    Timber.e("下滑");
+//                } else if (t - oldt < 0){
+//                    Timber.e("上滑");
+//                }
             }
         });
     }
@@ -200,22 +198,40 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
             super(webView, context);
         }
 
-        //重写你需要的方法即可
-
+        /**
+         * url重定向会执行此方法以及点击页面某些链接也会执行此方法
+         * android 7.0系统以上 已经摒弃了
+         * @param view
+         *            当前webview
+         * @param url
+         *            即将重定向的url
+         * @return true:表示当前url已经加载完成，即使url还会重定向都不会再进行加载 false 表示此url默认由系统处理，该重定向还是重定向，直到加载完成
+         */
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // 非标准网页不加载
+            if (!url.startsWith("http:") && !url.startsWith("https:")){
+                return true;
+            }
             view.loadUrl(url);
-            return !mUrl.contains(url);
+            return super.shouldOverrideUrlLoading(view, url);
         }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             String host = request.getUrl().getHost();
-            if (ADFilterTool.hasAd(X5WebActivity.this, host)) {
+            String url = request.getUrl().toString();
+            String schema = request.getUrl().getScheme();
+//            Timber.e("host:%s \n url:%s \n mUrl:%s", host, url, mUrl);
+            // 非标准网页不加载
+            if (!StringUtils.equals(schema, "http") && !StringUtils.equals(schema, "https")) {
+                return true;
+            }
+            if (ADFilterTool.hasAd(X5WebActivity.this, url)) {
                 ToastUtils.showShort("禁止跳转其他页面");
                 return true;
             }
-            return false;
+            return super.shouldOverrideUrlLoading(view, request);
         }
 
         @Override
@@ -254,12 +270,9 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
 
         private WebViewProgress wp;
 
-        MyX5WebChromeClient(WebView webView, WebViewProgress progress, Activity activity) {
+        MyX5WebChromeClient(WebView webView, WebViewProgress progressView, Activity activity) {
             super(webView, activity);
-            wp = progress;
-            wp.setMax(100);
-            wp.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtils.dp2px(activity.getApplicationContext(), 2)));
-            webView.addView(wp);
+            wp = progressView;
             setWebListener(new InterWebListener() {
                 @Override
                 public void hindProgressBar() {
@@ -269,6 +282,8 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
                 @Override
                 public void showErrorView(int type) {
                     Timber.e("showErrorView");
+                    webView.goBack();
+                    webView.stopLoading();
                 }
 
                 @Override
@@ -291,29 +306,30 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //点击回退键时，不会退出浏览器而是返回网页上一页
-        //        if ((keyCode == KEYCODE_BACK) && webView.canGoBack()) {
-        //            webView.goBack();
-        //            return true;
-        //        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
     public void showMessage(@NonNull String message) {
-
+        ToastUtils.showShort(message);
     }
 
     @Override
     public void killMyself() {
-        finish();
+        if (webView == null) {
+            return;
+        }
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            finish();
+        }
     }
 
     @Override
     public void updateCollectStatus(boolean collect, Article article) {
-        ivRight.setImageResource(collect ? R.drawable.ic_like_fill : R.drawable.ic_like);
         article.setCollect(collect);
         EventBusManager.getInstance().post(new Event<Article>(Const.EventCode.COLLECT_ARTICLE, article));
+    }
+
+    @Override
+    public void onBackPressed() {
+        killMyself();
     }
 }

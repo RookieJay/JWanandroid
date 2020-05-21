@@ -270,7 +270,12 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
             return true;
         });
         //        setDrawerToggle();
-        ivRank.setOnClickListener(v -> switchToRankPage());
+        ivRank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToRankPage();
+            }
+        });
         tvUserName.setOnClickListener(v -> {
             if (!isLogin()) {
                 mActivity.switchFragment(LoginFragment.newInstance());

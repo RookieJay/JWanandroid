@@ -13,7 +13,7 @@ Java版Wanandroid客户端，主体使用MVPArms，利用 MVP + RxJava + Retrofi
 
 ## 体验apk:
 
-- [蒲公英下载](https://www.pgyer.com/PmUT)
+- [蒲公英下载](https://www.pgyer.com/oRsT)
 - [github下载](https://github.com/RookieJay/JWanandroid/raw/master/apk/wanandroid-release-v1.1.0.apk)
 
 ## 开放API

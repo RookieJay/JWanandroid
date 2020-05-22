@@ -7,9 +7,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ import com.ycbjie.webviewlib.X5WebViewClient;
 import butterknife.BindView;
 import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.Const;
+import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.di.component.DaggerX5Component;
 import pers.jay.wanandroid.event.Event;
 import pers.jay.wanandroid.model.Article;
@@ -39,8 +43,11 @@ import pers.jay.wanandroid.mvp.presenter.X5Presenter;
 import pers.jay.wanandroid.utils.ADFilterTool;
 import pers.jay.wanandroid.utils.JUtils;
 import pers.jay.wanandroid.utils.UIUtils;
+import pers.jay.wanandroid.widgets.CollapsingWebView;
 import pers.jay.wanandroid.widgets.ScrollWebView;
 import pers.jay.wanandroid.widgets.WebViewProgress;
+import pers.zjc.commonlibs.util.BarUtils;
+import pers.zjc.commonlibs.util.SizeUtils;
 import pers.zjc.commonlibs.util.StringUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
@@ -51,6 +58,10 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
     public static final int TYPE_BANNER = 2;
     public static final int TYPE_URL = 3;
 
+    @BindView(R.id.clLayout)
+    CoordinatorLayout clLayout;
+    @BindView(R.id.webContainer)
+    FrameLayout webContainer;
     @BindView(R.id.ivLeft)
     ImageView ivLeft;
     @BindView(R.id.ivClose)
@@ -63,13 +74,13 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
     LikeButton ivRight;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.webView)
-    ScrollWebView webView;
+//    @BindView(R.id.webView)
+    CollapsingWebView webView;
     @BindView(R.id.fabTop)
     FloatingActionButton fabTop;
 //    @BindView(R.id.nsvWeb)
 //    NestedScrollView nsvWeb;
-    @BindView(R.id.wvp)
+//    @BindView(R.id.wvp)
     WebViewProgress wvp;
 
     private String mUrl = Const.Url.WAN_ANDROID;
@@ -150,10 +161,20 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
         });
         ivRight.setLiked(mArticle.isCollect());
         ivRight.setVisibility(mArticle == null ? View.GONE : View.VISIBLE);
-        fabTop.setOnClickListener(v -> webView.smoothScrollTo(0, 0));
+        fabTop.setOnClickListener(v -> webView.pageUp(true));
+        // 进度条上移到状态栏顶部
+//        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)wvp.getLayoutParams();
+//        int statusHeight = BarUtils.getStatusBarHeight();
+//        params.setMargins(0, -statusHeight, 0, 0);
     }
 
     private void initWebView() {
+        // 使用webview的时候，不在xml里面声明，而是直接代码new个对象，传入application context防止activity引用滥用.
+        // 90%的webview内存泄漏的问题便得以解决.
+        webView = new CollapsingWebView(this);
+        webContainer.addView(webView);
+        wvp = new WebViewProgress(this);
+        webContainer.addView(wvp, ViewGroup.LayoutParams.MATCH_PARENT, SizeUtils.dp2px(2f));
         webView.setEnabled(false);
 
         //如果不设置WebViewClient，请求会跳转系统浏览器
@@ -331,5 +352,13 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
     @Override
     public void onBackPressed() {
         killMyself();
+    }
+
+    @Override
+    protected void onDestroy() {
+        webView.destroy();
+        super.onDestroy();
+        // 在manifest.xml中设置android:process=":remote" 为独立进程，结束时杀掉进程
+//        System.exit(0);
     }
 }

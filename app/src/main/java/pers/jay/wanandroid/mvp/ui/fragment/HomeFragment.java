@@ -273,7 +273,6 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     public void showMoreArticles(ArticleInfo articleInfo) {
         this.pageCount = articleInfo.getPageCount();
         List<Article> data = articleInfo.getDatas();
-        this.mArticleList.addAll(data);
         adapter.addData(data);
         adapter.loadMoreComplete();
     }
@@ -309,7 +308,6 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
 
     @Override
     public void refresh(List<Article> articleList) {
-        mArticleList = articleList;
         adapter.replaceData(articleList);
     }
 

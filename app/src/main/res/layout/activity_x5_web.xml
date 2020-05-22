@@ -6,7 +6,20 @@
     android:overScrollMode="never"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/clLayout"
     android:background="@color/base_bg_color">
+        
+<!--        <pers.jay.wanandroid.widgets.WebViewProgress-->
+<!--            android:id="@+id/wvp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="2dp" -->
+<!--            android:fitsSystemWindows="true"/>-->
+    
+    <FrameLayout
+        android:id="@+id/webContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"/>
     
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -38,18 +51,14 @@
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content">-->
                 
-                <pers.jay.wanandroid.widgets.ScrollWebView
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    android:id="@+id/webView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbarSize="3dp"/>
+<!--                <pers.jay.wanandroid.widgets.ScrollWebView-->
+<!--                    app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+<!--                    android:id="@+id/webView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:scrollbarSize="3dp"/>-->
         
-                <pers.jay.wanandroid.widgets.WebViewProgress
-                    android:id="@+id/wvp"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="?attr/actionBarSize"/>
+
                 
 <!--                <com.ycbjie.webviewlib.WebProgress-->
 <!--                    android:id="@+id/wvp"-->

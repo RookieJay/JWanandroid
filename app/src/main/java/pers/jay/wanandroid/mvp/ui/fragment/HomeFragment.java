@@ -49,6 +49,7 @@ import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
 import pers.jay.wanandroid.utils.JUtils;
 import pers.jay.wanandroid.utils.PoemUtils;
+import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
 import pers.jay.wanandroid.utils.UIUtils;
@@ -171,17 +172,18 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     }
 
     private void switchToUserPage(Article article) {
-        UserFragment userFragment = UserFragment.newInstance();
-        Bundle bundle = new Bundle();
-        bundle.putLong(Const.Key.KEY_USER_ID, article.getUserId());
-        bundle.putString(Const.Key.KEY_TITLE, StringUtils.isEmpty(
-                article.getAuthor()) ? article.getShareUser() : article.getAuthor());
-        userFragment.setArguments(bundle);
-        MainActivity activity = (MainActivity)getActivity();
-        if (activity == null) {
-            return;
-        }
-        activity.switchFragment(userFragment);
+//        UserFragment userFragment = UserFragment.newInstance();
+//        Bundle bundle = new Bundle();
+//        bundle.putLong(Const.Key.KEY_USER_ID, article.getUserId());
+//        bundle.putString(Const.Key.KEY_TITLE, StringUtils.isEmpty(
+//                article.getAuthor()) ? article.getShareUser() : article.getAuthor());
+//        userFragment.setArguments(bundle);
+//        MainActivity activity = (MainActivity)getActivity();
+//        if (activity == null) {
+//            return;
+//        }
+//        activity.switchFragment(userFragment);
+        RouterHelper.switchToUserPage((MainActivity)getActivity(), article);
     }
 
     private void switchToWebPage(int position) {
@@ -197,8 +199,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
                          .pureScrollMode()
                          .setRefreshListener(() -> {
                              if (mPresenter != null) {
-                                 page = 0;
-                                 mPresenter.requestHomeData();
+                                 lazyLoadData();
                              }
                          });
     }
@@ -332,6 +333,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     @Override
     protected void lazyLoadData() {
         showLoading();
+        page = 0;
         mPresenter.requestHomeData();
     }
 

@@ -23,7 +23,8 @@ public class RankAdapter extends BaseQuickAdapter<Coin, BaseViewHolder> {
     protected void convert(@NonNull BaseViewHolder helper, Coin item) {
         helper.setText(R.id.tvRank, item.getRealRank())
               .setText(R.id.tvUser, item.getUsername())
-              .setText(R.id.tvScore, String.valueOf(item.getCoinCount()));
+              .setText(R.id.tvScore, String.valueOf(item.getCoinCount()))
+              .addOnClickListener(R.id.tvUser);
         int position = helper.getAdapterPosition();
         setFirstThreeImg(helper, position);
     }
@@ -39,12 +40,14 @@ public class RankAdapter extends BaseQuickAdapter<Coin, BaseViewHolder> {
             case 1:
                 helper.setImageDrawable(R.id.ivRank, mContext.getDrawable(R.drawable.ic_second));
                 helper.setGone(R.id.tvRank, false).setVisible(R.id.ivRank, true);
-                ivRank.setImageTintList(ColorStateList.valueOf(mContext.getColor(R.color.orange_red)));
+                ivRank.setImageTintList(
+                        ColorStateList.valueOf(mContext.getColor(R.color.orange_red)));
                 break;
             case 2:
                 helper.setImageDrawable(R.id.ivRank, mContext.getDrawable(R.drawable.ic_third));
                 helper.setGone(R.id.tvRank, false).setVisible(R.id.ivRank, true);
-                ivRank.setImageTintList(ColorStateList.valueOf(mContext.getColor(R.color.blue_light)));
+                ivRank.setImageTintList(
+                        ColorStateList.valueOf(mContext.getColor(R.color.blue_light)));
                 break;
             default:
                 helper.setGone(R.id.ivRank, false).setVisible(R.id.tvRank, true);

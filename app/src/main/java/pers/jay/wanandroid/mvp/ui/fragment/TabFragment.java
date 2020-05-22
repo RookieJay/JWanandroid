@@ -34,8 +34,10 @@ import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.model.Tab;
 import pers.jay.wanandroid.mvp.contract.TabContract;
 import pers.jay.wanandroid.mvp.presenter.TabPresenter;
+import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
+import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
@@ -169,6 +171,16 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
                 mPresenter.collectArticle(item, adapterPosition);
             }
         });
+        adapter.setOnItemChildClickListener((adapter, view, position) -> {
+            Article article  = this.adapter.getData().get(position);
+            switch (view.getId()) {
+                case R.id.tvAuthor:
+                    RouterHelper.switchToUserPage((MainActivity)getActivity(), article);
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
     private void switchToWebPage(int position) {
@@ -209,6 +221,7 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
 
     @Override
     protected void lazyLoadData() {
+        page = 0;
         showLoading();
         refreshData();
     }

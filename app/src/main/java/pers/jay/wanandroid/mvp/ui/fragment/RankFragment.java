@@ -21,6 +21,8 @@ import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import org.simple.eventbus.Subscriber;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +30,15 @@ import butterknife.BindView;
 import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.di.component.DaggerRankComponent;
+import pers.jay.wanandroid.event.Event;
+import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.Coin;
 import pers.jay.wanandroid.model.PageInfo;
 import pers.jay.wanandroid.mvp.contract.RankContract;
 import pers.jay.wanandroid.mvp.presenter.RankPresenter;
+import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.RankAdapter;
+import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.widgets.DashboardView;
 import pers.zjc.commonlibs.util.FragmentUtils;
@@ -90,7 +96,6 @@ public class RankFragment extends BaseFragment<RankPresenter> implements RankCon
     public void initData(@Nullable Bundle savedInstanceState) {
         initView();
         initArgs();
-
     }
 
     private void initArgs() {
@@ -110,11 +115,6 @@ public class RankFragment extends BaseFragment<RankPresenter> implements RankCon
         initToolbar();
         initRecyclerView();
         fabTop.setOnClickListener(v -> scrollToTop());
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-            }
-        });
     }
 
     private void initRecyclerView() {
@@ -129,6 +129,19 @@ public class RankFragment extends BaseFragment<RankPresenter> implements RankCon
             page++;
             mPresenter.loadRank(page);
         }, mRecyclerView);
+        adapter.setOnItemChildClickListener((adapter, view, position) -> {
+            Coin coin  = this.adapter.getData().get(position);
+            switch (view.getId()) {
+                case R.id.tvUser:
+                    Article article = new Article();
+                    article.setAuthor(coin.getUsername());
+                    article.setUserId(coin.getUserId());
+                    RouterHelper.switchToUserPage((MainActivity)getActivity(), article);
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
     private void initToolbar() {
@@ -208,5 +221,12 @@ public class RankFragment extends BaseFragment<RankPresenter> implements RankCon
     public boolean onBackPress() {
         killMyself();
         return true;
+    }
+
+    @Subscriber
+    public void onLoginSuccess(Event event) {
+        if (null != event && event.getEventCode() == Const.EventCode.LOGIN_SUCCESS) {
+            mPresenter.loadMyCoin();
+        }
     }
 }

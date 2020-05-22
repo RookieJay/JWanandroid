@@ -145,6 +145,21 @@ public class WeixinFragment extends BaseLazyLoadFragment<WeixinPresenter>
      }
 
     @Override
+    public void scrollToTopRefresh() {
+        if (adapter == null || viewPager == null) {
+            return;
+        }
+        // 获取缓存的fragment引用
+        Fragment fragment = adapter.getFragment(viewPager.getCurrentItem());
+        if (fragment == null) {
+            return;
+        }
+        if (fragment.isAdded() && fragment.getUserVisibleHint() && fragment instanceof ScrollTopListener) {
+            ((ScrollTopListener)fragment).scrollToTopRefresh();
+        }
+    }
+
+    @Override
     public void showData(List<Tab> data) {
         viewPager.setOffscreenPageLimit(data.size() - 1);
         adapter.setData(data);

@@ -44,6 +44,7 @@ import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
+import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.RvAnimUtils;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
@@ -165,6 +166,16 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter>
             @Override
             public void unLiked(Article item, int position) {
                 mPresenter.collectArticle(item, position);
+            }
+        });
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            Article article  = mAdapter.getData().get(position);
+            switch (view.getId()) {
+                case R.id.tvAuthor:
+                    RouterHelper.switchToUserPage((MainActivity)getActivity(), article);
+                    break;
+                default:
+                    break;
             }
         });
     }

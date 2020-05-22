@@ -65,6 +65,11 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
+    public boolean useFragment() {
+        return true;
+    }
+
+    @Override
     public int initView(@Nullable Bundle savedInstanceState) {
         return R.layout.activity_search;
     }

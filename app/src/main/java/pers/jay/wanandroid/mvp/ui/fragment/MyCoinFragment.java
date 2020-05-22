@@ -213,9 +213,7 @@ public class MyCoinFragment extends BaseFragment<MyCoinPresenter> implements MyC
      */
     @Subscriber
     public void onLoginSuccess(Event event) {
-        Timber.e("onLoginSuccess");
         if (null != event && event.getEventCode() == Const.EventCode.LOGIN_SUCCESS) {
-            Timber.e("loadData");
             mPresenter.loadData();
         }
     }

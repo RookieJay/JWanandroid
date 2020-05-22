@@ -75,6 +75,11 @@ public class TabActivity extends BaseActivity<TabPresenter> {
         setView();
     }
 
+    @Override
+    public boolean useFragment() {
+        return true;
+    }
+
     private void initData() {
         Intent intent = getIntent();
         if (intent == null) {

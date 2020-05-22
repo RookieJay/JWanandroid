@@ -32,9 +32,11 @@ import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.mvp.contract.QAContract;
 import pers.jay.wanandroid.mvp.presenter.QAPresenter;
+import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
+import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.RvAnimUtils;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
@@ -107,7 +109,6 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter>
                 mPresenter.collectArticle(item, adapterPosition);
             }
         });
-
         adapter.setOnLoadMoreListener(() -> {
             if (pageCount != 0 && pageCount == page + 1) {
                 adapter.loadMoreEnd();
@@ -116,6 +117,16 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter>
             page++;
             mPresenter.loadData(page);
         }, mRecyclerView);
+        adapter.setOnItemChildClickListener((adapter, view, position) -> {
+            Article article  = this.adapter.getData().get(position);
+            switch (view.getId()) {
+                case R.id.tvAuthor:
+                    RouterHelper.switchToUserPage((MainActivity)getActivity(), article);
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
     private void switchToWebPage(int position) {

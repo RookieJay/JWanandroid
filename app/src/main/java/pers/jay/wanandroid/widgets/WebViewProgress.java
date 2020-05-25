@@ -12,6 +12,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
 import pers.jay.wanandroid.R;
+import pers.jay.wanandroid.utils.UIUtils;
 
 /**
  * 平滑过渡的webView进度条
@@ -92,7 +93,7 @@ public class WebViewProgress extends View {
         TypedArray tp = context.obtainStyledAttributes(attrs, R.styleable.WebViewProgress);
         max = tp.getInteger(R.styleable.WebViewProgress_max, DEFAULT_MAX_VALUE);
         progress = tp.getInteger(R.styleable.WebViewProgress_progress, DEFAULT_MAX_PROGRESS);
-        color = tp.getColor(R.styleable.WebViewProgress_progress_color, getResources().getColor(R.color.colorPrimaryDark, null));
+        color = tp.getColor(R.styleable.WebViewProgress_progress_color, UIUtils.getColor(R.color.colorPrimaryDark));
         tp.recycle();
         init();
     }

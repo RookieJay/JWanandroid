@@ -33,6 +33,7 @@ import pers.jay.wanandroid.event.Event;
 import pers.jay.wanandroid.model.User;
 import pers.jay.wanandroid.mvp.contract.SignupContract;
 import pers.jay.wanandroid.mvp.presenter.SignupPresenter;
+import pers.jay.wanandroid.utils.UIUtils;
 import pers.zjc.commonlibs.util.StringUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
 
@@ -120,8 +121,8 @@ public class SignupFragment extends BaseFragment<SignupPresenter> implements Sig
 
     private void enableClick(boolean enable) {
         btSignUp.setEnabled(enable);
-        int enableColor = getResources().getColor(R.color.colorPrimary, null);
-        int unableColor = getResources().getColor(R.color.gray, null);
+        int enableColor = UIUtils.getColor(R.color.colorPrimary);
+        int unableColor = UIUtils.getColor(R.color.gray);
         btSignUp.setBackgroundColor(enable ? enableColor : unableColor);
     }
 

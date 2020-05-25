@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -82,14 +83,14 @@ public class CircleProgress extends View {
         defaultCirclePaint.setDither(true);//防抖动
         defaultCirclePaint.setStyle(Paint.Style.STROKE);
         defaultCirclePaint.setStrokeWidth(3f);
-        defaultCirclePaint.setColor(getResources().getColor(R.color.gray));//这里先画边框的颜色，后续再添加画笔画实心的颜色
+        defaultCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.gray));//这里先画边框的颜色，后续再添加画笔画实心的颜色
         //默认圆上面的进度弧度
         progressPaint = new Paint();
         progressPaint.setAntiAlias(true);
         progressPaint.setDither(true);
         progressPaint.setStyle(Paint.Style.STROKE);
         progressPaint.setStrokeWidth(4f);
-        progressPaint.setColor(getResources().getColor(R.color.gray, null));
+        progressPaint.setColor(ContextCompat.getColor(getContext(), R.color.gray));
         progressPaint.setStrokeCap(Paint.Cap.ROUND);//设置画笔笔刷样式
 //        //进度上面的小圆
 //        smallCirclePaint = new Paint();

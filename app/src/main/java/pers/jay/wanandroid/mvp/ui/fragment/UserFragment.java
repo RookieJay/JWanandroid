@@ -209,6 +209,17 @@ public class UserFragment extends BaseFragment<UserPresenter> implements UserCon
             mPresenter.loadData(mUserId, mPage);
         }, mRecyclerView);
         statusView.setOnRetryClickListener(v -> mPresenter.loadData(mUserId, mPage));
+        adapter.setLikeListener(new ArticleAdapter.LikeListener() {
+            @Override
+            public void liked(Article item, int adapterPosition) {
+                mPresenter.collectArticle(item, adapterPosition);
+            }
+
+            @Override
+            public void unLiked(Article item, int adapterPosition) {
+                mPresenter.collectArticle(item, adapterPosition);
+            }
+        });
     }
 
     @Override
@@ -289,5 +300,15 @@ public class UserFragment extends BaseFragment<UserPresenter> implements UserCon
     public boolean onBackPress() {
         killMyself();
         return true;
+    }
+
+    @Override
+    public void onCollectSuccess(Article article, int position) {
+
+    }
+
+    @Override
+    public void onCollectFail(Article article, int position) {
+        adapter.restoreLike(position);
     }
 }

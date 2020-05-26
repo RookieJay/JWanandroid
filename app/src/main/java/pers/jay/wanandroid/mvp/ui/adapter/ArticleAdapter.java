@@ -57,12 +57,16 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
         ivLike.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                likeListener.liked(item, helper.getAdapterPosition());
+                if (likeListener != null) {
+                    likeListener.liked(item, helper.getAdapterPosition());
+                }
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                likeListener.unLiked(item, helper.getAdapterPosition());
+                if (likeListener != null) {
+                    likeListener.unLiked(item, helper.getAdapterPosition());
+                }
             }
         });
         switch (mType) {

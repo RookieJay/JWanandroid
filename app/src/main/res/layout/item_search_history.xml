@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_article_new"
+        android:textColor="@color/text_color_second"
         android:padding="5dp"
         android:layout_margin="@dimen/dp_5"
         android:gravity="center"

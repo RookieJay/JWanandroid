@@ -9,7 +9,6 @@ import android.os.HandlerThread;
 import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
 
 import com.jess.arms.base.App;
 import com.jess.arms.base.BaseApplication;
@@ -18,12 +17,7 @@ import com.jess.arms.base.delegate.AppLifecycles;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.Preconditions;
-import com.jinrishici.sdk.android.JinrishiciClient;
 import com.jinrishici.sdk.android.factory.JinrishiciFactory;
-import com.jinrishici.sdk.android.listener.JinrishiciCallback;
-import com.jinrishici.sdk.android.model.JinrishiciRuntimeException;
-import com.jinrishici.sdk.android.model.PoetySentence;
-import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -31,7 +25,6 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.bugly.Bugly;
 import com.vondear.rxtool.RxTool;
 import com.ycbjie.webviewlib.X5WebUtils;
@@ -43,6 +36,7 @@ import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.utils.DarkModeUtils;
 import pers.jay.wanandroid.utils.TimberUtils;
 import pers.jay.wanandroid.widgets.PoemHeader;
+import pers.zjc.commonlibs.util.CrashUtils;
 import pers.zjc.commonlibs.util.SPUtils;
 import pers.zjc.commonlibs.util.Utils;
 import timber.log.Timber;
@@ -123,6 +117,7 @@ public class JApplication extends BaseApp implements App{
                 RetrofitUrlManager.getInstance().setDebug(true);
                 // 初始化sp
                 SPUtils.create(getApplicationContext(), "cookies_prefs");
+                CrashUtils.init();
             }
         }, 5000L);
     }

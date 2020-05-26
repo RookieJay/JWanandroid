@@ -12,6 +12,8 @@ import javax.inject.Inject;
 
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import pers.jay.wanandroid.base.BaseWanObserver;
+import pers.jay.wanandroid.common.CollectHelper;
+import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.model.Coin;
 import pers.jay.wanandroid.model.ShareUserArticles;
@@ -59,5 +61,12 @@ public class UserPresenter extends BasePresenter<UserContract.Model, UserContrac
                         mRootView.showArticles(info);
                   }
               });
+    }
+
+    /**
+     * 收藏或取消收藏文章
+     */
+    public void collectArticle(Article article, int position) {
+        CollectHelper.with(mRootView).target(article).position(position).collect();
     }
 }

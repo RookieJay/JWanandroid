@@ -154,6 +154,8 @@ dependencies {
     debugImplementation rootProject.ext.dependencies["doraemonkit-debug"]
     implementation rootProject.ext.dependencies["bugly-crashreport"]
     implementation rootProject.ext.dependencies["native-crashreport"]
+    implementation rootProject.ext.dependencies["canary-debug"]
+
 
     // x5 WebView
     implementation 'cn.yc:WebViewLib:1.2.2'

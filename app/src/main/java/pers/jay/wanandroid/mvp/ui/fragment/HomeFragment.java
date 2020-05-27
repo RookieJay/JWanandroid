@@ -76,7 +76,6 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
 
     private int page;
     private List<BannerImg> mBannerImgs;
-    private List<Article> mArticleList = new ArrayList<>();
     private int pageCount;
     private LinearLayoutManager layoutManager;
 
@@ -172,17 +171,6 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     }
 
     private void switchToUserPage(Article article) {
-//        UserFragment userFragment = UserFragment.newInstance();
-//        Bundle bundle = new Bundle();
-//        bundle.putLong(Const.Key.KEY_USER_ID, article.getUserId());
-//        bundle.putString(Const.Key.KEY_TITLE, StringUtils.isEmpty(
-//                article.getAuthor()) ? article.getShareUser() : article.getAuthor());
-//        userFragment.setArguments(bundle);
-//        MainActivity activity = (MainActivity)getActivity();
-//        if (activity == null) {
-//            return;
-//        }
-//        activity.switchFragment(userFragment);
         RouterHelper.switchToUserPage((MainActivity)getActivity(), article);
     }
 
@@ -199,7 +187,8 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
                          .pureScrollMode()
                          .setRefreshListener(() -> {
                              if (mPresenter != null) {
-                                 lazyLoadData();
+                                 page = 0;
+                                 mPresenter.requestHomeData();
                              }
                          });
     }

@@ -322,4 +322,9 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
     public void scrollToTopRefresh() {
         lazyLoadData();
     }
+
+    @Override
+    public void showNoNetwork() {
+        statusView.showNoNetwork();
+    }
 }

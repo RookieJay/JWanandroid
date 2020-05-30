@@ -1,6 +1,7 @@
 package pers.jay.wanandroid.mvp.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,7 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -148,6 +148,9 @@ public class RankFragment extends BaseFragment<RankPresenter> implements RankCon
         tvTitle.setText("积分排行榜");
         toolbarLeft.setOnClickListener(v -> killMyself());
         rlHead.setVisibility(View.VISIBLE);
+        ivRight.setImageResource(R.drawable.ic_question);
+        ivRight.setColorFilter(Color.WHITE);
+        ivRight.setOnClickListener(v -> RouterHelper.switchToWebPageWithUrl(mContext, Const.Url.RANK_RULES, "积分规则"));
     }
 
     @Override

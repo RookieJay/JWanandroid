@@ -160,4 +160,5 @@ public class KnowledgeFragment extends BaseLazyLoadFragment<KnowledgePresenter>
     public void scrollToTopRefresh() {
         lazyLoadData();
     }
+
 }

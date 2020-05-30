@@ -16,6 +16,7 @@ public interface Const {
         String WAN_ANDROID = "https://www.wanandroid.com/";
         String GITHUB = "https://api.github.com/";
         String ABOUT_US = WAN_ANDROID + "about";
+        String RANK_RULES = WAN_ANDROID + "blog/show/2653";
 
         String URL_LOGIN_KEY  = "user/login";
         String URL_LOGIN_REGISTER  = "user/register";

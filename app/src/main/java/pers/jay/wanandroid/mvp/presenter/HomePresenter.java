@@ -23,6 +23,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.observers.ResourceObserver;
 import io.reactivex.schedulers.Schedulers;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import okhttp3.ResponseBody;
@@ -31,6 +32,7 @@ import pers.jay.wanandroid.base.BaseWanObserver;
 import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.CollectHelper;
 import pers.jay.wanandroid.common.JApplication;
+import pers.jay.wanandroid.http.NetWorkManager;
 import pers.jay.wanandroid.http.RetryWithDelay;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
@@ -176,10 +178,13 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                               }
                           })
                   .observeOn(AndroidSchedulers.mainThread())
-                  .subscribe(new Observer<ResponseBody>() {
+                  .subscribe(new ResourceObserver<ResponseBody>() {
                       @Override
-                      public void onSubscribe(Disposable d) {
-
+                      protected void onStart() {
+                          if (!NetWorkManager.isNetWorkAvailable()) {
+                              mRootView.showNoNetwork();
+                              dispose();
+                          }
                       }
 
                       @Override

@@ -56,10 +56,37 @@ public final class UriUtils {
         String authority = uri.getAuthority();
         String scheme = uri.getScheme();
         String path = uri.getPath();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                && path != null && path.startsWith("/external/")) {
-            return new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                    + path.replace("/external", ""));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && path != null) {
+            String[] externals = new String[] { "/external/", "/external_path/" };
+            File file = null;
+            for (String external : externals) {
+                if (path.startsWith(external)) {
+                    file = new File(Environment.getExternalStorageDirectory()
+                                               .getAbsolutePath() + path.replace(external, "/"));
+                    if (file.exists()) {
+                        Log.d("UriUtils", uri.toString() + " -> " + external);
+                        return file;
+                    }
+                }
+            }
+            file = null;
+            if (path.startsWith("/files_path/")) {
+                file = new File(Utils.getApp().getFilesDir().getAbsolutePath()
+                        + path.replace("/files_path/", "/"));
+            } else if (path.startsWith("/cache_path/")) {
+                file = new File(Utils.getApp().getCacheDir().getAbsolutePath()
+                        + path.replace("/cache_path/", "/"));
+            } else if (path.startsWith("/external_files_path/")) {
+                file = new File(Utils.getApp().getExternalFilesDir(null).getAbsolutePath()
+                        + path.replace("/external_files_path/", "/"));
+            } else if (path.startsWith("/external_cache_path/")) {
+                file = new File(Utils.getApp().getExternalCacheDir().getAbsolutePath()
+                        + path.replace("/external_cache_path/", "/"));
+            }
+            if (file != null && file.exists()) {
+                Log.d("UriUtils", uri.toString() + " -> " + path);
+                return file;
+            }
         }
         if (ContentResolver.SCHEME_FILE.equals(scheme)) {
             if (path != null) return new File(path);

@@ -44,7 +44,7 @@ android {
             buildConfigField("boolean", "LOG_DEBUG", "false")//正式版不打印日志
         }
         debug {
-            signingConfig signingConfigs.release // 把debug签名配置成Release版的签名
+//            signingConfig signingConfigs.release // 把debug签名配置成Release版的签名
             buildConfigField("boolean", "LOG_DEBUG", "true")
         }
     }

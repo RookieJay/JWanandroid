@@ -95,8 +95,9 @@ public class UIUtils {
         }
     }
 
-    public static void setSameColorBar(Boolean isLight, Window window, Resources resources) {
+    public static void setSameColorBar(Boolean isLight, Activity activity) {
         if (Build.VERSION.SDK_INT >= 21) {
+            Window window = activity.getWindow();
             //LAYOUT_FULLSCREEN 、LAYOUT_STABLE：让应用的主体内容占用系统状态栏的空间；
             //            View decorView = getWindow().getDecorView();
             //            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -109,10 +110,10 @@ public class UIUtils {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             //设置状态栏颜色
             if (isLight) {
-                window.setStatusBarColor(getColor(R.color.colorPrimary));
+                window.setStatusBarColor(getColor(activity, R.color.colorPrimary));
             }
             else {
-                window.setStatusBarColor(getColor(R.color.colorAccent));
+                window.setStatusBarColor(getColor(activity, R.color.colorAccent));
             }
             //状态栏颜色接近于白色，文字图标变成黑色
             View decor = window.getDecorView();

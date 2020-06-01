@@ -72,7 +72,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements WebContra
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        UIUtils.setSameColorBar(true, getWindow(), getResources());
+        UIUtils.setSameColorBar(true, this);
         initParams();
         initTitle();
         initWebView();

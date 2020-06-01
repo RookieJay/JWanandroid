@@ -235,6 +235,9 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
     public void hideLoading() {
         statusView.showContent();
         refreshLayout.finishRefresh();
+        if (adapter.isLoading()) {
+            adapter.loadMoreComplete();
+        }
     }
 
     @Override

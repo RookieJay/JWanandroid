@@ -108,7 +108,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        UIUtils.setSameColorBar(true, ((MainActivity)mContext).getWindow(), getResources());
+        UIUtils.setSameColorBar(true, mActivity);
         appConfig = AppConfig.getInstance();
         etUserName.setText(TextUtils.isEmpty(appConfig.getAccount()) ? "" : appConfig.getAccount());
         etPassword.setText(TextUtils.isEmpty(appConfig.getPassword()) ? "" : appConfig.getPassword());

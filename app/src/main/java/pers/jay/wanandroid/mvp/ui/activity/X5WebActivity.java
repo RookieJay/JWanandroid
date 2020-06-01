@@ -100,7 +100,7 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        UIUtils.setSameColorBar(true, getWindow(), getResources());
+        UIUtils.setSameColorBar(true, this);
         initParams();
         initTitle();
         initWebView();

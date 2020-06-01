@@ -158,6 +158,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
         });
         adapter.setOnLoadMoreListener(() -> {
             if (pageCount != 0 && pageCount == page + 1) {
+                showMessage("不再加载更多");
                 adapter.loadMoreEnd();
                 return;
             }
@@ -232,6 +233,15 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     public void hideLoading() {
         refreshLayout.finishRefresh();
         statusView.showContent();
+        if (adapter.isLoading()) {
+            adapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hideLoading();
     }
 
     @Override
@@ -294,6 +304,12 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
         else {
             adapter.addHeaderView(banner);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideLoading();
     }
 
     @Override

@@ -80,6 +80,10 @@ public class TabPresenter extends BasePresenter<TabContract.Model, TabContract.V
                       mRootView.showData(articleInfo);
                   }
 
+                  @Override
+                  public void onComplete() {
+                      mRootView.hideLoading();
+                  }
               });
     }
 
@@ -97,6 +101,10 @@ public class TabPresenter extends BasePresenter<TabContract.Model, TabContract.V
                       mRootView.showData(articleInfo);
                   }
 
+                  @Override
+                  public void onComplete() {
+                      mRootView.hideLoading();
+                  }
               });
     }
 
@@ -120,6 +128,10 @@ public class TabPresenter extends BasePresenter<TabContract.Model, TabContract.V
                       mRootView.showData(articleInfo);
                   }
 
+                  @Override
+                  public void onComplete() {
+                      mRootView.hideLoading();
+                  }
               });
     }
 }

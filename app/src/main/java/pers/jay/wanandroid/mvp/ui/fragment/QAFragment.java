@@ -160,6 +160,9 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter>
     public void hideLoading() {
         statusView.showContent();
         refreshLayout.finishRefresh();
+        if (adapter.isLoading()) {
+            adapter.loadMoreComplete();
+        }
     }
 
     @Override

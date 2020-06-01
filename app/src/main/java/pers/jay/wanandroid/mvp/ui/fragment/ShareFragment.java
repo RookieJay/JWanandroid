@@ -230,4 +230,10 @@ public class ShareFragment extends BaseFragment<SharePresenter> implements Share
             KeyboardUtils.hideSoftInput(getActivity());
         }
     }
+
+    @Override
+    public boolean onBackPress() {
+        killMyself();
+        return true;
+    }
 }

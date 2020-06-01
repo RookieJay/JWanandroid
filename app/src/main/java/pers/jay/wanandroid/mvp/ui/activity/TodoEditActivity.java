@@ -98,7 +98,7 @@ public class TodoEditActivity extends BaseActivity<TodoEditPresenter>
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        UIUtils.setSameColorBar(true, getWindow(), getResources());
+        UIUtils.setSameColorBar(true, this);
         super.onCreate(savedInstanceState);
     }
 

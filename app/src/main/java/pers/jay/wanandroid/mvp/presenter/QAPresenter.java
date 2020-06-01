@@ -56,6 +56,11 @@ public class QAPresenter extends BasePresenter<QAContract.Model, QAContract.View
                       ArticleInfo info = response.getData();
                       mRootView.showData(info);
                   }
+
+                  @Override
+                  public void onComplete() {
+                      mRootView.hideLoading();
+                  }
               });
     }
 

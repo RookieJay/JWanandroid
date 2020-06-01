@@ -14,7 +14,8 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:label,android:appComponentFactory"
         android:appComponentFactory="any words"
-        tools:targetApi="p">
+        tools:targetApi="Q"
+        android:requestLegacyExternalStorage="true">
         <activity android:name="pers.zjc.commonlibs.util.PermissionUtils$PermissionActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"/>
         <activity android:name=".mvp.ui.activity.SettingsActivity"

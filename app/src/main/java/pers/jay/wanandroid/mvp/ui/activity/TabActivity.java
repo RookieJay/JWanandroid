@@ -181,7 +181,7 @@ public class TabActivity extends BaseActivity<TabPresenter> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        UIUtils.setSameColorBar(true, getWindow(), getResources());
+        UIUtils.setSameColorBar(true, this);
         super.onCreate(savedInstanceState);
     }
 

@@ -98,8 +98,10 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
 
                   @Override
                   public void onComplete() {
-                      super.onComplete();
+                      mRootView.hideLoading();
                   }
+
+
               });
 
     }

@@ -200,6 +200,9 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter>
     public void hideLoading() {
         srlSquare.finishRefresh();
         statusView.showContent();
+        if (mAdapter.isLoading()) {
+            mAdapter.loadMoreComplete();
+        }
     }
 
     @Override

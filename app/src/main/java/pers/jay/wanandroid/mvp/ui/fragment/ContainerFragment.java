@@ -36,15 +36,18 @@ import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.PermissionUtil;
 import com.jinrishici.sdk.android.view.JinrishiciTextViewConfig;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.vondear.rxtool.RxFileTool;
 import com.vondear.rxtool.RxPhotoTool;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import org.apache.http.client.utils.URIUtils;
 import org.simple.eventbus.Subscriber;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -55,6 +58,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import per.goweii.anylayer.Layer;
 import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
@@ -72,6 +76,7 @@ import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.utils.UIUtils;
 import pers.jay.wanandroid.utils.rx.RxScheduler;
+import pers.jay.wanandroid.widgets.ChooseImageDialog;
 import pers.jay.wanandroid.widgets.PoemTextView;
 import pers.zjc.commonlibs.constant.PermissionConstants;
 import pers.zjc.commonlibs.ui.BasePagerAdapter;
@@ -94,7 +99,7 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
 
     private static final long INTERVAL_DOUBLE_CLICK = 1000L;
     private static final int TYPE_LOAD_LOCAL_IMAGE = 1;
-    private static final int TYPE_ACCESS_LOCAL_IMAGE = 2;
+    private static final int TYPE_ACCESS_IMAGE = 2;
 
     @BindView(R.id.ivLeft)
     ImageView ivLeft;
@@ -173,7 +178,7 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        UIUtils.setSameColorBar(true, mActivity.getWindow(), getResources());
+        UIUtils.setSameColorBar(true, mActivity);
     }
 
     @Override
@@ -282,6 +287,9 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
             }
         });
         configLogoutButton();
+        if (StringUtils.isEmpty(appConfig.getAvatar())) {
+            return;
+        }
         // 加载头像
         if (PermissionUtils.isGranted(PermissionConstants.STORAGE)) {
             loadLocalAvatar();
@@ -308,48 +316,75 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
             return;
         }
         // 申请权限
-        requestStoragePermissions(TYPE_ACCESS_LOCAL_IMAGE);
+        requestStoragePermissions(TYPE_ACCESS_IMAGE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (data == null) {
-                return;
-            }
             switch (requestCode) {
                 case GET_IMAGE_BY_CAMERA:
-                    Bundle bundle = data.getExtras();
-                    if (bundle == null) {
-                        return;
+                    if (data == null) {
+                        // intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                        // 指定了存储的路径的uri，那么返回的data就为null
+                        Uri uri = RxPhotoTool.createImagePathUri(Objects.requireNonNull(getContext()));
+                        handlePicByCamera(uri);
                     }
-                    Bitmap bitmap = (Bitmap) bundle.get("data");
-                    if (bitmap == null) {
-                        return;
-                    }
-                    Glide.with(ivAvatar.getContext()).load(bitmap).into(ivAvatar);
                     break;
                 case GET_IMAGE_FROM_PHONE:
                     Uri uri = data.getData();
-                    if (uri != null) {
-                        File file = UriUtils.uri2File(uri);
-                        if (file == null) {
-                            return;
-                        }
-                        if (!ImageUtils.isImage(file)) {
-                            showMessage("请选择图片文件");
-                            return;
-                        }
-                        Glide.with(ivAvatar.getContext()).load(uri).into(ivAvatar);
-                        appConfig.setAvatar(file.getAbsolutePath());
-                        blurBackground(file);
-                    }
+                    handlePicByAlbum(uri);
                     break;
                 default:
                     break;
             }
         }
+    }
 
+    private void handlePicByAlbum(Uri uri) {
+        if (uri != null) {
+            File file = UriUtils.uri2File(uri);
+            if (file == null) {
+                return;
+            }
+            String path = file.getAbsolutePath();
+            Timber.e(path);
+            if (!ImageUtils.isImage(path)) {
+                showMessage("请选择图片文件");
+                return;
+            }
+            Glide.with(ivAvatar.getContext()).load(uri).into(ivAvatar);
+            appConfig.setAvatar(file.getAbsolutePath());
+            blurBackground(file);
+        }
+    }
+
+
+    /**
+     * 处理相机拍照返回图片
+     * @param uri
+     */
+    private void handlePicByCamera(Uri uri) {
+        if (uri == null) {
+            showMessage("uri is null");
+            return;
+        }
+        Timber.e("uri:%s", uri.toString());
+        File file = RxFileTool.getFilePhotoFromUri(getActivity(), uri);
+//        File file = UriUtils.uri2File(uri);
+        if (file == null) {
+            showMessage("图片丢失，请重新拍摄");
+            return;
+        }
+        String path = file.getAbsolutePath();
+        Timber.e("图片路径%s", path);
+        if (!ImageUtils.isImage(path)) {
+            showMessage("请选择图片文件");
+            return;
+        }
+        Glide.with(ivAvatar.getContext()).load(path).into(ivAvatar);
+        appConfig.setAvatar(file.getAbsolutePath());
+        blurBackground(file);
     }
 
     /**
@@ -358,26 +393,6 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
      * @param type
      */
     private void requestStoragePermissions(int type) {
-//        PermissionUtils.permission(PermissionConstants.STORAGE).callback(
-//                new PermissionUtils.SimpleCallback() {
-//                    @Override
-//                    public void onGranted() {
-//                        switch (type) {
-//                            case TYPE_LOAD_LOCAL_IMAGE:
-//                                loadLocalAvatar();
-//                                break;
-//                            case TYPE_ACCESS_LOCAL_IMAGE:
-//                                // 打开本地图库
-//                                RxPhotoTool.openLocalImage(ContainerFragment.this);
-//                                break;
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onDenied() {
-//                        showMessage("拒绝存储权限将无法正常使用app,可能导致崩溃,请前往系统设置打开存储权限");
-//                    }
-//                }).request();
         PermissionUtil.RequestPermission requestPermission = new PermissionUtil.RequestPermission() {
             @Override
             public void onRequestPermissionSuccess() {
@@ -385,9 +400,12 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
                     case TYPE_LOAD_LOCAL_IMAGE:
                         loadLocalAvatar();
                         break;
-                    case TYPE_ACCESS_LOCAL_IMAGE:
+                    case TYPE_ACCESS_IMAGE:
+                        ChooseImageDialog.create(ContainerFragment.this).show();
                         // 打开本地图库
-                        RxPhotoTool.openLocalImage(ContainerFragment.this);
+//                        RxPhotoTool.openLocalImage(ContainerFragment.this);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -410,6 +428,7 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
 
     private void blurBackground(File file) {
         if (file == null || !file.exists()) {
+            Timber.e("文件不存在");
             return;
         }
         // 被观察者
@@ -750,4 +769,6 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
     public void switchToHome() {
         viewPager.setCurrentItem(1);
     }
+
+
 }

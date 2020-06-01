@@ -97,7 +97,7 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        UIUtils.setSameColorBar(true, getWindow(), getResources());
+        UIUtils.setSameColorBar(true, this);
         mRvAnim = AppConfig.getInstance().getRvAnim();
         initView();
     }

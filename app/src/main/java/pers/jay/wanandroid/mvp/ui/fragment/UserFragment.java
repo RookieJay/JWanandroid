@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -40,12 +39,12 @@ import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.model.Coin;
 import pers.jay.wanandroid.mvp.contract.UserContract;
 import pers.jay.wanandroid.mvp.presenter.UserPresenter;
+import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
+import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
 import pers.jay.wanandroid.widgets.PoemTextView;
-import pers.zjc.commonlibs.util.BarUtils;
 import pers.zjc.commonlibs.util.FragmentUtils;
-import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -220,6 +219,8 @@ public class UserFragment extends BaseFragment<UserPresenter> implements UserCon
                 mPresenter.collectArticle(item, adapterPosition);
             }
         });
+        adapter.setOnItemClickListener((adapter, view, position) -> RouterHelper.switchToUserPage(
+                (MainActivity)getActivity(), this.adapter.getData().get(position)));
     }
 
     @Override

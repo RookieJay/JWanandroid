@@ -63,6 +63,11 @@ public class SquarePresenter extends BasePresenter<SquareContract.Model, SquareC
                       ArticleInfo articleInfo = response.getData();
                       mRootView.showData(articleInfo);
                   }
+
+                  @Override
+                  public void onComplete() {
+                      mRootView.hideLoading();
+                  }
               });
     }
 

@@ -219,8 +219,7 @@ public class UserFragment extends BaseFragment<UserPresenter> implements UserCon
                 mPresenter.collectArticle(item, adapterPosition);
             }
         });
-        adapter.setOnItemClickListener((adapter, view, position) -> RouterHelper.switchToUserPage(
-                (MainActivity)getActivity(), this.adapter.getData().get(position)));
+        adapter.setOnItemClickListener((adapter, view, position) -> RouterHelper.switchToWebPage(mContext, this.adapter.getData().get(position)));
     }
 
     @Override

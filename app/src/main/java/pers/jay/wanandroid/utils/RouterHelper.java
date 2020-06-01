@@ -48,4 +48,14 @@ public class RouterHelper {
         intent.putExtra(Const.Key.KEY_WEB_PAGE_TITLE, title);
         ArmsUtils.startActivity(intent);
     }
+
+    public static void switchToWebPage(Context context, Article article) {
+        if (context == null || article == null) {
+            return;
+        }
+        Intent intent = new Intent(context, X5WebActivity.class);
+        intent.putExtra(Const.Key.KEY_WEB_PAGE_TYPE, WebActivity.TYPE_ARTICLE);
+        intent.putExtra(Const.Key.KEY_WEB_PAGE_DATA, article);
+        ArmsUtils.startActivity(intent);
+    }
 }

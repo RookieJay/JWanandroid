@@ -30,7 +30,9 @@ ext {
             canarySdkVersion        : "1.5.4",
             smartRefreshVersion     : "1.1.0-alpha-32",
             rxToolVersion           : "v2.3.9",
-            buglySdkVersion         : "latest.release" // 指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+            buglySdkVersion         : "latest.release", // 指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+            dbflowVersion           : "4.2.4",
+            greenDaoVersion         : "3.2.2"
     ]
 
     dependencies = [
@@ -137,6 +139,13 @@ ext {
 
             //今日诗词
             "jinrishici"                : "com.jinrishici:android-sdk:1.2",
+
+            // databases
+            "dbflow"                       : "com.github.Raizlabs.DBFlow:dbflow:${version['dbflowVersion']}",
+            "dbflowCore"                   : "com.github.Raizlabs.DBFlow:dbflow-core:${version['dbflowVersion']}",
+            "dbflowCompiler"               : "com.github.Raizlabs.DBFlow:dbflow-processor:${version['dbflowVersion']}",
+            "greenDao"                     : "org.greenrobot:greendao:${version['greenDaoVersion']}",
+
 
             //test
             "junit"                     : "junit:junit:4.12",

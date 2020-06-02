@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.jess.arms.base.App;
 import com.jess.arms.base.BaseApplication;
 import com.jess.arms.base.delegate.AppDelegate;
@@ -32,7 +34,10 @@ import com.ycbjie.webviewlib.X5WebUtils;
 import org.jetbrains.annotations.NotNull;
 
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
+import pers.jay.wanandroid.BuildConfig;
 import pers.jay.wanandroid.R;
+import pers.jay.wanandroid.model.dao.DaoMaster;
+import pers.jay.wanandroid.model.dao.DaoSession;
 import pers.jay.wanandroid.utils.DarkModeUtils;
 import pers.jay.wanandroid.utils.TimberUtils;
 import pers.jay.wanandroid.widgets.PoemHeader;
@@ -94,6 +99,8 @@ public class JApplication extends BaseApp implements App{
         loadDarkMode();
         // 设置log自动在apk为debug版本时打开，在release版本时关闭
         TimberUtils.setLogAuto();
+        // 初始化数据库
+        initGreenDao();
         delayInit();
     }
 
@@ -118,6 +125,10 @@ public class JApplication extends BaseApp implements App{
                 // 初始化sp
                 SPUtils.create(getApplicationContext(), "cookies_prefs");
                 CrashUtils.init();
+                // 哆啦A梦
+                if (BuildConfig.DEBUG) {
+                    DoraemonKit.install(JApplication.this);
+                }
             }
         }, 5000L);
     }
@@ -195,5 +206,21 @@ public class JApplication extends BaseApp implements App{
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE){
             Timber.e("onConfigurationChanged：%s", "当前横屏");
         }
+    }
+
+    /**
+     * 初始化GreenDao,直接在Application中进行初始化操作
+     */
+    private void initGreenDao() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "wanandroid.db");
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+    }
+
+    private DaoSession daoSession;
+
+    public DaoSession getDaoSession() {
+        return daoSession;
     }
 }

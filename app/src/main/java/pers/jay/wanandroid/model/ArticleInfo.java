@@ -1,7 +1,15 @@
 package pers.jay.wanandroid.model;
 
+import org.greenrobot.greendao.annotation.Convert;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+
 import java.util.List;
 
+import pers.jay.wanandroid.model.dbconverter.ArticleConverter;
+import org.greenrobot.greendao.annotation.Generated;
+
+@Entity
 public class ArticleInfo {
 
         /**
@@ -14,13 +22,32 @@ public class ArticleInfo {
          * total : 6840
          */
 
+        @Id(autoincrement = true)
+        private Long id;
         private int curPage;
         private int offset;
         private boolean over;
         private int pageCount;
         private int size;
         private int total;
+        @Convert(converter = ArticleConverter.class, columnType = String.class)
         private List<Article> datas;
+
+        @Generated(hash = 1662640631)
+        public ArticleInfo(Long id, int curPage, int offset, boolean over, int pageCount, int size, int total, List<Article> datas) {
+            this.id = id;
+            this.curPage = curPage;
+            this.offset = offset;
+            this.over = over;
+            this.pageCount = pageCount;
+            this.size = size;
+            this.total = total;
+            this.datas = datas;
+        }
+
+        @Generated(hash = 895234147)
+        public ArticleInfo() {
+        }
 
         public int getCurPage() { return curPage;}
 
@@ -49,5 +76,17 @@ public class ArticleInfo {
         public List<Article> getDatas() { return datas;}
 
         public void setDatas(List<Article> datas) { this.datas = datas;}
+
+        public Long getId() {
+            return this.id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public boolean getOver() {
+            return this.over;
+        }
 
 }

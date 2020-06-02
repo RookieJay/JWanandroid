@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-aspectjx'    //插件
+apply plugin: 'android-aspectjx'    //aspectjx插件
+apply plugin: 'org.greenrobot.greendao' //greendao插件
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -45,6 +46,9 @@ android {
         }
         debug {
 //            signingConfig signingConfigs.release // 把debug签名配置成Release版的签名
+//            minifyEnabled false //开启混淆编译
+            shrinkResources false //移除无用资源
+            zipAlignEnabled true //zipalign优化
             buildConfigField("boolean", "LOG_DEBUG", "true")
         }
     }
@@ -61,6 +65,15 @@ android {
         variant.outputs.all {
             outputFileName = "wanandroid-${variant.buildType.name}-v${defaultConfig.versionName}.apk"
         }
+    }
+
+    // greendao配置
+    greendao {
+        schemaVersion 1 //数据库版本号
+        daoPackage 'pers.jay.wanandroid.model.dao' //  //设置要放置DaoMaster、DaoSession、Dao这些类的包的全路径
+        targetGenDir 'src/main/java' //设置DaoMaster、DaoSession、Dao目录
+        generateTests false //设置为true以自动生成单元测试。
+        targetGenDirTests 'src/test/java/database' //应存储生成的单元测试的基本目录。默认为 src / androidTest / java。
     }
 }
 
@@ -170,5 +183,9 @@ dependencies {
     implementation "org.jsoup:jsoup:1.9.2"
 
     implementation 'org.aspectj:aspectjrt:1.8.9'
+
+    // greenDao
+    implementation rootProject.ext.dependencies["greenDao"]
+
 
 }

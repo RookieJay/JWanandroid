@@ -14,14 +14,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.ResourceObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -37,6 +33,7 @@ import pers.jay.wanandroid.http.RetryWithDelay;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.model.BannerImg;
+import pers.jay.wanandroid.model.dao.ArticleDao;
 import pers.jay.wanandroid.mvp.contract.HomeContract;
 import pers.jay.wanandroid.result.WanAndroidResponse;
 import pers.jay.wanandroid.utils.PoemUtils;
@@ -129,9 +126,17 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
     }
 
     public void requestHomeData() {
+        // 无网络时加载本地数据
+        if (!NetWorkManager.isNetWorkAvailable()) {
+            mRootView.showMessage("请检查网络连接");
+            mModel.getArticleLocal();
+//            mRootView.showMoreArticles();
+            return;
+        }
         //使用zip合并首页三个创建网络访问的observable
         Observable.zip(mModel.getBanner(), mModel.getTopArticles(), mModel.getArticle(0),
                 (bannerResponse, topResponse, commonResponse) -> {
+                    Timber.e("zip线程%s", Thread.currentThread().getName());
                     List<Article> topArticles = topResponse.getData();
                     for (Article article : topArticles) {
                         article.setTop(true);
@@ -140,6 +145,11 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                     topArticles.addAll(articleList);
                     WanAndroidResponse<List<Article>> articleResponse = new WanAndroidResponse<>();
                     articleResponse.setData(topArticles);
+                    ArticleDao articleDao = JApplication.getInstance().getDaoSession().getArticleDao();
+                    // 首页文章保存入库
+                    articleDao.insertOrReplaceInTx(topArticles);
+                    List<Article> articles = articleDao.loadAll();
+                    Timber.e("查询到入库的有 %s", articles.size());
                     WanAndroidResponse<ZipEntity> wanAndroidResponse = new WanAndroidResponse<>();
                     wanAndroidResponse.setData(new ZipEntity(bannerResponse, articleResponse));
                     return wanAndroidResponse;
@@ -148,6 +158,7 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                   .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                   .retryWhen(new RetryWithDelay(10, 2000))
                   .doOnNext(response -> {
+                      Timber.e("doOnNext线程%s", Thread.currentThread().getName());
                       ZipEntity zipEntity = response.getData();
                       List<BannerImg> bannerImgs = zipEntity.getBannerResponse().getData();
                       List<Article> articles = zipEntity.getArticleResponse().getData();
@@ -170,6 +181,7 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                               public ObservableSource<ResponseBody> apply(
                                       WanAndroidResponse<ZipEntity> zipEntityWanAndroidResponse) throws Exception {
                                   // 判断本地是否获取到，若无则获取今日诗词并保存本地
+                                  Timber.e("flatMap线程%s", Thread.currentThread().getName());
                                   String poem = AppConfig.getInstance().getPoem();
                                   String appName = JApplication.getInstance().getString(R.string.app_name);
                                   if (StringUtils.isEmpty(poem) || StringUtils.equals(poem, appName)) {

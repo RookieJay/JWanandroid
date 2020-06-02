@@ -56,5 +56,7 @@ public interface HomeContract {
         Observable<WanAndroidResponse> unCollect(int id);
 
         Observable<ResponseBody> getBingImg();
+
+        Observable<WanAndroidResponse<ArticleInfo>> getArticleLocal();
     }
 }

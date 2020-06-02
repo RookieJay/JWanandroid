@@ -3,8 +3,14 @@ package pers.jay.wanandroid.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Transient;
 
+import java.util.List;
+import org.greenrobot.greendao.annotation.Generated;
+
+@Entity
 public class Article implements Parcelable {
 
     /**
@@ -34,6 +40,8 @@ public class Article implements Parcelable {
      * zan : 0
      */
 
+    @Id(autoincrement = true)
+    private Long aId;
     private String apkLink;
     private String author;
     private int chapterId;
@@ -57,6 +65,7 @@ public class Article implements Parcelable {
     private int userId;
     private int visible;
     private int zan;
+    @Transient
     private List<Tag> tags;
     private boolean isTop;
     private int selfVisible;
@@ -226,6 +235,30 @@ public class Article implements Parcelable {
         dest.writeInt(this.originId);
     }
 
+    public Long getAId() {
+        return this.aId;
+    }
+
+    public void setAId(Long aId) {
+        this.aId = aId;
+    }
+
+    public boolean getCollect() {
+        return this.collect;
+    }
+
+    public boolean getFresh() {
+        return this.fresh;
+    }
+
+    public boolean getIsTop() {
+        return this.isTop;
+    }
+
+    public void setIsTop(boolean isTop) {
+        this.isTop = isTop;
+    }
+
     public Article() {}
 
     protected Article(Parcel in) {
@@ -257,6 +290,42 @@ public class Article implements Parcelable {
         this.selfVisible = in.readInt();
         this.shareUser = in.readString();
         this.originId = in.readInt();
+    }
+
+    @Generated(hash = 961690116)
+    public Article(Long aId, String apkLink, String author, int chapterId, String chapterName, boolean collect,
+            int courseId, String desc, String envelopePic, boolean fresh, int id, String link, String niceDate,
+            String origin, String prefix, String projectLink, long publishTime, int superChapterId,
+            String superChapterName, String title, int type, int userId, int visible, int zan, boolean isTop,
+            int selfVisible, String shareUser, int originId) {
+        this.aId = aId;
+        this.apkLink = apkLink;
+        this.author = author;
+        this.chapterId = chapterId;
+        this.chapterName = chapterName;
+        this.collect = collect;
+        this.courseId = courseId;
+        this.desc = desc;
+        this.envelopePic = envelopePic;
+        this.fresh = fresh;
+        this.id = id;
+        this.link = link;
+        this.niceDate = niceDate;
+        this.origin = origin;
+        this.prefix = prefix;
+        this.projectLink = projectLink;
+        this.publishTime = publishTime;
+        this.superChapterId = superChapterId;
+        this.superChapterName = superChapterName;
+        this.title = title;
+        this.type = type;
+        this.userId = userId;
+        this.visible = visible;
+        this.zan = zan;
+        this.isTop = isTop;
+        this.selfVisible = selfVisible;
+        this.shareUser = shareUser;
+        this.originId = originId;
     }
 
     public static final Parcelable.Creator<Article> CREATOR = new Parcelable.Creator<Article>() {

@@ -52,6 +52,13 @@ Java版Wanandroid客户端，主体使用MVPArms，利用 MVP + RxJava + Retrofi
 
 ## 更新日志
 
+### 1.1.1(3)
+- 【修复】没有在local.properties配置keystore信息无法运行app的问题
+- 【修复】适配23以下获取颜色api
+- 【修复】rv滑到底部快速打开其他activity，再返回加载更多视图不消失的问题
+- 【修复】bugly上的一些问题
+- 【优化】对一些细节进行补充优化
+
 ### 1.1.0(2)
 - 适配Android Q 以下暗黑模式(手动开关)
 - 优化主界面及tab界面pagerAdapter

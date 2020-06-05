@@ -41,6 +41,7 @@ import pers.jay.wanandroid.common.ScrollTopListener;
 import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.activity.TodoEditActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.TodoTypeAdapter;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.jay.wanandroid.widgets.DividerItemDecoration;
 import pers.zjc.commonlibs.util.FragmentUtils;
 import pers.zjc.commonlibs.util.ScreenUtils;
@@ -162,7 +163,7 @@ public class TodoTabFragment extends BaseLazyLoadFragment {
                             .bindData(layer -> {
                                 popRv = layer.getView(R.id.mRecyclerView);
                                 popRv.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL_LIST));
-                                ArmsUtils.configRecyclerView(popRv, new LinearLayoutManager(mContext));
+                                ArmsUtils.configRecyclerView(popRv, new WrapContentLinearLayoutManager(mContext));
                                 mTodoTypeAdapter = new TodoTypeAdapter(R.layout.popup_todo_item_list, mTodoCats);
                                 mTodoTypeAdapter.setOnItemClickListener((adapter, view, position) -> {
                                     hidePopMenu();

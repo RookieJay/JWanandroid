@@ -40,6 +40,7 @@ import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.RankAdapter;
 import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.jay.wanandroid.widgets.DashboardView;
 import pers.zjc.commonlibs.util.FragmentUtils;
 
@@ -119,7 +120,7 @@ public class RankFragment extends BaseFragment<RankPresenter> implements RankCon
 
     private void initRecyclerView() {
         adapter = new RankAdapter(R.layout.item_rank, new ArrayList<>());
-        ArmsUtils.configRecyclerView(mRecyclerView, new LinearLayoutManager(mContext));
+        ArmsUtils.configRecyclerView(mRecyclerView, new WrapContentLinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
         adapter.setOnLoadMoreListener(() -> {
             if ((pageCount != 1 && pageCount == page + 1)) {

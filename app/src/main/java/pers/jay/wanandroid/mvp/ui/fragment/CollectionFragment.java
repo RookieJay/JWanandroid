@@ -39,6 +39,7 @@ import pers.jay.wanandroid.mvp.presenter.CollectionPresenter;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.zjc.commonlibs.util.FragmentUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
 
@@ -105,7 +106,7 @@ public class CollectionFragment extends BaseFragment<CollectionPresenter>
         assert mPresenter != null;
         adapter = new ArticleAdapter(new ArrayList<>(), ArticleAdapter.TYPE_COLLECTION);
         loadAnimation(AppConfig.getInstance().getRvAnim());
-        ArmsUtils.configRecyclerView(mRecyclerView, new LinearLayoutManager(mContext));
+        ArmsUtils.configRecyclerView(mRecyclerView, new WrapContentLinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
         adapter.setOnLoadMoreListener(() -> {
             if ((pageCount != 0 && pageCount == page + 1)) {

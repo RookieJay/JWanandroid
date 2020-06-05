@@ -44,6 +44,7 @@ import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
 import pers.jay.wanandroid.utils.UIUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.zjc.commonlibs.util.FragmentUtils;
 import timber.log.Timber;
 
@@ -134,7 +135,7 @@ public class MySharesFragment extends BaseFragment<MySharesPresenter>
 
     private void initRecyclerView() {
         mAdapter = new ArticleAdapter(new ArrayList<>(), ArticleAdapter.TYPE_COMMON);
-        ArmsUtils.configRecyclerView(recyclerView, new LinearLayoutManager(mContext));
+        ArmsUtils.configRecyclerView(recyclerView, new WrapContentLinearLayoutManager(mContext));
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(() -> {
             if (pageCount == 1) {

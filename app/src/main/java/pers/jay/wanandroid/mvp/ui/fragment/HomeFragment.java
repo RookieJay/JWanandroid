@@ -53,6 +53,7 @@ import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
 import pers.jay.wanandroid.utils.UIUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.jay.wanandroid.widgets.PoemHeader;
 import pers.zjc.commonlibs.util.StringUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
@@ -125,7 +126,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
         assert mPresenter != null;
         adapter = new ArticleAdapter(new ArrayList<>(), ArticleAdapter.TYPE_COMMON);
         loadAnimation(AppConfig.getInstance().getRvAnim());
-        layoutManager = new LinearLayoutManager(mContext);
+        layoutManager = new WrapContentLinearLayoutManager(mContext);
         ArmsUtils.configRecyclerView(mRecyclerView, layoutManager);
         mRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter, view, position) -> switchToWebPage(position));
@@ -333,6 +334,8 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
         bannerImg.setTitle("每日一图");
         mBannerImgs.add(0, bannerImg);
         banner.update(urls, titles);
+
+
     }
 
     @Override

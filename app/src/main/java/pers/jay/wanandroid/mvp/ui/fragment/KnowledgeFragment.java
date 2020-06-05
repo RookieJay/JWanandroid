@@ -31,6 +31,7 @@ import pers.jay.wanandroid.mvp.presenter.KnowledgePresenter;
 import pers.jay.wanandroid.mvp.ui.activity.TabActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.KnowledgeAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.zjc.commonlibs.util.ToastUtils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -82,7 +83,7 @@ public class KnowledgeFragment extends BaseLazyLoadFragment<KnowledgePresenter>
     private void initRecyclerView() {
         adapter = new KnowledgeAdapter(R.layout.item_title, new ArrayList<>());
         adapter.setmOnChildClickListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext));
         recyclerView.setAdapter(adapter);
     }
 

@@ -37,6 +37,7 @@ import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
 
@@ -93,7 +94,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter>
 
     private void setupView() {
         assert mPresenter != null;
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext));
         adapter = new ArticleAdapter(new ArrayList<>(), ArticleAdapter.TYPE_COMMON);
         loadAnimation(AppConfig.getInstance().getRvAnim());
         mRecyclerView.setAdapter(adapter);

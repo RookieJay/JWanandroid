@@ -36,6 +36,7 @@ import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.NaviAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.zjc.commonlibs.util.ToastUtils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -83,7 +84,7 @@ public class NavFragment extends BaseLazyLoadFragment<NavPresenter>
     private void initRecyclerView() {
         adapter = new NaviAdapter(R.layout.item_title, new ArrayList<>());
         adapter.setmOnChildClickListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext));
         recyclerView.setAdapter(adapter);
     }
 

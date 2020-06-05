@@ -41,6 +41,7 @@ import pers.jay.wanandroid.mvp.ui.activity.TodoEditActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.SimpleListAdapter;
 import pers.jay.wanandroid.mvp.ui.adapter.TodoAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.zjc.commonlibs.util.FragmentUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
@@ -120,7 +121,7 @@ public class TodoFragment extends BaseFragment<TodoPresenter>
     private void initRecyclerView() {
         adapter = new TodoAdapter(R.layout.item_todo_content, R.layout.item_todo_title,
                 new ArrayList<>());
-        ArmsUtils.configRecyclerView(mRecyclerView, new LinearLayoutManager(mContext));
+        ArmsUtils.configRecyclerView(mRecyclerView, new WrapContentLinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
         adapter.setOnLoadMoreListener(() -> {
             if ((pageCount != 0 && pageCount == page + 1)) {

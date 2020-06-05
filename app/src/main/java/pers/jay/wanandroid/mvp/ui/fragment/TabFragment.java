@@ -40,6 +40,7 @@ import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
 import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
 
@@ -142,7 +143,7 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
     private void setView() {
         adapter = new ArticleAdapter(new ArrayList<>(), ArticleAdapter.TYPE_COMMON);
         loadAnimation(AppConfig.getInstance().getRvAnim());
-        ArmsUtils.configRecyclerView(mRecyclerView, new LinearLayoutManager(mContext));
+        ArmsUtils.configRecyclerView(mRecyclerView, new WrapContentLinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
         // 开启越界回弹
         SmartRefreshUtils.with(refreshLayout)

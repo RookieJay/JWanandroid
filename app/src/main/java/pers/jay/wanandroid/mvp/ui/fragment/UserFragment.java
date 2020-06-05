@@ -43,6 +43,7 @@ import pers.jay.wanandroid.mvp.ui.activity.MainActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
 import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.jay.wanandroid.widgets.PoemTextView;
 import pers.zjc.commonlibs.util.FragmentUtils;
 
@@ -196,7 +197,7 @@ public class UserFragment extends BaseFragment<UserPresenter> implements UserCon
 
     private void initRv() {
         adapter = new ArticleAdapter(new ArrayList<>(), ArticleAdapter.TYPE_COMMON);
-        ArmsUtils.configRecyclerView(mRecyclerView, new LinearLayoutManager(mContext));
+        ArmsUtils.configRecyclerView(mRecyclerView, new WrapContentLinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
         adapter.setOnLoadMoreListener(() -> {
             if (mPageCount != 0 && mPageCount == mPage + 1) {

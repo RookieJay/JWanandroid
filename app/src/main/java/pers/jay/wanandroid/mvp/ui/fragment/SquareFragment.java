@@ -48,6 +48,7 @@ import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.RvAnimUtils;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.zjc.commonlibs.util.FragmentUtils;
 import timber.log.Timber;
 
@@ -136,7 +137,7 @@ public class SquareFragment extends BaseLazyLoadFragment<SquarePresenter>
 
     private void initRecyclerView() {
         mAdapter = new ArticleAdapter(new ArrayList<>(), ArticleAdapter.TYPE_COMMON);
-        ArmsUtils.configRecyclerView(recyclerView, new LinearLayoutManager(mContext));
+        ArmsUtils.configRecyclerView(recyclerView, new WrapContentLinearLayoutManager(mContext));
         RvAnimUtils.loadAnimation(mAdapter);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(() -> {

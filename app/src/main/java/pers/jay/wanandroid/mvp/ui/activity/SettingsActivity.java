@@ -44,6 +44,7 @@ import pers.jay.wanandroid.mvp.ui.adapter.SimpleListAdapter;
 import pers.jay.wanandroid.utils.DarkModeUtils;
 import pers.jay.wanandroid.utils.RvAnimUtils;
 import pers.jay.wanandroid.utils.UIUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.zjc.commonlibs.util.AppUtils;
 import pers.zjc.commonlibs.util.StringUtils;
 import timber.log.Timber;
@@ -134,7 +135,7 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
                             .bindData(layer -> {
                                 RecyclerView rv = layer.getView(R.id.mRecyclerView);
                                 ArmsUtils.configRecyclerView(rv,
-                                        new LinearLayoutManager(SettingsActivity.this));
+                                        new WrapContentLinearLayoutManager(SettingsActivity.this));
                                 List<String> list = Arrays.asList(
                                         RvAnimUtils.getName(RvAnimUtils.RvAnim.NONE),
                                         RvAnimUtils.getName(RvAnimUtils.RvAnim.ALPHAIN),
@@ -221,7 +222,7 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter>
                                 .bindData(layer -> {
                                     RecyclerView rv = layer.getView(R.id.mRecyclerView);
                                     ArmsUtils.configRecyclerView(rv,
-                                            new LinearLayoutManager(SettingsActivity.this));
+                                            new WrapContentLinearLayoutManager(SettingsActivity.this));
                                     List<String> list = Arrays.asList(DarkModeUtils.getName(0),
                                             DarkModeUtils.getName(1), DarkModeUtils.getName(2),
                                             DarkModeUtils.getName(3));

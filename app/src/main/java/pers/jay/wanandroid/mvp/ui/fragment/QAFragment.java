@@ -40,6 +40,7 @@ import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.RvAnimUtils;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -95,7 +96,7 @@ public class QAFragment extends BaseLazyLoadFragment<QAPresenter>
         assert mPresenter != null;
         adapter = new ArticleAdapter(new ArrayList<>(), ArticleAdapter.TYPE_COMMON);
         RvAnimUtils.loadAnimation(adapter);
-        ArmsUtils.configRecyclerView(mRecyclerView, new LinearLayoutManager(mContext));
+        ArmsUtils.configRecyclerView(mRecyclerView, new WrapContentLinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter, view, position) -> switchToWebPage(position));
         adapter.setLikeListener(new ArticleAdapter.LikeListener() {

@@ -37,6 +37,7 @@ import pers.jay.wanandroid.mvp.contract.MyCoinContract;
 import pers.jay.wanandroid.mvp.presenter.MyCoinPresenter;
 import pers.jay.wanandroid.mvp.ui.adapter.MyCoinAdapter;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
+import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
 import pers.jay.wanandroid.widgets.DashboardView;
 import pers.zjc.commonlibs.util.FragmentUtils;
 import timber.log.Timber;
@@ -104,7 +105,7 @@ public class MyCoinFragment extends BaseFragment<MyCoinPresenter> implements MyC
 
     private void initRecyclerView() {
         adapter = new MyCoinAdapter(R.layout.item_my_coin, new ArrayList<>());
-        ArmsUtils.configRecyclerView(mRecyclerView, new LinearLayoutManager(mContext));
+        ArmsUtils.configRecyclerView(mRecyclerView, new WrapContentLinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
         adapter.setOnLoadMoreListener(() -> {
             if ((pageCount != 0 && pageCount == page + 1)) {

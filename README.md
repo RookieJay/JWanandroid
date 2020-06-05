@@ -3,6 +3,8 @@
 ## 介绍
 Java版Wanandroid客户端，主体使用MVPArms，利用 MVP + RxJava + Retrofit + Glide + EventBus等框架开发。
 
+*注：由于本人水平所限，目前可能还存在一些bug，只能在bugly上看到会处理，有发现的小伙伴希望能多提[issue](https://github.com/RookieJay/JWanandroid/issues/new)说明下复现步骤，谢谢。*
+
 ## 界面截图
 
 | ![首页](imgs/首页.jpg) | ![知识体系](imgs/知识体系.jpg) | ![公众号](imgs/公众号.jpg) | ![导航](imgs/导航.jpg) |

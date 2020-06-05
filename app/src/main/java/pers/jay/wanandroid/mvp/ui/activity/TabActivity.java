@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
+import com.gyf.immersionbar.ImmersionBar;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 
@@ -181,7 +182,10 @@ public class TabActivity extends BaseActivity<TabPresenter> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        UIUtils.setSameColorBar(true, this);
+        ImmersionBar.with(this)
+                    .fitsSystemWindows(true)  //使用该属性,必须指定状态栏颜色
+                    .statusBarColor(R.color.colorPrimary)
+                    .init();
         super.onCreate(savedInstanceState);
     }
 

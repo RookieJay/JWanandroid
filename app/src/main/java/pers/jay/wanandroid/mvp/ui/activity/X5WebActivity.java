@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.integration.EventBusManager;
@@ -100,7 +101,10 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        UIUtils.setSameColorBar(true, this);
+        ImmersionBar.with(this)
+                    .fitsSystemWindows(true)  //使用该属性,必须指定状态栏颜色
+                    .statusBarColor(R.color.colorPrimary)
+                    .init();
         initParams();
         initTitle();
         initWebView();

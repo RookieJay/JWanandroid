@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -64,6 +65,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
+        ImmersionBar.with(this)
+                    .fitsSystemWindows(true)  //使用该属性,必须指定状态栏颜色
+                    .statusBarColor(R.color.colorPrimary)
+                    .init();
         return R.layout.activity_main; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 

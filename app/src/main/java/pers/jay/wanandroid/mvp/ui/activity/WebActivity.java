@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -72,7 +73,10 @@ public class WebActivity extends BaseActivity<WebPresenter> implements WebContra
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        UIUtils.setSameColorBar(true, this);
+        ImmersionBar.with(this)
+                    .fitsSystemWindows(true)  //使用该属性,必须指定状态栏颜色
+                    .statusBarColor(R.color.colorPrimary)
+                    .init();
         initParams();
         initTitle();
         initWebView();

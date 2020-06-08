@@ -145,9 +145,14 @@ public class DashboardView extends View {
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        // 先执行原测量算法
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        // 获取原来的测量结果
+//        getMeasuredWidth();getMeasuredHeight();
+        // 利用原来的测量结果计算新的尺寸
         int width = measureView(widthMeasureSpec);
         int height = measureView(heightMeasureSpec);
+        // 保存计算后的结果
         setMeasuredDimension(width, height);
     }
 

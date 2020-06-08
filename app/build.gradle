@@ -44,6 +44,9 @@ android {
             buildConfigField("boolean", "LOG_DEBUG", "false")//正式版不打印日志
         }
         debug {
+            minifyEnabled false //开启混淆编译
+            shrinkResources false //移除无用资源
+            zipAlignEnabled true //zipalign优化
 //            signingConfig signingConfigs.release // 把debug签名配置成Release版的签名
             buildConfigField("boolean", "LOG_DEBUG", "true")
         }

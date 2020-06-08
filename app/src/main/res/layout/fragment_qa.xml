@@ -17,15 +17,9 @@
         app:srlPrimaryColor="@color/colorPrimary"
         app:srlAccentColor="@android:color/white">
         
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            
-            <include layout="@layout/include_base_recycler_view" />
         
-        </LinearLayout>
-    
+        <include layout="@layout/include_base_recycler_view" />
+        
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     
 </com.classic.common.MultipleStatusView>

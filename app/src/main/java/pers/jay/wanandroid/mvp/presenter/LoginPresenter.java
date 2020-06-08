@@ -2,23 +2,22 @@ package pers.jay.wanandroid.mvp.presenter;
 
 import android.app.Application;
 
-import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.FragmentScope;
-import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import com.jess.arms.integration.AppManager;
+import com.jess.arms.mvp.BasePresenter;
+import com.jess.arms.utils.RxLifecycleUtils;
 
 import javax.inject.Inject;
 
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import pers.jay.wanandroid.base.BaseWanObserver;
 import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.model.User;
 import pers.jay.wanandroid.mvp.contract.LoginContract;
 import pers.jay.wanandroid.result.WanAndroidResponse;
+import pers.jay.wanandroid.utils.rx.RxScheduler;
 
 @FragmentScope
 public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginContract.View> {
@@ -50,8 +49,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         AppConfig.getInstance().setAccount(userName);
         AppConfig.getInstance().setPassword(password);
         mModel.login(userName, password)
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
+              .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+              .compose(RxScheduler.Obs_io_main())
               .subscribe(new BaseWanObserver<WanAndroidResponse<User>>(mRootView) {
 
                   @Override

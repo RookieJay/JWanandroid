@@ -100,19 +100,22 @@ public class FragmentDelegateImpl implements FragmentDelegate {
 
     @Override
     public void onDestroyView() {
-        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
-            try {
-                mUnbinder.unbind();
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-                //fix Bindings already cleared
-                Timber.w("onDestroyView: " + e.getMessage());
-            }
-        }
+        Timber.e("%s-onDestroyView", this.getClass().getSimpleName());
+//        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
+//            try {
+//                mUnbinder.unbind();
+//            } catch (IllegalStateException e) {
+//                e.printStackTrace();
+//                //fix Bindings already cleared
+//                Timber.w("onDestroyView: " + e.getMessage());
+//            }
+//        }
     }
 
     @Override
     public void onDestroy() {
+        Timber.e("%s-onDestroy", this.getClass().getSimpleName());
+        unbindView();
         if (iFragment != null && iFragment.useEventBus())//如果要使用eventbus请将此方法返回true
             EventBusManager.getInstance().unregister(mFragment);//注册到事件主线
         this.mUnbinder = null;
@@ -132,5 +135,18 @@ public class FragmentDelegateImpl implements FragmentDelegate {
     @Override
     public boolean isAdded() {
         return mFragment != null && mFragment.isAdded();
+    }
+
+    private void unbindView() {
+        Timber.e("%s-unbindView", this.getClass().getSimpleName());
+        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
+            try {
+                mUnbinder.unbind();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+                //fix Bindings already cleared
+                Timber.w("onDestroyView: " + e.getMessage());
+            }
+        }
     }
 }

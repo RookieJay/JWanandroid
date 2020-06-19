@@ -129,6 +129,7 @@ ext {
             "AndroidAOP"                :  'com.github.zhujiang521:AndroidAOP:1.1.1',
             "mmkv-static"               : 'com.tencent: mmkv-static:1.1.1',
             "mmkv"                      : 'com.tencent: mmkv:1.1.1',
+            "AndroidutilCode"           : 'com.blankj:utilcode:1.29.0',
 
             //rxTools github地址:https://github.com/Tamsiree/RxTool
             "RxKit"                     : "com.github.tamsiree.RxTool:RxKit:${version["rxToolVersion"]}", //基础工具库

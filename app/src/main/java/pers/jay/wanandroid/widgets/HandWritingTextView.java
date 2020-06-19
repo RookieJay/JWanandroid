@@ -2,10 +2,10 @@ package pers.jay.wanandroid.widgets;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
-import androidx.annotation.Nullable;
 import pers.jay.wanandroid.common.JApplication;
 
 /**
@@ -18,12 +18,12 @@ public class HandWritingTextView extends AppCompatTextView {
     }
 
     public HandWritingTextView(Context context,
-                               @Nullable @android.support.annotation.Nullable AttributeSet attrs) {
+                               @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
     public HandWritingTextView(Context context,
-                               @Nullable @android.support.annotation.Nullable AttributeSet attrs,
+                               @Nullable AttributeSet attrs,
                                int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 //        Typeface tf = genTypeface();

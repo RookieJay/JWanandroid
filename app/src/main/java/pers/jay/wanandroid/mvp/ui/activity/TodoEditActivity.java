@@ -3,7 +3,6 @@ package pers.jay.wanandroid.mvp.ui.activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +23,7 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.ArmsUtils;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -145,7 +145,6 @@ public class TodoEditActivity extends BaseActivity<TodoEditPresenter>
                 }, null).show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initTodo() {
         requestFocus();
         configTextWatcher();
@@ -223,7 +222,6 @@ public class TodoEditActivity extends BaseActivity<TodoEditPresenter>
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void chooseDeadLine() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, year, month, dayOfMonth) -> {

@@ -187,7 +187,6 @@ public class MySharesFragment extends BaseFragment<MySharesPresenter>
 
     @Override
     public void showLoading() {
-        Timber.e("showLoading, 当前状态：");
         srlSquare.autoRefreshAnimationOnly();
     }
 

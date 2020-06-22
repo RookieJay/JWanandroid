@@ -28,8 +28,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.UriUtils;
 import com.bumptech.glide.Glide;
-import com.gyf.immersionbar.ImmersionBar;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.integration.EventBusManager;
@@ -37,18 +41,14 @@ import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.PermissionUtil;
 import com.jinrishici.sdk.android.view.JinrishiciTextViewConfig;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.vondear.rxtool.RxFileTool;
-import com.vondear.rxtool.RxPhotoTool;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import org.apache.http.client.utils.URIUtils;
 import org.simple.eventbus.Subscriber;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -59,7 +59,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
-import per.goweii.anylayer.Layer;
 import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
@@ -75,22 +74,18 @@ import pers.jay.wanandroid.mvp.ui.activity.SearchActivity;
 import pers.jay.wanandroid.mvp.ui.activity.SettingsActivity;
 import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
+import pers.jay.wanandroid.utils.RxPhotoTool;
 import pers.jay.wanandroid.utils.UIUtils;
 import pers.jay.wanandroid.utils.rx.RxScheduler;
 import pers.jay.wanandroid.widgets.ChooseImageDialog;
 import pers.jay.wanandroid.widgets.PoemTextView;
 import pers.zjc.commonlibs.constant.PermissionConstants;
 import pers.zjc.commonlibs.ui.BasePagerAdapter;
-import pers.zjc.commonlibs.util.ImageUtils;
-import pers.zjc.commonlibs.util.PermissionUtils;
-import pers.zjc.commonlibs.util.StringUtils;
-import pers.zjc.commonlibs.util.TimeUtils;
-import pers.zjc.commonlibs.util.UriUtils;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
-import static com.vondear.rxtool.RxPhotoTool.GET_IMAGE_BY_CAMERA;
-import static com.vondear.rxtool.RxPhotoTool.GET_IMAGE_FROM_PHONE;
+import static pers.jay.wanandroid.utils.RxPhotoTool.GET_IMAGE_BY_CAMERA;
+import static pers.jay.wanandroid.utils.RxPhotoTool.GET_IMAGE_FROM_PHONE;
 
 /**
  * @author ZJC
@@ -179,7 +174,7 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        UIUtils.setSameColorBar(true, mActivity);
+        //        UIUtils.setSameColorBar(true, mActivity);
 
     }
 
@@ -193,7 +188,7 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         initView();
         loadMyCoin();
         // 诗词
-//        mPresenter.loadPoem();
+        //        mPresenter.loadPoem();
         tvPoem.setConfig(new JinrishiciTextViewConfig());
     }
 
@@ -295,7 +290,8 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         // 加载头像
         if (PermissionUtils.isGranted(PermissionConstants.STORAGE)) {
             loadLocalAvatar();
-        } else {
+        }
+        else {
             requestStoragePermissions(TYPE_LOAD_LOCAL_IMAGE);
         }
     }
@@ -304,11 +300,14 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
      * 初始化本地储存的头像并高斯模糊
      */
     private void loadLocalAvatar() {
-        if (StringUtils.isEmpty(appConfig.getAvatar())) {
-            Glide.with(ivAvatar.getContext()).load(R.drawable.ic_avatar).into(ivAvatar);
-        } else {
+        File file = new File(appConfig.getAvatar());
+        if (StringUtils.isEmpty(appConfig.getAvatar()) || !file.exists()) {
+            //            Glide.with(ivAvatar.getContext()).load(R.drawable.ic_avatar).into(ivAvatar);
+            ivAvatar.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_avatar));
+        }
+        else {
             Glide.with(ivAvatar.getContext()).load(appConfig.getAvatar()).into(ivAvatar);
-            blurBackground(new File(appConfig.getAvatar()));
+            blurBackground(file);
         }
     }
 
@@ -329,8 +328,34 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
                     if (data == null) {
                         // intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                         // 指定了存储的路径的uri，那么返回的data就为null
-                        Uri uri = RxPhotoTool.createImagePathUri(Objects.requireNonNull(getContext()));
-                        handlePicByCamera(uri);
+                        Observable.create(new ObservableOnSubscribe<Uri>() {
+                            @Override
+                            public void subscribe(ObservableEmitter<Uri> emitter) throws Exception {
+                                Uri uri = RxPhotoTool.getUri(mContext, appConfig.getUserName(),true);
+                                emitter.onNext(uri);
+                            }
+                        }).compose(RxScheduler.Obs_io_main()).subscribe(new Observer<Uri>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(Uri uri) {
+                                handlePicByCamera(uri);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Timber.e(e);
+                                showMessage("图片处理出错");
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
                     }
                     break;
                 case GET_IMAGE_FROM_PHONE:
@@ -361,10 +386,8 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         }
     }
 
-
     /**
      * 处理相机拍照返回图片
-     * @param uri
      */
     private void handlePicByCamera(Uri uri) {
         if (uri == null) {
@@ -372,27 +395,26 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
             return;
         }
         Timber.e("uri:%s", uri.toString());
-        File file = RxFileTool.getFilePhotoFromUri(getActivity(), uri);
-//        File file = UriUtils.uri2File(uri);
-        if (file == null) {
+        File file = UriUtils.uri2File(uri);
+        //        File file = UriUtils.uri2File(uri);
+        if (file == null || !file.exists()) {
             showMessage("图片丢失，请重新拍摄");
             return;
         }
         String path = file.getAbsolutePath();
         Timber.e("图片路径%s", path);
-        if (!ImageUtils.isImage(path)) {
+        if (!ImageUtils.isImage(file)) {
             showMessage("请选择图片文件");
             return;
         }
         Glide.with(ivAvatar.getContext()).load(path).into(ivAvatar);
-        appConfig.setAvatar(file.getAbsolutePath());
+        appConfig.setAvatar(path);
         blurBackground(file);
     }
 
     /**
      * 注意：要针对Android 10(Q)储存权限适配：取消对READ_EXTERNAL_STORAGE 和 WRITE_EXTERNAL_STORAGE两个权限的申请。
      * 并替换为新的媒体特定权限。
-     * @param type
      */
     private void requestStoragePermissions(int type) {
         PermissionUtil.RequestPermission requestPermission = new PermissionUtil.RequestPermission() {
@@ -405,7 +427,7 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
                     case TYPE_ACCESS_IMAGE:
                         ChooseImageDialog.create(ContainerFragment.this).show();
                         // 打开本地图库
-//                        RxPhotoTool.openLocalImage(ContainerFragment.this);
+                        //                        RxPhotoTool.openLocalImage(ContainerFragment.this);
                         break;
                     default:
                         break;
@@ -422,10 +444,14 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
                 showMessage("您已拒绝存储权限，将无法正常使用app,请前往系统设置打开存储权限");
             }
         };
-        RxErrorHandler handler = RxErrorHandler.builder().with(mContext).responseErrorListener(
-                (context, t) -> Timber.e(t.getMessage())).build();
+        RxErrorHandler handler = RxErrorHandler.builder()
+                                               .with(mContext)
+                                               .responseErrorListener(
+                                                       (context, t) -> Timber.e(t.getMessage()))
+                                               .build();
         PermissionUtil.requestPermission(requestPermission, new RxPermissions(this), handler,
-                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     private void blurBackground(File file) {
@@ -473,8 +499,7 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
             }
         };
         // 切换线程并订阅
-        observable.compose(RxScheduler.Obs_io_main())
-                  .subscribe(observer);
+        observable.compose(RxScheduler.Obs_io_main()).subscribe(observer);
     }
 
     private void configLogoutButton() {
@@ -572,7 +597,6 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
         });
         bottomNav.setOnNavigationItemReselectedListener(menuItem -> slideToTop(true));
     }
-
 
     private void initFloatingButton() {
         fabTop.setOnClickListener(v -> slideToTop(false));
@@ -696,18 +720,18 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
     /**
      * Token过期,重新登录
      */
-//    @Subscriber
-//    public void onTokenExpiredEvent(Event event) {
-//        if (null != event) {
-//            if (event.getEventCode() == Const.EventCode.LOGIN_EXPIRED && mContext.equals(
-//                    ActivityUtils.getTopActivity())) {
-//                showMessage(getString(R.string.error_login_expired));
-//                if (mContext instanceof MainActivity) {
-//                    mActivity.switchFragment(LoginFragment.newInstance());
-//                }
-//            }
-//        }
-//    }
+    //    @Subscriber
+    //    public void onTokenExpiredEvent(Event event) {
+    //        if (null != event) {
+    //            if (event.getEventCode() == Const.EventCode.LOGIN_EXPIRED && mContext.equals(
+    //                    ActivityUtils.getTopActivity())) {
+    //                showMessage(getString(R.string.error_login_expired));
+    //                if (mContext instanceof MainActivity) {
+    //                    mActivity.switchFragment(LoginFragment.newInstance());
+    //                }
+    //            }
+    //        }
+    //    }
 
     /**
      * 登录成功
@@ -771,6 +795,5 @@ public class ContainerFragment extends BaseFragment<ContainerPresenter>
     public void switchToHome() {
         viewPager.setCurrentItem(1);
     }
-
 
 }

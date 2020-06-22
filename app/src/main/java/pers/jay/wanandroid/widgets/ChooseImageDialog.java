@@ -2,7 +2,6 @@ package pers.jay.wanandroid.widgets;
 
 import android.Manifest;
 import android.animation.Animator;
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import com.jess.arms.utils.PermissionUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.vondear.rxtool.RxPhotoTool;
 
 import java.util.List;
 
@@ -22,6 +20,7 @@ import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
 import pers.jay.wanandroid.R;
+import pers.jay.wanandroid.utils.RxPhotoTool;
 import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
 
@@ -70,7 +69,8 @@ public class ChooseImageDialog {
         PermissionUtil.RequestPermission requestPermission = new PermissionUtil.RequestPermission() {
             @Override
             public void onRequestPermissionSuccess() {
-                RxPhotoTool.openCameraImage(fragment);
+                Timber.e("调用 onRequestPermissionSuccess");
+                RxPhotoTool.takePhoto(context, fragment);
             }
 
             @Override
@@ -90,4 +90,5 @@ public class ChooseImageDialog {
         PermissionUtil.requestPermission(requestPermission,
                 new RxPermissions((FragmentActivity)context), handler, Manifest.permission.CAMERA);
     }
+
 }

@@ -173,4 +173,7 @@ dependencies {
 
     implementation 'org.aspectj:aspectjrt:1.8.9'
 
+    //AndroidutilCode
+    implementation rootProject.ext.dependencies["AndroidutilCode"]
+
 }

@@ -109,24 +109,24 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
     /**
      * 请求轮播图
      */
-    private void requestBanner() {
-        mModel.getBanner()
-              .compose(RxScheduler.Obs_io_main())
-              .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-              .subscribe(new BaseWanObserver<WanAndroidResponse<List<BannerImg>>>(mRootView) {
-
-                  @Override
-                  public void onSuccess(WanAndroidResponse<List<BannerImg>> response) {
-                      List<BannerImg> bannerImgs = response.getData();
-                      mRootView.showBanner(bannerImgs);
-                  }
-
-                  @Override
-                  public void onComplete() {
-                      mRootView.hideLoading();
-                  }
-              });
-    }
+//    private void requestBanner() {
+//        mModel.getBanner()
+//              .compose(RxScheduler.Obs_io_main())
+//              .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+//              .subscribe(new BaseWanObserver<WanAndroidResponse<List<BannerImg>>>(mRootView) {
+//
+//                  @Override
+//                  public void onSuccess(WanAndroidResponse<List<BannerImg>> response) {
+//                      List<BannerImg> bannerImgs = response.getData();
+//                      mRootView.showBanner(bannerImgs);
+//                  }
+//
+//                  @Override
+//                  public void onComplete() {
+//                      mRootView.hideLoading();
+//                  }
+//              });
+//    }
 
     public void requestHomeData() {
         //使用zip合并首页三个创建网络访问的observable
@@ -158,7 +158,7 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                           mRootView.refresh(articles);
                       }
                   })
-                  .doOnComplete(() -> mRootView.hideLoading())
+//                  .doOnComplete(() -> mRootView.hideLoading())
                   // 回到io线程发起下一个请求
                   .observeOn(Schedulers.io())
                   // 使用flatMap进行嵌套请求，完成以上三个网络请求后再请求每日一图

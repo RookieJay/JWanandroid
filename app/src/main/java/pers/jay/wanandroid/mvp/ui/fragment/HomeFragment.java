@@ -64,8 +64,8 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
         implements HomeContract.View, ScrollTopListener {
 
-    Banner banner;
-    Unbinder unbinder;
+    private Banner banner;
+
     @BindView(R.id.mRecyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.refreshLayout)
@@ -240,12 +240,6 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        hideLoading();
-    }
-
-    @Override
     public void showMessage(@NonNull String message) {
         checkNotNull(message);
         ToastUtils.showShort(message);
@@ -260,14 +254,6 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     @Override
     public void killMyself() {
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
     }
 
     @Override

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-aspectjx'    //插件
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -158,7 +157,6 @@ dependencies {
     implementation rootProject.ext.dependencies["bugly-crashreport"]
     implementation rootProject.ext.dependencies["native-crashreport"]
 
-
     // x5 WebView
     implementation 'cn.yc:WebViewLib:1.2.2'
 
@@ -170,8 +168,6 @@ dependencies {
 
     // jsoup 解析网页
     implementation "org.jsoup:jsoup:1.9.2"
-
-    implementation 'org.aspectj:aspectjrt:1.8.9'
 
     //AndroidutilCode
     implementation rootProject.ext.dependencies["AndroidutilCode"]

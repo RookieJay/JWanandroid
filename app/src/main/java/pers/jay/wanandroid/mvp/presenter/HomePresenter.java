@@ -180,6 +180,7 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                               }
                           })
                   .observeOn(AndroidSchedulers.mainThread())
+                  .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                   .subscribe(new ResourceObserver<ResponseBody>() {
                       @Override
                       protected void onStart() {

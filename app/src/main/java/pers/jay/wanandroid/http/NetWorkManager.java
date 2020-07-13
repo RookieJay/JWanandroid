@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 
 import com.didichuxing.doraemonkit.kit.network.okhttp.DoraemonInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.DoraemonWeakNetworkInterceptor;
+import com.jess.arms.utils.LogUtils;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -61,9 +62,9 @@ public class NetWorkManager {
 //                    Timber.d("返回数据：%s", text);
 //                } catch (UnsupportedEncodingException e) {
 //                    e.printStackTrace();
-//                   Timber.e(e);
+//                   Timber.e(e);+
 //                }
-                Timber.d(htmlReplace(message));
+                LogUtils.debugLongInfo(htmlReplace(message));
             }
         });
 //        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

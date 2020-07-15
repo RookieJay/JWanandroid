@@ -30,7 +30,7 @@ public class RankModel extends BaseModel implements RankContract.Model {
     @Inject
     public RankModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
-        wanAndroidService = NetWorkManager.getInstance().getWanAndroidService();
+        wanAndroidService = NetWorkManager.getInstance().getWanAndroidService(mRepositoryManager);
     }
 
     @Override

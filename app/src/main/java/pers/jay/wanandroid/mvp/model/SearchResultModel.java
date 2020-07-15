@@ -29,7 +29,7 @@ public class SearchResultModel extends BaseModel implements SearchResultContract
     @Inject
     public SearchResultModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
-        wanAndroidService = NetWorkManager.getInstance().getWanAndroidService();
+        wanAndroidService = NetWorkManager.getInstance().getWanAndroidService(mRepositoryManager);
     }
 
     @Override

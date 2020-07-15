@@ -22,7 +22,7 @@ public class SaveCookiesInterceptor implements Interceptor {
     private static final String COOKIE_PREF = "cookies_prefs";
     private Context mContext;
 
-    SaveCookiesInterceptor(Context context) {
+    public SaveCookiesInterceptor(Context context) {
         mContext = context;
     }
 

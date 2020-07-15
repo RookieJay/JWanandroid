@@ -30,7 +30,7 @@ public class X5Model extends BaseModel implements X5Contract.Model {
     @Inject
     public X5Model(IRepositoryManager repositoryManager) {
         super(repositoryManager);
-        wanAndroidService = NetWorkManager.getInstance().getWanAndroidService();
+        wanAndroidService = mRepositoryManager.obtainRetrofitService(WanAndroidService.class);
     }
 
     @Override

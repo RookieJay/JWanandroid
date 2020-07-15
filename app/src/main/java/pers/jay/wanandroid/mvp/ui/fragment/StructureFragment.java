@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.jess.arms.base.BaseFragment;
+import com.jess.arms.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.ScrollTopListener;
 import pers.zjc.commonlibs.ui.BasePagerAdapter;
 
-public class StructureFragment extends BaseFragment implements ScrollTopListener {
+public class StructureFragment extends BaseLazyLoadFragment implements ScrollTopListener {
 
     @BindView(R.id.tabLayout)
     SlidingTabLayout tabLayout;
@@ -49,7 +50,7 @@ public class StructureFragment extends BaseFragment implements ScrollTopListener
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        initTabs();
+
     }
 
     private void initTabs() {
@@ -127,5 +128,10 @@ public class StructureFragment extends BaseFragment implements ScrollTopListener
         if (fragment.isAdded() && fragment.getUserVisibleHint() && fragment instanceof ScrollTopListener) {
             ((ScrollTopListener)fragment).scrollToTopRefresh();
         }
+    }
+
+    @Override
+    protected void lazyLoadData() {
+        initTabs();
     }
 }

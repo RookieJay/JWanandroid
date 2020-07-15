@@ -53,6 +53,6 @@ public class ProjectModel extends BaseModel implements ProjectContract.Model {
 
     @Override
     public Observable<WanAndroidResponse<List<Tab>>> getProjectTab() {
-        return NetWorkManager.getInstance().getWanAndroidService().projectTab();
+        return NetWorkManager.getInstance().getWanAndroidService(mRepositoryManager).projectTab();
     }
 }

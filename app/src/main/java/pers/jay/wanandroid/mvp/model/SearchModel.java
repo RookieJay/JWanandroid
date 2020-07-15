@@ -32,7 +32,7 @@ public class SearchModel extends BaseModel implements SearchContract.Model {
     @Inject
     public SearchModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
-        wanAndroidService = NetWorkManager.getInstance().getWanAndroidService();
+        wanAndroidService = NetWorkManager.getInstance().getWanAndroidService(mRepositoryManager);
     }
 
     @Override

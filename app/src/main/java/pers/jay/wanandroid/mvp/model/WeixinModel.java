@@ -32,7 +32,7 @@ public class WeixinModel extends BaseModel implements WeixinContract.Model {
     @Inject
     public WeixinModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
-        wanAndroidService = NetWorkManager.getInstance().getWanAndroidService();
+        wanAndroidService = mRepositoryManager.obtainRetrofitService(WanAndroidService.class);
     }
 
     @Override

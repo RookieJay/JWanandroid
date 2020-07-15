@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 
 import com.didichuxing.doraemonkit.kit.network.okhttp.DoraemonInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.DoraemonWeakNetworkInterceptor;
+import com.jess.arms.http.log.RequestInterceptor;
+import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.utils.LogUtils;
 
 import java.util.Objects;
@@ -54,31 +56,28 @@ public class NetWorkManager {
     }
 
     public OkHttpClient getOkHttpClient() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(message -> {
-            if (BuildConfig.DEBUG) {
-//                try {
-//                    String s = htmlReplace(message);
-//                    String text = URLDecoder.decode(s, "utf-8");
-//                    Timber.d("返回数据：%s", text);
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                   Timber.e(e);+
-//                }
-                LogUtils.debugLongInfo(htmlReplace(message));
-            }
-        });
-//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        //这行必须加 不然默认不打印
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        RequestInterceptor interceptor = new RequestInterceptor(message -> {
+//            if (BuildConfig.DEBUG) {
+////                try {
+////                    String s = htmlReplace(message);
+////                    String text = URLDecoder.decode(s, "utf-8");
+////                    Timber.d("返回数据：%s", text);
+////                } catch (UnsupportedEncodingException e) {
+////                    e.printStackTrace();
+////                   Timber.e(e);
+////                }
+//                LogUtils.debugLongInfo(htmlReplace(message));
+//            }
+//        });
         OkHttpClient.Builder builder = getOkHttpBuilder();
         // debug模式才打印
         if (BuildConfig.DEBUG) {
-            builder.addInterceptor(interceptor);
+            builder.addInterceptor(new RequestInterceptor());
         }
         mOkHttpClient = RetrofitUrlManager.getInstance().with(builder) //RetrofitUrlManager 初始化
-                          .readTimeout(Const.HttpConst.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                          .writeTimeout(Const.HttpConst.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                          .connectTimeout(Const.HttpConst.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                          .readTimeout(Const.HttpConst.DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
+                          .writeTimeout(Const.HttpConst.DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
+                          .connectTimeout(Const.HttpConst.DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
                           .addInterceptor(new AddCookiesInterceptor(JApplication.getInstance()))
                           .addInterceptor(new SaveCookiesInterceptor(JApplication.getInstance()))
                           //用于模拟弱网的拦截器
@@ -100,6 +99,10 @@ public class NetWorkManager {
 
     public WanAndroidService getWanAndroidService() {
         return mRetrofit.create(WanAndroidService.class);
+    }
+
+    public WanAndroidService getWanAndroidService(IRepositoryManager mRepositoryManager) {
+        return mRepositoryManager.obtainRetrofitService(WanAndroidService.class);
     }
 
     public static boolean isNetWorkAvailable() {

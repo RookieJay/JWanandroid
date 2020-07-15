@@ -20,11 +20,12 @@ import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.event.Event;
 import pers.jay.wanandroid.http.ApiException;
+import pers.jay.wanandroid.http.NetWorkManager;
 import pers.jay.wanandroid.result.BaseBean;
 import pers.zjc.commonlibs.util.StringUtils;
 import retrofit2.HttpException;
 
-public abstract class BaseObserver<T extends BaseBean> extends ResourceObserver<T> {
+public abstract class BaseObserver<T> extends ResourceObserver<T> {
 
     protected IView mView;
     private String mErroMessage;
@@ -37,27 +38,31 @@ public abstract class BaseObserver<T extends BaseBean> extends ResourceObserver<
     @Override
     protected void onStart() {
         super.onStart();
-//        if (!NetWorkManager.isNetWorkAvailable()) {
-//            mView.showMessage(mApp.getString(R.string.network_unavailable_tip));
-//            onComplete();
-//        }
-//        mView.showLoading();
+        if (!NetWorkManager.isNetWorkAvailable()) {
+            mView.showNoNetwork();
+            dispose();
+        }
     }
 
     @Override
     public void onNext(T t) {
-        switch (t.getCode()) {
-            case Const.HttpConst.HTTP_CODE_SUCCESS:
-                onSuccess(t);
-                break;
-            case Const.HttpConst.HTTP_CODE_LOGIN_EXPIRED:
-                EventBus.getDefault().post(new Event<>(Const.EventCode.LOGIN_EXPIRED, t));
-                break;
-            case Const.HttpConst.HTTP_CODE_ERROR:
-            default:
-                onError(new ApiException(StringUtils.isEmpty(t.getMsg()) ? mApp.getString(R.string.error_unknown) : t.getMsg(), t.getCode()));
-                break;
+        if (t instanceof BaseBean) {
+            switch (((BaseBean)t).getCode()) {
+                case Const.HttpConst.HTTP_CODE_SUCCESS:
+                    onSuccess(t);
+                    break;
+                case Const.HttpConst.HTTP_CODE_LOGIN_EXPIRED:
+                    EventBus.getDefault().post(new Event<>(Const.EventCode.LOGIN_EXPIRED, t));
+                    break;
+                case Const.HttpConst.HTTP_CODE_ERROR:
+                default:
+                    onError(new ApiException(StringUtils.isEmpty(((BaseBean)t).getMsg()) ? mApp.getString(R.string.error_unknown) : ((BaseBean)t).getMsg(), ((BaseBean)t).getCode()));
+                    break;
+            }
+        } else {
+            onSuccess(t);
         }
+
     }
 
     @Override
@@ -126,12 +131,17 @@ public abstract class BaseObserver<T extends BaseBean> extends ResourceObserver<
      * @param t
      */
     public void onError(T t) {
-        String msg = t.getMsg();
-        if (TextUtils.isEmpty(msg)) {
-            mView.showMessage(mApp.getString(R.string.error_server_error));
+        if (t instanceof BaseBean) {
+            String msg = ((BaseBean)t).getMsg();
+            if (TextUtils.isEmpty(msg)) {
+                mView.showMessage(mApp.getString(R.string.error_server_error));
+            } else {
+                mView.showMessage((((BaseBean)t).getMsg()));
+            }
         } else {
-            mView.showMessage(t.getMsg());
+            mView.showMessage(mApp.getString(R.string.error_unknown));
         }
+
 
     }
 

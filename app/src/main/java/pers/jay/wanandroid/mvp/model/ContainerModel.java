@@ -42,7 +42,7 @@ public class ContainerModel extends BaseModel implements ContainerContract.Model
 
     @Override
     public Observable<WanAndroidResponse<Coin>> personalCoin() {
-        return NetWorkManager.getInstance().getWanAndroidService().personalCoin();
+        return NetWorkManager.getInstance().getWanAndroidService(mRepositoryManager).personalCoin();
     }
 
     @Override

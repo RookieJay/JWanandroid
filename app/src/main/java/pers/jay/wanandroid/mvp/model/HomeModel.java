@@ -14,6 +14,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.ResponseBody;
 import pers.jay.wanandroid.api.ApiService;
@@ -26,6 +28,8 @@ import pers.jay.wanandroid.model.BannerImg;
 import pers.jay.wanandroid.model.BingDailyImage;
 import pers.jay.wanandroid.mvp.contract.HomeContract;
 import pers.jay.wanandroid.result.WanAndroidResponse;
+import pers.jay.wanandroid.utils.rx.RxScheduler;
+import timber.log.Timber;
 
 @FragmentScope
 public class HomeModel extends BaseModel implements HomeContract.Model {
@@ -40,7 +44,7 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
     @Inject
     public HomeModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
-        wanAndroidService = NetWorkManager.getInstance().getWanAndroidService();
+        wanAndroidService = mRepositoryManager.obtainRetrofitService(WanAndroidService.class);
         apiService = NetWorkManager.getInstance().getApiService(ApiService.class);
     }
 
@@ -79,6 +83,22 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
     @Override
     public Observable<ResponseBody> getBingImg() {
         return apiService.bingImgUrl(Const.Url.DAILY_BING_GUOLIN);
+    }
+
+    @Override
+    public Observable<WanAndroidResponse<ArticleInfo>> getArticleLocal() {
+        return Observable.create(new ObservableOnSubscribe<WanAndroidResponse<ArticleInfo>>() {
+            @Override
+            public void subscribe(
+                    ObservableEmitter<WanAndroidResponse<ArticleInfo>> emitter) throws Exception {
+
+            }
+        });
+    }
+
+    @Override
+    public void saveTopFirstPage(List<Article> articles) {
+
     }
 
 }

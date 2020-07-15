@@ -63,7 +63,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         //方案三 封装后动态切换url
 //        RetrofitUrlManager.getInstance().setGlobalDomain(Const.Url.GITHUB);
         return NetWorkManager.getInstance()
-                      .getWanAndroidService()
+                      .getWanAndroidService(mRepositoryManager)
                       .login(userName, password);
     }
 }

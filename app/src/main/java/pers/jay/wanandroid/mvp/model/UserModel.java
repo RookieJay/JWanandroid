@@ -12,6 +12,7 @@ import com.jess.arms.di.scope.FragmentScope;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import pers.jay.wanandroid.api.WanAndroidService;
 import pers.jay.wanandroid.http.NetWorkManager;
 import pers.jay.wanandroid.model.ShareUserArticles;
 import pers.jay.wanandroid.mvp.contract.UserContract;
@@ -39,6 +40,6 @@ public class UserModel extends BaseModel implements UserContract.Model {
 
     @Override
     public Observable<WanAndroidResponse<ShareUserArticles>> getUserArticles(long userId, int page) {
-        return NetWorkManager.getInstance().getWanAndroidService().shareUserArticles(userId, page);
+        return mRepositoryManager.obtainRetrofitService(WanAndroidService.class).shareUserArticles(userId, page);
     }
 }

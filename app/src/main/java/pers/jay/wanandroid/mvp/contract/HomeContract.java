@@ -39,6 +39,7 @@ public interface HomeContract {
 
         void showLoadMoreFail();
 
+        @Deprecated
         void addDailyPic(String url);
     }
 
@@ -56,5 +57,9 @@ public interface HomeContract {
         Observable<WanAndroidResponse> unCollect(int id);
 
         Observable<ResponseBody> getBingImg();
+
+        Observable<WanAndroidResponse<ArticleInfo>> getArticleLocal();
+
+        void saveTopFirstPage(List<Article> articles);
     }
 }

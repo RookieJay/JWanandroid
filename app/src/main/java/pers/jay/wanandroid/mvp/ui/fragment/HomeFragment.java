@@ -35,6 +35,7 @@ import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.common.GlideImageLoader;
+import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.common.ScrollTopListener;
 import pers.jay.wanandroid.di.component.DaggerHomeComponent;
 import pers.jay.wanandroid.event.Event;
@@ -159,7 +160,7 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
         });
         adapter.setOnLoadMoreListener(() -> {
             if (pageCount != 0 && pageCount == page + 1) {
-                showMessage("不再加载更多");
+                Timber.d("不再加载更多");
                 adapter.loadMoreEnd();
                 return;
             }
@@ -311,6 +312,9 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
 
     @Override
     public void addDailyPic(String url) {
+        if (mBannerImgs == null || banner == null) {
+            return;
+        }
         List<String> titles = new ArrayList<>(bannerTitles);
         List<String> urls = new ArrayList<>(bannerUrls);
         titles.add(0, "每日一图");
@@ -320,8 +324,6 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
         bannerImg.setTitle("每日一图");
         mBannerImgs.add(0, bannerImg);
         banner.update(urls, titles);
-
-
     }
 
     @Override
@@ -406,7 +408,8 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
 
     @Override
     public void showNoNetwork() {
-        statusView.showNoNetwork();
+//        statusView.showNoNetwork();
+        showMessage(JApplication.getInstance().getString(R.string.network_unavailable_tip));
     }
 
     @Override

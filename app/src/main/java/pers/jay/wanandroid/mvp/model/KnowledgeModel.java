@@ -53,6 +53,6 @@ public class KnowledgeModel extends BaseModel implements TreeContract.Model {
 
     @Override
     public Observable<WanAndroidResponse<List<Tab>>> getTreeData() {
-        return NetWorkManager.getInstance().getWanAndroidService().tree();
+        return NetWorkManager.getInstance().getWanAndroidService(mRepositoryManager).tree();
     }
 }

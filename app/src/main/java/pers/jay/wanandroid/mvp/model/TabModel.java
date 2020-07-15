@@ -29,7 +29,7 @@ public class TabModel extends BaseModel implements TabContract.Model {
     @Inject
     public TabModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
-        wanAndroidService = NetWorkManager.getInstance().getWanAndroidService();
+        wanAndroidService = mRepositoryManager.obtainRetrofitService(WanAndroidService.class);
     }
 
     @Override

@@ -73,7 +73,6 @@ public class NavFragment extends BaseLazyLoadFragment<NavPresenter>
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         loadView();
-        mPresenter.requestNavData();
     }
 
     private void loadView() {
@@ -142,6 +141,7 @@ public class NavFragment extends BaseLazyLoadFragment<NavPresenter>
 
     @Override
     protected void lazyLoadData() {
+        showLoading();
         mPresenter.requestNavData();
     }
 

@@ -12,6 +12,7 @@ import com.jess.arms.di.scope.FragmentScope;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import pers.jay.wanandroid.api.WanAndroidService;
 import pers.jay.wanandroid.http.NetWorkManager;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.mvp.contract.QAContract;
@@ -39,6 +40,6 @@ public class QAModel extends BaseModel implements QAContract.Model {
 
     @Override
     public Observable<WanAndroidResponse<ArticleInfo>> getQAList(int page) {
-        return NetWorkManager.getInstance().getWanAndroidService().qaList(page);
+        return mRepositoryManager.obtainRetrofitService(WanAndroidService.class).qaList(page);
     }
 }

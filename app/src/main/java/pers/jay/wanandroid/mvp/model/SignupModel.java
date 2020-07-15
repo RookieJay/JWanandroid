@@ -12,6 +12,7 @@ import com.jess.arms.di.scope.FragmentScope;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import pers.jay.wanandroid.api.WanAndroidService;
 import pers.jay.wanandroid.http.NetWorkManager;
 import pers.jay.wanandroid.model.User;
 import pers.jay.wanandroid.mvp.contract.SignupContract;
@@ -40,11 +41,11 @@ public class SignupModel extends BaseModel implements SignupContract.Model {
     @Override
     public Observable<WanAndroidResponse<User>> signUp(String username, String password,
                                                        String repassword) {
-        return NetWorkManager.getInstance().getWanAndroidService().register(username, password, repassword);
+        return mRepositoryManager.obtainRetrofitService(WanAndroidService.class).register(username, password, repassword);
     }
 
     @Override
     public Observable<WanAndroidResponse<User>> login(String userName, String password) {
-        return NetWorkManager.getInstance().getWanAndroidService().login(userName, password);
+        return mRepositoryManager.obtainRetrofitService(WanAndroidService.class).login(userName, password);
     }
 }

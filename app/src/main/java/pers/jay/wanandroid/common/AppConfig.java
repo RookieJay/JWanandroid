@@ -19,7 +19,7 @@ public class AppConfig {
     private String avatar;
     private String poem;
 
-    private final SPUtils spUtils = SPUtils.getInstance("config");;
+    private final SPUtils spUtils = SPUtils.getInstance("config");
 
     private static class AppConfigHolder {
         private static final AppConfig INSTANCE = new AppConfig();

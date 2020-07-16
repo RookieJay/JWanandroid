@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.classic.common.MultipleStatusView;
-import com.jess.arms.base.BaseFragment;
+import pers.jay.wanandroid.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.scwang.smartrefresh.header.StoreHouseHeader;

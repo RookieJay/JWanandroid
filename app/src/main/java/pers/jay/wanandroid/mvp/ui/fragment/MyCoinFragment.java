@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jess.arms.base.BaseFragment;
+import pers.jay.wanandroid.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
@@ -145,12 +145,12 @@ public class MyCoinFragment extends BaseFragment<MyCoinPresenter> implements MyC
 
     @Override
     public void showLoading() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

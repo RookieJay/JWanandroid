@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jess.arms.base.BaseFragment;
+import pers.jay.wanandroid.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
@@ -167,9 +167,9 @@ public class RankFragment extends BaseFragment<RankPresenter> implements RankCon
     @Override
     public void hideLoading() {
         // 由于解绑时机发生在onComplete()之后，容易引起空指针
-        if (progressBar == null) {
-            return;
-        }
+//        if (progressBar == null) {
+//            return;
+//        }
         progressBar.setVisibility(View.GONE);
     }
 

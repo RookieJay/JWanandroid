@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.flyco.tablayout.SlidingTabLayout;
-import com.jess.arms.base.BaseLazyLoadFragment;
+import pers.jay.wanandroid.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 

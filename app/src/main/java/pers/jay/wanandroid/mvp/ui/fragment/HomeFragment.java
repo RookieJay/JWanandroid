@@ -12,13 +12,10 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.classic.common.MultipleStatusView;
-import com.jess.arms.base.BaseLazyLoadFragment;
+import pers.jay.wanandroid.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
-import com.scwang.smartrefresh.header.StoreHouseHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -29,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import pers.jay.wanandroid.R;
 import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
@@ -49,14 +44,11 @@ import pers.jay.wanandroid.mvp.ui.activity.WebActivity;
 import pers.jay.wanandroid.mvp.ui.activity.X5WebActivity;
 import pers.jay.wanandroid.mvp.ui.adapter.ArticleAdapter;
 import pers.jay.wanandroid.utils.JUtils;
-import pers.jay.wanandroid.utils.PoemUtils;
 import pers.jay.wanandroid.utils.RouterHelper;
 import pers.jay.wanandroid.utils.RvScrollTopUtils;
 import pers.jay.wanandroid.utils.SmartRefreshUtils;
 import pers.jay.wanandroid.utils.UIUtils;
 import pers.jay.wanandroid.utils.WrapContentLinearLayoutManager;
-import pers.jay.wanandroid.widgets.PoemHeader;
-import pers.zjc.commonlibs.util.StringUtils;
 import pers.zjc.commonlibs.util.ToastUtils;
 import timber.log.Timber;
 

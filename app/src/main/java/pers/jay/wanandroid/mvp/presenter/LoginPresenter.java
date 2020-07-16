@@ -14,6 +14,7 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import pers.jay.wanandroid.base.BaseWanObserver;
 import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
+import pers.jay.wanandroid.common.JApplication;
 import pers.jay.wanandroid.model.User;
 import pers.jay.wanandroid.mvp.contract.LoginContract;
 import pers.jay.wanandroid.result.WanAndroidResponse;
@@ -30,10 +31,12 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     ImageLoader mImageLoader;
     @Inject
     AppManager mAppManager;
+    AppConfig appConfig;
 
     @Inject
     public LoginPresenter(LoginContract.Model model, LoginContract.View rootView) {
         super(model, rootView);
+        appConfig = JApplication.getWanComponent().appconfig();
     }
 
     @Override
@@ -46,8 +49,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     }
 
     public void login(String userName, String password) {
-        AppConfig.getInstance().setAccount(userName);
-        AppConfig.getInstance().setPassword(password);
+        appConfig.setAccount(userName);
+        appConfig.setPassword(password);
         mModel.login(userName, password)
               .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
               .compose(RxScheduler.Obs_io_main())

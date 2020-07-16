@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.jess.arms.base.BaseFragment;
+import pers.jay.wanandroid.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.ArmsUtils;

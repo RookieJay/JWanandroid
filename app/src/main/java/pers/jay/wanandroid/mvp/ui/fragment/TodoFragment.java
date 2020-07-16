@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 
-import com.jess.arms.base.BaseFragment;
-import com.jess.arms.base.BaseLazyLoadFragment;
+import pers.jay.wanandroid.base.BaseFragment;
+import pers.jay.wanandroid.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 

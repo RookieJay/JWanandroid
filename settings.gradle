@@ -1,4 +1,4 @@
-include ':app', ':arms', ':arms-imageloader-glide', ':commonLibs'
+include ':app', ':commonLibs'
 
 long beginOfSetting = System.currentTimeMillis()
 def beginOfConfig

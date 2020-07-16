@@ -2,6 +2,7 @@ package pers.jay.wanandroid.mvp.presenter;
 
 import android.app.Application;
 
+import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;

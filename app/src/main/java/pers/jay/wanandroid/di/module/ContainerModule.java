@@ -1,5 +1,7 @@
 package pers.jay.wanandroid.di.module;
 
+import com.jess.arms.integration.IRepositoryManager;
+
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
@@ -27,7 +29,7 @@ public abstract class ContainerModule {
     }
 
     @Provides
-    static WanAndroidService provideWanAndroidService() {
-        return NetWorkManager.getInstance().getWanAndroidService();
+    static WanAndroidService provideWanAndroidService(IRepositoryManager repositoryManager) {
+        return NetWorkManager.getInstance().getWanAndroidService(repositoryManager);
     }
 }

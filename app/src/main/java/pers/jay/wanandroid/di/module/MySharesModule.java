@@ -1,6 +1,7 @@
 package pers.jay.wanandroid.di.module;
 
 import com.jess.arms.di.scope.FragmentScope;
+import com.jess.arms.integration.IRepositoryManager;
 
 import dagger.Binds;
 import dagger.Module;
@@ -18,7 +19,7 @@ public abstract class MySharesModule {
     abstract MySharesContract.Model bindMySharesModel(MySharesModel model);
 
     @Provides
-    static WanAndroidService provideService() {
-        return NetWorkManager.getInstance().getWanAndroidService();
+    static WanAndroidService provideService(IRepositoryManager mRepositoryManager) {
+        return NetWorkManager.getInstance().getWanAndroidService(mRepositoryManager);
     }
 }

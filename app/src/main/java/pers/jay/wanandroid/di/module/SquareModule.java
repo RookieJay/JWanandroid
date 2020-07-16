@@ -1,5 +1,7 @@
 package pers.jay.wanandroid.di.module;
 
+import com.jess.arms.integration.IRepositoryManager;
+
 import dagger.Binds;
 import dagger.Module;
 
@@ -16,7 +18,7 @@ public abstract class SquareModule {
     abstract SquareContract.Model bindsquareModel(SquareModel model);
 
     @Provides
-    static WanAndroidService provideService() {
-        return NetWorkManager.getInstance().getWanAndroidService();
+    static WanAndroidService provideService(IRepositoryManager repositoryManager) {
+        return NetWorkManager.getInstance().getWanAndroidService(repositoryManager);
     }
 }

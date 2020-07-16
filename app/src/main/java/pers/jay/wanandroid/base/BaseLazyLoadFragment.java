@@ -1,8 +1,9 @@
-package com.jess.arms.base;
+package pers.jay.wanandroid.base;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import pers.jay.wanandroid.base.BaseFragment;
 import com.jess.arms.mvp.IPresenter;
 
 import java.util.List;

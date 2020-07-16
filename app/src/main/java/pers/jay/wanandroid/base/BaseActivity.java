@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jess.arms.base;
+package pers.jay.wanandroid.base;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,14 +27,13 @@ import android.util.AttributeSet;
 import android.view.InflateException;
 import android.view.View;
 
+import pers.jay.wanandroid.base.BaseFragment;
 import com.jess.arms.base.delegate.IActivity;
 import com.jess.arms.integration.cache.Cache;
 import com.jess.arms.integration.cache.CacheType;
 import com.jess.arms.integration.lifecycle.ActivityLifecycleable;
 import com.jess.arms.mvp.IPresenter;
 import com.jess.arms.utils.ArmsUtils;
-import com.jess.arms.utils.BackPressUtil;
-import com.jess.arms.utils.HandleBackInterface;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import javax.inject.Inject;
@@ -43,6 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
+import pers.zjc.commonlibs.util.BackPressUtil;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.ThirdViewUtil.convertAutoView;

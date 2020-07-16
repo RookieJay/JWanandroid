@@ -7,6 +7,7 @@ import com.jess.arms.di.scope.FragmentScope;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.utils.RxLifecycleUtils;
+import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.List;
 
@@ -135,7 +136,7 @@ public class MyCoinPresenter extends BasePresenter<MyCoinContract.Model, MyCoinC
     public void loadMyCoin() {
         mModel.personalCoin()
               .retryWhen(new RetryWithDelay(5, 3))
-              .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+              .compose(RxLifecycleUtils.bindUntilEvent(mRootView, FragmentEvent.STOP))
               .compose(RxScheduler.Obs_io_main())
               .subscribe(new BaseWanObserver<WanAndroidResponse<Coin>>(mRootView) {
                   @Override

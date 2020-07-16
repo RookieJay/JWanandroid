@@ -1,5 +1,7 @@
 package pers.jay.wanandroid.di.module;
 
+import com.jess.arms.integration.IRepositoryManager;
+
 import javax.inject.Singleton;
 
 import dagger.Binds;
@@ -18,7 +20,7 @@ public abstract class WeixinModule {
 
     @Singleton
     @Provides
-    static WanAndroidService provideService() {
-        return NetWorkManager.getInstance().getWanAndroidService();
+    static WanAndroidService provideService(IRepositoryManager repositoryManager) {
+        return NetWorkManager.getInstance().getWanAndroidService(repositoryManager);
     }
 }

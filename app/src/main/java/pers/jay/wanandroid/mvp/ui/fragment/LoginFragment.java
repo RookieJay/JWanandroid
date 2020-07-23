@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -50,9 +51,9 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @BindView(R.id.ivLogo)
     ImageView ivLogo;
     @BindView(R.id.etUserName)
-    TextInputEditText etUserName;
+    AppCompatEditText etUserName;
     @BindView(R.id.etPassword)
-    TextInputEditText etPassword;
+    AppCompatEditText etPassword;
     @BindView(R.id.btLogin)
     AppCompatButton btLogin;
     @BindView(R.id.tvToRegister)

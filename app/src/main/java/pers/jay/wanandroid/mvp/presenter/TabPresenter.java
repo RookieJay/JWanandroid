@@ -50,10 +50,19 @@ public class TabPresenter extends BasePresenter<TabContract.Model, TabContract.V
         this.mApplication = null;
     }
 
+    /**
+     * 请求接口，除了知识体系页码从0开始外，其他都是从1开始
+     * @param childId
+     * @param page
+     * @param fromType 区分类型 体系 公众号 项目
+     */
     public void requestArticles(int childId, int page, int fromType) {
         switch (fromType) {
             case Const.Type.TYPE_TAB_KNOWLEDGE:
-                requestKnowledgeArticles(childId, page);
+                if (page == 0) {
+                    return;
+                }
+                requestKnowledgeArticles(childId, page - 1);
                 break;
             case Const.Type.TYPE_TAB_WEIXIN:
                 requestWeixinArticles(childId, page);

@@ -87,6 +87,16 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
         }
     }
 
+    public void setLike(Article article, int position) {
+        for (Article item : mData) {
+            if (article.getId() == item.getId()) {
+                item.setCollect(article.isCollect());
+                break;
+            }
+        }
+        notifyItemChanged(position);
+    }
+
     public interface LikeListener {
 
         void liked(Article item, int adapterPosition);
@@ -100,7 +110,7 @@ public class ArticleAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {
             Timber.e("没找到按钮");
             return;
         }
-        likeButton.setLiked(!likeButton.isLiked());
+        likeButton.setLiked(likeButton.isLiked()) ;
         notifyItemChanged(position);
     }
 }

@@ -56,7 +56,7 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
 
     private ArticleAdapter adapter;
     private List<Article> mArticles = new ArrayList<>();
-    private int page;
+    private int page = 1;
     private int pageCount;
     private int fromType = -1;
     private int cid = -1;
@@ -137,7 +137,7 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
 
     private void refreshData() {
         assert mPresenter != null;
-        mPresenter.requestArticles(cid, 0, fromType);
+        mPresenter.requestArticles(cid, page, fromType);
     }
 
     private void setView() {
@@ -222,7 +222,7 @@ public class TabFragment extends BaseLazyLoadFragment<TabPresenter>
 
     @Override
     protected void lazyLoadData() {
-        page = 0;
+        page = 1;
         showLoading();
         refreshData();
     }

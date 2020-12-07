@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import pers.jay.wanandroid.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.ArmsUtils;
 
 import org.simple.eventbus.Subscriber;
@@ -186,6 +187,9 @@ public class CollectionFragment extends BaseFragment<CollectionPresenter>
     public void showData(ArticleInfo data) {
         pageCount = data.getPageCount();
         List<Article> articles = data.getDatas();
+        for (Article article : articles) {
+            article.setCollect(true);
+        }
         if (articles.isEmpty()) {
             adapter.loadMoreEnd();
             return;
@@ -230,5 +234,14 @@ public class CollectionFragment extends BaseFragment<CollectionPresenter>
 
     private void loadAnimation(int type) {
         adapter.openLoadAnimation(type);
+    }
+
+    @Override
+    public void onCollectSuccess(Article article, int position) {
+    }
+
+    @Override
+    public void onCollectFail(Article article, int position) {
+
     }
 }

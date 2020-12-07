@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.classic.common.MultipleStatusView;
-import pers.jay.wanandroid.base.BaseLazyLoadFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -27,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import pers.jay.wanandroid.R;
+import pers.jay.wanandroid.base.BaseLazyLoadFragment;
 import pers.jay.wanandroid.common.AppConfig;
 import pers.jay.wanandroid.common.Const;
 import pers.jay.wanandroid.common.GlideImageLoader;
@@ -370,15 +370,16 @@ public class HomeFragment extends BaseLazyLoadFragment<HomePresenter>
     }
 
     @Subscriber
-    public void onArticleCollected(Event<Article> event) {
+    public void onArticleCollected(Event<Integer> event) {
         if (null == event) {
             return;
         }
         if (event.getEventCode() == Const.EventCode.COLLECT_ARTICLE) {
-            Article article = event.getData();
+            Integer articleId = event.getData();
             for (Article item : adapter.getData()) {
-                if (article.getId() == item.getId()) {
-                    item.setCollect(article.isCollect());
+                if (articleId == item.getId()) {
+                    item.setCollect(!item.isCollect());
+                    break;
                 }
             }
             adapter.notifyDataSetChanged();

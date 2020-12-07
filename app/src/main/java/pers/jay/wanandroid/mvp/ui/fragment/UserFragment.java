@@ -19,7 +19,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.classic.common.MultipleStatusView;
+
 import pers.jay.wanandroid.base.BaseFragment;
+
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.scwang.smartrefresh.header.StoreHouseHeader;
@@ -98,7 +100,7 @@ public class UserFragment extends BaseFragment<UserPresenter> implements UserCon
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
         DaggerUserComponent //如找不到该类,请编译一下项目
-                            .builder().appComponent(appComponent).view(this).build().inject(this);
+                .builder().appComponent(appComponent).view(this).build().inject(this);
     }
 
     @Override
@@ -148,12 +150,12 @@ public class UserFragment extends BaseFragment<UserPresenter> implements UserCon
         StoreHouseHeader header = new StoreHouseHeader(mContext);
         header.initWithString("WANANDROID");
         SmartRefreshUtils.with(refreshLayout)
-                         .pureScrollMode()
-                         .setRefreshHeader(header)
-                         .setRefreshListener(() -> {
-                             mPage = 1;
-                             mPresenter.loadData(mUserId, mPage);
-                         });
+                .pureScrollMode()
+                .setRefreshHeader(header)
+                .setRefreshListener(() -> {
+                    mPage = 1;
+                    mPresenter.loadData(mUserId, mPage);
+                });
     }
 
     private void initAppbar() {
@@ -281,8 +283,7 @@ public class UserFragment extends BaseFragment<UserPresenter> implements UserCon
             if (data.getPageCount() == data.getCurPage()) {
                 adapter.loadMoreEnd();
             }
-        }
-        else {
+        } else {
             adapter.addData(data.getDatas());
             adapter.loadMoreComplete();
         }

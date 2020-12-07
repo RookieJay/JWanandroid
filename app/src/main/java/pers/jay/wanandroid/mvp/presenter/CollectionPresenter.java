@@ -2,18 +2,20 @@ package pers.jay.wanandroid.mvp.presenter;
 
 import android.app.Application;
 
-import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.FragmentScope;
-import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
+import com.jess.arms.integration.AppManager;
+import com.jess.arms.integration.EventBusManager;
+import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.RxLifecycleUtils;
-
-import io.reactivex.Observable;
-import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import pers.jay.wanandroid.base.BaseWanObserver;
+import pers.jay.wanandroid.common.Const;
+import pers.jay.wanandroid.event.Event;
 import pers.jay.wanandroid.model.Article;
 import pers.jay.wanandroid.model.ArticleInfo;
 import pers.jay.wanandroid.mvp.contract.CollectionContract;
@@ -76,8 +78,10 @@ public class CollectionPresenter
                       @Override
                       public void onSuccess(WanAndroidResponse response) {
                           mRootView.updateStatus(article, position);
+                          article.setCollect(!article.isCollect());
+                          // 解决收藏页取消收藏 不更新主页的问题
+                          EventBusManager.getInstance().post(new Event<Integer>(Const.EventCode.COLLECT_ARTICLE, article.getOriginId()));
                       }
                   });
-
     }
 }

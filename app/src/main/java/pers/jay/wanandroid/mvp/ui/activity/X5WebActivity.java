@@ -350,7 +350,8 @@ public class X5WebActivity extends BaseActivity<X5Presenter> implements X5Contra
     @Override
     public void updateCollectStatus(boolean collect, Article article) {
         article.setCollect(collect);
-        EventBusManager.getInstance().post(new Event<Article>(Const.EventCode.COLLECT_ARTICLE, article));
+        // 仅用于其他页面收藏，更新列表页状态
+        EventBusManager.getInstance().post(new Event<Integer>(Const.EventCode.COLLECT_ARTICLE, article.getId()));
     }
 
     @Override

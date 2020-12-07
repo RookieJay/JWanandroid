@@ -20,12 +20,15 @@ public class CollectHelper {
     private Article mArticle;
     private int mPosition;
 
+    static {
+        wanService = NetWorkManager.getInstance().getWanAndroidService();
+    }
+
     private CollectHelper(ICollectView view) {
         mRootView = view;
     }
 
     public static CollectHelper with(ICollectView view) {
-        wanService = NetWorkManager.getInstance().getWanAndroidService();
         return new CollectHelper(view);
     }
 
@@ -59,6 +62,7 @@ public class CollectHelper {
                   .subscribe(new BaseWanObserver<WanAndroidResponse>(mRootView) {
                       @Override
                       public void onSuccess(WanAndroidResponse wanAndroidResponse) {
+                          mArticle.setCollect(!isCollect);
                           mRootView.onCollectSuccess(mArticle, mPosition);
                       }
 

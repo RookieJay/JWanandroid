@@ -16,6 +16,7 @@ ext {
             keyPassword      : properties.getProperty('keyPassword'),
             storePassword    : properties.getProperty('storePassword'),
             storeFile        : "${rootDir.absolutePath}/keystore/RookieJay.jks",
+            buglyAppId       : "${buglyAppId}"
     ]
 
     version = [

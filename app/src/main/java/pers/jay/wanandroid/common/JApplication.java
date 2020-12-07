@@ -112,8 +112,8 @@ public class JApplication extends BaseApp implements App{
             public void run() {
                 Utils.init(JApplication.this);
                 RxTool.init(getApp());
-                // Bugly
-                Bugly.init(getApplicationContext(), Const.APP_ID, false);
+                // Bugly,BUGLY_APP_ID是自己去bugly官网申请的id，配置在gradle.properties下
+                Bugly.init(getApplicationContext(), BuildConfig.BUGLY_APP_ID, false);
                 // X5
                 X5WebUtils.init(getApp());
                 // 今日诗词

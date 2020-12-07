@@ -41,6 +41,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             buildConfigField("boolean", "LOG_DEBUG", "false")//正式版不打印日志
+            buildConfigField("string", "BUGLY_APP_ID", "${buglyAppId}")    //buglyId
         }
         debug {
             minifyEnabled false //开启混淆编译
@@ -48,6 +49,7 @@ android {
             zipAlignEnabled true //zipalign优化
 //            signingConfig signingConfigs.release // 把debug签名配置成Release版的签名
             buildConfigField("boolean", "LOG_DEBUG", "true")
+            buildConfigField("String", "BUGLY_APP_ID", "\"${buglyAppId}\"")
         }
     }
 

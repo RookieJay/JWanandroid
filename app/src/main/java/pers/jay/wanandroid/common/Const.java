@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat;
 
 public interface Const {
 
-    String APP_ID = "702cce47ce";
-
     interface Url {
         String DAILY_BING = "http://cn.bing.com/th?id=OHR.BourgesAerial_ROW9185097510_1920x1080.jpg&rf=LaDigue_1920x1081920x1080.jpg";
         String DAILY_BING_1  = "https://api.xygeng.cn/Bing";

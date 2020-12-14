@@ -53,6 +53,12 @@ Java版Wanandroid客户端，主体使用MVPArms，利用 MVP + RxJava + Retrofi
 ## 更新日志
 
 ### 1.1.2(4)
+- 【修复】bugly上的一些问题
+- 【修复】收藏/取消收藏状态同步问题
+- 【优化】修改buglyId存放位置到本地，防止多项目同时上报错误
+- 【优化】改用MVPArms远程依赖
+
+### 1.1.2(4)
 - 【修复】修改框架中ButterKnife的解绑顺序到RxLifeCycle之后(转移到onDestroy())，以解决多个界面快速退出时的控件空指针问题
 - 【修复】bugly上的一些问题
 - 【优化】头像功能，判断是否具有外部储存，适配Android 7.0及以上

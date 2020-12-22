@@ -52,7 +52,7 @@ Java版Wanandroid客户端，主体使用MVPArms，利用 MVP + RxJava + Retrofi
 
 ## 更新日志
 
-### 1.1.2(4)
+### 1.1.3(5)
 - 【修复】bugly上的一些问题
 - 【修复】收藏/取消收藏状态同步问题
 - 【优化】修改buglyId存放位置到本地，防止多项目同时上报错误

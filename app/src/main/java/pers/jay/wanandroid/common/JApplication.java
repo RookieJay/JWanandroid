@@ -26,7 +26,7 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.tencent.bugly.Bugly;
+//import com.tencent.bugly.Bugly;
 import com.vondear.rxtool.RxTool;
 import com.ycbjie.webviewlib.X5WebUtils;
 
@@ -112,8 +112,10 @@ public class JApplication extends BaseApp implements App{
             public void run() {
                 Utils.init(JApplication.this);
                 RxTool.init(getApp());
-                // Bugly,BUGLY_APP_ID是自己去bugly官网申请的id，配置在gradle.properties下
-                Bugly.init(getApplicationContext(), BuildConfig.BUGLY_APP_ID, false);
+//                if (!BuildConfig.DEBUG) {
+//                    // release版才初始化Bugly,BUGLY_APP_ID是自己去bugly官网申请的id，配置在gradle.properties下
+//                    Bugly.init(getApplicationContext(), BuildConfig.BUGLY_APP_ID, false);
+//                }
                 // X5
                 X5WebUtils.init(getApp());
                 // 今日诗词
